@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const { posts } = await getAllPosts();
-  const baseUrl = 'https://heavy-status.com'; // Change this to your actual production domain
+  const baseUrl = 'https://heavy-status.com';
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
