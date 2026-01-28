@@ -10,6 +10,7 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- **Jan 28, 2026**: Added dynamic search bar with live typing and autocomplete for posts, categories, and tags from WordPress GraphQL
 - **Jan 28, 2026**: Complete UI/UX redesign to match Vogue magazine editorial style with clean white background, serif typography, centered logo with wide letter spacing, uppercase navigation, and elegant article grid layout
 - **Jan 28, 2026**: Fixed responsive design for mobile, centered mobile logo, removed Inter font in favor of system serif/sans fonts
 - **Jan 28, 2026**: Added featured image support via GraphQL with proper Next.js Image optimization
