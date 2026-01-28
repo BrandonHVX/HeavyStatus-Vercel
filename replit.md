@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a headless WordPress blog built with Next.js 15 App Router and TypeScript, featuring a professional news magazine design inspired by the Zeen News theme. The application fetches content exclusively from heavy-status.com via GraphQL API, providing a fast, modern frontend while leveraging WordPress as a content management system. The project includes Progressive Web App (PWA) capabilities, advanced SEO optimization for Google/Yahoo News inclusion, Yoast SEO integration, and a fully responsive design using Tailwind CSS.
+This is a headless WordPress blog built with Next.js 15 App Router and TypeScript, featuring a premium editorial design inspired by Vogue magazine. The application fetches content exclusively from heavy-status.com via GraphQL API, providing a fast, modern frontend while leveraging WordPress as a content management system. The project includes Progressive Web App (PWA) capabilities, advanced SEO optimization for Google/Yahoo News inclusion, Yoast SEO integration, and a fully responsive design using Tailwind CSS.
 
 ## User Preferences
 
@@ -10,26 +10,27 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-- **Jan 28, 2026**: Complete UI/UX redesign to match Zeen News magazine theme with dark header, category navigation bar, featured hero section with image overlays, and card-based post grids
-- **Jan 28, 2026**: Fixed pagination query keys for search/category filtering, added featured image support via GraphQL, improved mobile navigation with auto-close on route change
-- **Jan 28, 2026**: Added image optimization with sizes prop and priority attributes for LCP
+- **Jan 28, 2026**: Complete UI/UX redesign to match Vogue magazine editorial style with clean white background, serif typography, centered logo with wide letter spacing, uppercase navigation, and elegant article grid layout
+- **Jan 28, 2026**: Fixed responsive design for mobile, centered mobile logo, removed Inter font in favor of system serif/sans fonts
+- **Jan 28, 2026**: Added featured image support via GraphQL with proper Next.js Image optimization
 
 ## System Architecture
 
 ### Frontend Framework
 - **Next.js 15** with App Router for server-side rendering and routing
 - **TypeScript** for type safety across the codebase
-- **Tailwind CSS** for utility-first styling with custom Zeen News theme
+- **Tailwind CSS** for utility-first styling with custom Vogue-inspired theme
 - **React 19** as the UI library
 
-### Design System
-- **Primary color**: #1a1a2e (dark navy header)
-- **Secondary color**: #16213e (darker navy)
-- **Accent color**: #e94560 (red for highlights and CTAs)
-- Dark sticky header with site navigation
-- Category bar for quick topic access
-- Featured hero section with gradient overlays
-- Card-based article grids with hover effects
+### Design System (Vogue-Inspired)
+- **Background**: Pure white (#ffffff)
+- **Primary text**: Black (#000000)
+- **Accent color**: Burgundy red (#c41e3a)
+- **Typography**: Georgia serif for headlines, Helvetica Neue sans-serif for body
+- Centered logo with wide letter spacing (0.3em)
+- Uppercase navigation and category labels with tracking
+- Clean editorial grid layouts with generous whitespace
+- Minimalist hover effects (color transition to accent)
 
 ### Content Management
 - **WordPress** serves as the headless CMS backend (heavy-status.com)
@@ -41,8 +42,8 @@ Preferred communication style: Simple, everyday language.
 - `/` - Home page with hero, category bar, and latest posts
 - `/blog` - Blog listing with search and cursor-based pagination
 - `/blog/[slug]` - Individual post pages with dynamic Yoast SEO metadata
-- `/about` - About page
-- `/contact` - Contact page
+- `/about` - About page with technology overview
+- `/contact` - Contact page with contact form
 - `/rss.xml` - Dynamic RSS feed generation
 - `/sitemap.xml` - Dynamic sitemap for SEO
 - `/news-sitemap.xml` - Google/Yahoo News sitemap

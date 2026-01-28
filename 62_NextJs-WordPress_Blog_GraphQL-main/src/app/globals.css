@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #f8f9fa;
-  --foreground: #1a1a2e;
+  --background: #ffffff;
+  --foreground: #000000;
 }
 
 * {
@@ -13,46 +13,46 @@
 
 body {
   color: var(--foreground);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background-color: var(--background);
   line-height: 1.6;
 }
 
 .article {
   h1 {
-    @apply text-3xl font-bold text-gray-900 my-6;
+    @apply text-4xl font-serif font-normal text-black my-8;
   }
 
   h2 {
-    @apply text-2xl font-semibold text-gray-900 my-5;
+    @apply text-3xl font-serif font-normal text-black my-6;
   }
 
   h3 {
-    @apply text-xl font-medium text-gray-900 my-4;
+    @apply text-2xl font-serif font-normal text-black my-5;
   }
 
   h4 {
-    @apply text-lg font-medium text-gray-900 my-3;
+    @apply text-xl font-serif font-normal text-black my-4;
   }
 
   h5 {
-    @apply text-base font-medium text-gray-900 my-2;
+    @apply text-lg font-serif font-normal text-black my-3;
   }
 
   h6 {
-    @apply text-base font-medium text-gray-900 my-1;
+    @apply text-base font-serif font-normal text-black my-2;
   }
 
   p {
-    @apply text-base leading-8 text-gray-700 my-5;
+    @apply text-base leading-8 text-gray-800 my-5;
   }
 
   a {
-    @apply text-accent underline hover:text-red-700 transition-colors;
+    @apply text-black underline hover:text-accent transition-colors;
   }
 
   blockquote {
-    @apply border-l-4 border-accent pl-6 italic text-gray-600 my-6 bg-gray-50 py-4 pr-4;
+    @apply border-l-2 border-black pl-6 italic text-gray-700 my-8;
   }
 
   figure {
@@ -60,15 +60,15 @@ body {
   }
 
   figcaption {
-    @apply text-sm text-center text-gray-500 mt-2;
+    @apply text-xs text-center text-gray-500 mt-3 uppercase tracking-wider;
   }
 
   strong {
-    @apply font-semibold text-gray-900;
+    @apply font-semibold text-black;
   }
 
   em {
-    @apply italic text-gray-800;
+    @apply italic;
   }
 
   code {
@@ -76,19 +76,19 @@ body {
   }
 
   pre {
-    @apply bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto my-6;
+    @apply bg-gray-900 text-gray-100 p-6 rounded overflow-x-auto my-8;
   }
 
   ol {
-    @apply list-decimal list-inside my-5 pl-6;
+    @apply list-decimal list-inside my-6 pl-4;
   }
 
   ul {
-    @apply list-disc list-inside my-5 pl-6;
+    @apply list-disc list-inside my-6 pl-4;
   }
 
   li {
-    @apply text-base leading-7 text-gray-700 my-2;
+    @apply text-base leading-7 text-gray-800 my-2;
   }
 
   table {
@@ -96,7 +96,7 @@ body {
   }
 
   thead {
-    @apply bg-gray-100 text-gray-900;
+    @apply border-b-2 border-black;
   }
 
   tr {
@@ -108,59 +108,50 @@ body {
   }
 
   th {
-    @apply font-semibold;
+    @apply font-semibold uppercase text-xs tracking-wider;
   }
 
   img {
-    @apply max-w-full h-auto rounded-lg my-6;
+    @apply max-w-full h-auto my-8;
   }
 
   video {
-    @apply max-w-full rounded-lg my-6;
+    @apply max-w-full my-8;
   }
 
   hr {
-    @apply border-t border-gray-300 my-8;
+    @apply border-t border-gray-300 my-10;
   }
 
   iframe {
     width: 100%;
-    border-radius: 0.5rem;
   }
 }
 
-.post-card {
-  @apply bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300;
+.vogue-headline {
+  @apply font-serif text-black leading-tight;
 }
 
-.post-card-image {
-  @apply relative overflow-hidden;
+.vogue-category {
+  @apply text-xs uppercase tracking-widest text-gray-600 font-sans;
 }
 
-.post-card-image img {
-  @apply w-full h-48 object-cover transition-transform duration-300;
+.vogue-byline {
+  @apply text-xs text-gray-500 font-sans;
 }
 
-.post-card:hover .post-card-image img {
-  @apply scale-105;
+.vogue-card {
+  @apply block;
 }
 
-.category-badge {
-  @apply inline-block px-3 py-1 text-xs font-semibold uppercase tracking-wider bg-accent text-white rounded;
-}
-
-.section-title {
-  @apply text-2xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-accent;
-}
-
-.headline-item {
-  @apply py-4 border-b border-gray-200 last:border-b-0;
-}
-
-.headline-item:hover h3 {
+.vogue-card:hover .vogue-headline {
   @apply text-accent;
 }
 
-.featured-overlay {
-  @apply absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent;
+.section-divider {
+  @apply border-t border-black py-8;
+}
+
+.nav-link {
+  @apply text-xs uppercase tracking-widest text-black hover:text-accent transition-colors;
 }

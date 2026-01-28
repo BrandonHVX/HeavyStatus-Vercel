@@ -1,63 +1,63 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export function Footer(){
+  const currentYear = new Date().getFullYear();
+  
   return (
-    <footer className="bg-primary text-white">
+    <footer className="bg-white border-t border-gray-200 mt-16">
       <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="col-span-1 md:col-span-2">
-            <h3 className="text-2xl font-bold mb-4">Heavy Status</h3>
-            <p className="text-gray-300 mb-4 leading-relaxed">
-              Your trusted source for the latest news and insights. Stay informed with quality journalism and in-depth analysis.
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+          <div className="md:col-span-2">
+            <Link href="/" className="font-serif text-2xl tracking-[0.2em] uppercase text-black">
+              Heavy Status
+            </Link>
+            <p className="text-sm text-gray-600 mt-4 max-w-md leading-relaxed">
+              Your source for the latest news, insights, and stories that matter.
             </p>
           </div>
-
+          
           <div>
-            <h4 className="font-semibold text-lg mb-4">Quick Links</h4>
-            <ul className="space-y-2">
+            <h4 className="text-xs uppercase tracking-widest font-semibold mb-4">Navigate</h4>
+            <ul className="space-y-3">
               <li>
-                <Link href="/" className="text-gray-300 hover:text-accent transition-colors">
+                <Link href="/" className="text-sm text-gray-600 hover:text-black transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-gray-300 hover:text-accent transition-colors">
-                  Blog
+                <Link href="/blog" className="text-sm text-gray-600 hover:text-black transition-colors">
+                  Articles
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-gray-300 hover:text-accent transition-colors">
+                <Link href="/about" className="text-sm text-gray-600 hover:text-black transition-colors">
                   About
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-gray-300 hover:text-accent transition-colors">
+                <Link href="/contact" className="text-sm text-gray-600 hover:text-black transition-colors">
                   Contact
                 </Link>
               </li>
             </ul>
           </div>
-
+          
           <div>
-            <h4 className="font-semibold text-lg mb-4">Subscribe</h4>
-            <p className="text-gray-300 mb-4 text-sm">
-              Get the latest updates delivered to your inbox.
-            </p>
-            <div className="flex">
-              <input 
-                type="email" 
-                placeholder="Your email" 
-                className="px-4 py-2 bg-secondary text-white rounded-l focus:outline-none focus:ring-2 focus:ring-accent flex-1"
-              />
-              <button className="bg-accent px-4 py-2 rounded-r hover:bg-red-600 transition-colors">
-                Subscribe
-              </button>
-            </div>
+            <h4 className="text-xs uppercase tracking-widest font-semibold mb-4">Subscribe</h4>
+            <p className="text-sm text-gray-600 mb-4">Get the latest stories delivered to your inbox.</p>
+            <Link 
+              href="/rss.xml" 
+              className="text-xs uppercase tracking-widest text-black border border-black px-4 py-2 inline-block hover:bg-black hover:text-white transition-colors"
+            >
+              RSS Feed
+            </Link>
           </div>
         </div>
-
-        <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Heavy Status. All rights reserved.</p>
+        
+        <div className="border-t border-gray-200 pt-8 text-center">
+          <p className="text-xs text-gray-500 uppercase tracking-wider">
+            &copy; {currentYear} Heavy Status. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

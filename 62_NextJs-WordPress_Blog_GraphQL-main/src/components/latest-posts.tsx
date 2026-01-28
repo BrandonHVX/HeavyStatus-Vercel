@@ -16,76 +16,67 @@ export function LatestPosts({ posts, searchTerm, pageInfo, category, showSearch 
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  };
-
-  const stripHtml = (html: string) => {
-    return html.replace(/<[^>]*>/g, '').substring(0, 120) + '...';
+    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   };
 
   if (posts?.length === 0) {
     return (
-      <div className="text-center py-12">
-        <p className="text-gray-500 text-lg">No posts available.</p>
+      <div className="text-center py-16">
+        <p className="text-gray-500 text-lg font-serif italic">No articles found.</p>
       </div>
     );
   }
 
   return (
-    <section className="bg-white py-10">
+    <section className="bg-white py-12">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-          <h2 className="section-title mb-0">Latest Posts</h2>
-          {showSearch && (
+        {showSearch && (
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-6 border-b border-gray-200">
+            <h2 className="text-xs uppercase tracking-widest font-semibold">Articles</h2>
             <div className="w-full md:w-auto">
               <SearchBar />
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
           {posts.map((post: Post) => (
             <Link
               key={post.id}
               href={`/blog/${post.slug}`}
-              className="post-card group"
+              className="vogue-card group"
             >
-              <div className="post-card-image h-48 relative">
+              <div className="relative aspect-[4/3] mb-4 overflow-hidden">
                 {post.featuredImage?.node?.sourceUrl ? (
                   <Image
                     src={post.featuredImage.node.sourceUrl}
                     alt={post.featuredImage.node.altText || post.title}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-primary to-accent"></div>
+                  <div className="w-full h-full bg-gray-100"></div>
                 )}
               </div>
-              <div className="p-5">
+              <div>
                 {post.categories?.nodes?.[0] && (
-                  <span className="text-accent text-xs font-semibold uppercase tracking-wider">
+                  <span className="vogue-category mb-2 inline-block">
                     {post.categories.nodes[0].name}
                   </span>
                 )}
                 <h3 
-                  className="font-bold text-lg text-gray-900 mt-2 mb-3 group-hover:text-accent transition-colors leading-tight"
+                  className="vogue-headline text-xl mb-3 leading-tight"
                   dangerouslySetInnerHTML={{ __html: post.title }}
                 />
-                {post.excerpt && (
-                  <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                    {stripHtml(post.excerpt)}
-                  </p>
-                )}
-                <p className="text-gray-400 text-xs">{formatDate(post.date)}</p>
+                <p className="vogue-byline">{formatDate(post.date)}</p>
               </div>
             </Link>
           ))}
         </div>
 
-        <div className="flex justify-between items-center pt-6 border-t border-gray-200">
-          <div>
+        {(pageInfo?.hasPreviousPage || pageInfo?.hasNextPage) && (
+          <div className="flex justify-center items-center gap-8 pt-12 mt-12 border-t border-gray-200">
             {pageInfo?.hasPreviousPage && (
               <Link
                 href={{
@@ -96,17 +87,12 @@ export function LatestPosts({ posts, searchTerm, pageInfo, category, showSearch 
                     ...(category && { categories: category })
                   }
                 }}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded hover:bg-secondary transition-colors"
+                className="text-xs uppercase tracking-widest text-black hover:text-accent transition-colors"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-                Previous
+                &larr; Previous
               </Link>
             )}
-          </div>
 
-          <div>
             {pageInfo?.hasNextPage && (
               <Link
                 href={{
@@ -117,16 +103,13 @@ export function LatestPosts({ posts, searchTerm, pageInfo, category, showSearch 
                     ...(category && { categories: category })
                   }
                 }}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded hover:bg-secondary transition-colors"
+                className="text-xs uppercase tracking-widest text-black hover:text-accent transition-colors"
               >
-                Next
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                Next &rarr;
               </Link>
             )}
           </div>
-        </div>
+        )}
       </div>
     </section>
   )

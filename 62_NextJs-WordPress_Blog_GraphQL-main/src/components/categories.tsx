@@ -3,22 +3,22 @@ import Link from "next/link";
 
 export function Categories({ categories }:{categories: Category[]}){
   return (
-    <section className="bg-secondary">
+    <section className="border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <ul className="flex gap-4 flex-wrap items-center justify-center md:justify-start">
+        <ul className="flex gap-6 flex-wrap items-center justify-center overflow-x-auto">
           <li className="flex-shrink-0">
             <Link 
               href="/blog"
-              className="text-white hover:text-accent transition-colors text-sm font-medium uppercase tracking-wide"
+              className="text-xs uppercase tracking-widest text-black hover:text-accent transition-colors font-medium"
             >
               All
             </Link>
           </li>
-          {categories.map((category: Category) => (
+          {categories.slice(0, 10).map((category: Category) => (
             <li key={category.id} className="flex-shrink-0">
               <Link 
                 href={`/blog?categories=${category.slug}`}
-                className="text-gray-300 hover:text-accent transition-colors text-sm font-medium uppercase tracking-wide"
+                className="text-xs uppercase tracking-widest text-gray-500 hover:text-black transition-colors"
               >
                 {category.name}
               </Link>

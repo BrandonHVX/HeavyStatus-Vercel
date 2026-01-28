@@ -1,97 +1,81 @@
 export default function Page() {
   return (
     <section className="bg-white min-h-screen">
-      <div className="max-w-4xl mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold mb-8 text-gray-900">Contact Us</h1>
+      <div className="max-w-3xl mx-auto px-4 py-16">
+        <h1 className="font-serif text-4xl md:text-5xl text-center mb-8">Contact</h1>
         
-        <p className="text-gray-600 text-lg leading-relaxed mb-12">
-          We would love to hear from you. Whether you have a question, feedback, or just want to say hello, feel free to reach out using the information below.
+        <p className="text-gray-600 text-center mb-12 max-w-xl mx-auto">
+          We would love to hear from you. Whether you have a question, feedback, or just want to say hello, feel free to reach out.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-gray-50 rounded-lg p-6 text-center">
-            <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </div>
-            <h2 className="text-lg font-semibold mb-2 text-gray-900">Address</h2>
-            <p className="text-gray-600">123 News Street<br/>London, UK</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center mb-16 border-y border-gray-200 py-10">
+          <div>
+            <p className="text-xs uppercase tracking-widest text-gray-500 mb-2">Address</p>
+            <p className="font-serif">London, UK</p>
           </div>
           
-          <div className="bg-gray-50 rounded-lg p-6 text-center">
-            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-              </svg>
-            </div>
-            <h2 className="text-lg font-semibold mb-2 text-gray-900">Phone</h2>
-            <p className="text-gray-600">+44 (0) 555 5555</p>
+          <div>
+            <p className="text-xs uppercase tracking-widest text-gray-500 mb-2">Phone</p>
+            <p className="font-serif">+44 (0) 555 5555</p>
           </div>
           
-          <div className="bg-gray-50 rounded-lg p-6 text-center">
-            <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <h2 className="text-lg font-semibold mb-2 text-gray-900">Email</h2>
-            <p className="text-gray-600">
-              <a href="mailto:contact@heavy-status.com" className="text-accent hover:underline">
-                contact@heavy-status.com
-              </a>
-            </p>
+          <div>
+            <p className="text-xs uppercase tracking-widest text-gray-500 mb-2">Email</p>
+            <a href="mailto:contact@heavy-status.com" className="font-serif hover:text-accent transition-colors">
+              hello@heavystatus.com
+            </a>
           </div>
         </div>
 
-        <div className="bg-gray-50 rounded-lg p-8">
-          <h2 className="text-2xl font-bold mb-6 text-gray-900">Send us a message</h2>
+        <div>
+          <h2 className="text-xs uppercase tracking-widest font-semibold mb-8 text-center">Send a Message</h2>
           <form className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                <label htmlFor="name" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Name</label>
                 <input 
                   type="text" 
                   id="name" 
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-                  placeholder="Your name"
+                  className="w-full px-4 py-3 border-b border-gray-300 focus:outline-none focus:border-black transition-colors bg-transparent"
+                  placeholder=""
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <label htmlFor="email" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Email</label>
                 <input 
                   type="email" 
                   id="email" 
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-                  placeholder="Your email"
+                  className="w-full px-4 py-3 border-b border-gray-300 focus:outline-none focus:border-black transition-colors bg-transparent"
+                  placeholder=""
                 />
               </div>
             </div>
             <div>
-              <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+              <label htmlFor="subject" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Subject</label>
               <input 
                 type="text" 
                 id="subject" 
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-                placeholder="Subject"
+                className="w-full px-4 py-3 border-b border-gray-300 focus:outline-none focus:border-black transition-colors bg-transparent"
+                placeholder=""
               />
             </div>
             <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">Message</label>
+              <label htmlFor="message" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Message</label>
               <textarea 
                 id="message" 
                 rows={5}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent resize-none"
-                placeholder="Your message"
+                className="w-full px-4 py-3 border-b border-gray-300 focus:outline-none focus:border-black transition-colors bg-transparent resize-none"
+                placeholder=""
               ></textarea>
             </div>
-            <button 
-              type="submit"
-              className="px-8 py-3 bg-accent text-white font-medium rounded-lg hover:bg-red-600 transition-colors"
-            >
-              Send Message
-            </button>
+            <div className="text-center pt-4">
+              <button 
+                type="submit"
+                className="text-xs uppercase tracking-widest text-black border border-black px-10 py-3 hover:bg-black hover:text-white transition-colors"
+              >
+                Send
+              </button>
+            </div>
           </form>
         </div>
       </div>
