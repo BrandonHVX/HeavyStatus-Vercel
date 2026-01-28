@@ -70,6 +70,15 @@ export async function getAllPosts(
           excerpt
           date
           slug
+          seo {
+            title
+            metaDesc
+            opengraphTitle
+            opengraphDescription
+            opengraphImage {
+              sourceUrl
+            }
+          }
           categories {
             nodes {
               name
@@ -126,8 +135,6 @@ export async function getAllPosts(
   return {
     posts: data.posts.nodes,
     pageInfo: data.posts.pageInfo,
-    ...(searchTerm && { searchTerm }),
-    ...(category && { category })
   }
 
 }
@@ -141,6 +148,21 @@ export async function getPostsBySlug(slug: string) : Promise<Post | null> {
         title
         content
         date
+        excerpt
+        seo {
+          title
+          metaDesc
+          opengraphTitle
+          opengraphDescription
+          opengraphImage {
+            sourceUrl
+          }
+          twitterTitle
+          twitterDescription
+          twitterImage {
+            sourceUrl
+          }
+        }
         author {
           node {
             name
@@ -149,6 +171,7 @@ export async function getPostsBySlug(slug: string) : Promise<Post | null> {
         categories {
           nodes {
             name
+            slug
           }
         }
         tags {
@@ -164,5 +187,3 @@ export async function getPostsBySlug(slug: string) : Promise<Post | null> {
   const data : { post: Post } = await client.request(query, variables);
   return data.post;
 }
-
-

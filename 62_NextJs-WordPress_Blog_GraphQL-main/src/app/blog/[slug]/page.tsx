@@ -10,14 +10,25 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const post = await getPostsBySlug((await params).slug);
+  if (!post) return {};
 
   const previousImages = (await parent).openGraph?.images || []
- 
+  
+  const seo = post.seo;
+
   return {
-    title: post?.title,
+    title: seo?.title || post.title,
+    description: seo?.metaDesc,
     openGraph: {
-      images: ['/open-graph.jpg', ...previousImages],
+      title: seo?.opengraphTitle || seo?.title || post.title,
+      description: seo?.opengraphDescription || seo?.metaDesc,
+      images: seo?.opengraphImage?.sourceUrl ? [seo.opengraphImage.sourceUrl] : ['/open-graph.jpg', ...previousImages],
     },
+    twitter: {
+      title: seo?.twitterTitle || seo?.title || post.title,
+      description: seo?.twitterDescription || seo?.metaDesc,
+      images: seo?.twitterImage?.sourceUrl ? [seo.twitterImage.sourceUrl] : [],
+    }
   }
 }
 
@@ -38,17 +49,18 @@ export default async function Page({ params} : {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": post.title,
+    "headline": post.seo?.title || post.title,
     "datePublished": post.date,
     "author": {
       "@type": "Person",
       "name": post?.author?.node?.name,
     },
-    "description": post.title,
+    "description": post.seo?.metaDesc || post.title,
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": `https://heavy-status.com/blog/${post.slug}`,
     },
+    "image": post.seo?.opengraphImage?.sourceUrl
   };
 
   return (

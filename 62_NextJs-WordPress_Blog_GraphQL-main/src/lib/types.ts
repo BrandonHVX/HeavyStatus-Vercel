@@ -10,6 +10,21 @@ export type Post = {
   slug: string;
   date: string;
   content: string;
+  excerpt?: string;
+  seo?: {
+    title?: string;
+    metaDesc?: string;
+    opengraphTitle?: string;
+    opengraphDescription?: string;
+    opengraphImage?: {
+      sourceUrl?: string;
+    };
+    twitterTitle?: string;
+    twitterDescription?: string;
+    twitterImage?: {
+      sourceUrl?: string;
+    };
+  };
   author: {
     node: {
       name: string
@@ -17,12 +32,13 @@ export type Post = {
   }
   categories: {
     nodes: {
-      name: Array<string>
-    }
+      name: string;
+      slug: string;
+    }[]
   }
   tags: {
     nodes: {
-      name: string
-    }
+      name: string;
+    }[]
   }
 }
