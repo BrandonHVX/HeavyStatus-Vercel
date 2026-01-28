@@ -3,13 +3,16 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import { SearchBar } from './search-bar';
 
 export function Header(){
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
     setMobileMenuOpen(false);
+    setMobileSearchOpen(false);
   }, [pathname]);
 
   return(
@@ -34,10 +37,30 @@ export function Header(){
           <Link href={'/'} className='font-serif text-xl tracking-[0.2em] uppercase text-black'>
             Heavy Status
           </Link>
+
+          <button 
+            className='absolute right-0 text-black p-2'
+            onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
+            aria-label={mobileSearchOpen ? 'Close search' : 'Open search'}
+          >
+            <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+              {mobileSearchOpen ? (
+                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={1} d='M6 18L18 6M6 6l12 12' />
+              ) : (
+                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={1.5} d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' />
+              )}
+            </svg>
+          </button>
         </div>
 
+        {mobileSearchOpen && (
+          <div className='md:hidden py-4 border-t border-gray-100'>
+            <SearchBar />
+          </div>
+        )}
+
         <div className='hidden md:block'>
-          <nav className='flex justify-center py-3 border-b border-gray-100'>
+          <nav className='flex justify-between items-center py-3 border-b border-gray-100'>
             <ul className='flex gap-8'>
               <li>
                 <Link href={'/'} className='nav-link'>
@@ -60,6 +83,7 @@ export function Header(){
                 </Link>
               </li>
             </ul>
+            <SearchBar />
           </nav>
 
           <div className='py-6 text-center'>
