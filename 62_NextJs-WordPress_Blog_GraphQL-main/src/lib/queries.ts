@@ -1,4 +1,4 @@
-const baseUrl = process.env.WORDPRESS_URL;
+const baseUrl = process.env.WORDPRESS_URL || 'https://heavy-status.com';
 import { gql, GraphQLClient } from 'graphql-request';
 import { Category, Post } from '@/lib/types';
 

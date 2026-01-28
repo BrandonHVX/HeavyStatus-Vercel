@@ -30,11 +30,6 @@ export const metadata: Metadata = {
     description: "Stay updated with the latest from Heavy Status.",
   },
 };
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
