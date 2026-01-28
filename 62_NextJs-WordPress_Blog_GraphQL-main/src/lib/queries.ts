@@ -70,6 +70,12 @@ export async function getAllPosts(
           excerpt
           date
           slug
+          featuredImage {
+            node {
+              sourceUrl
+              altText
+            }
+          }
           seo {
             title
             metaDesc
@@ -149,6 +155,13 @@ export async function getPostsBySlug(slug: string) : Promise<Post | null> {
         content
         date
         excerpt
+        slug
+        featuredImage {
+          node {
+            sourceUrl
+            altText
+          }
+        }
         seo {
           title
           metaDesc

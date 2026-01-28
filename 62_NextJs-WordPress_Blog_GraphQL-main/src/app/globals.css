@@ -3,114 +3,108 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f9fa;
+  --foreground: #1a1a2e;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-  background-image: url("/background.webp");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: top;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--background);
+  line-height: 1.6;
 }
 
-
-
 .article {
-
   h1 {
-    @apply text-2xl font-bold text-slate-900 my-6;
+    @apply text-3xl font-bold text-gray-900 my-6;
   }
 
   h2 {
-    @apply text-xl font-semibold text-slate-900 my-5;
+    @apply text-2xl font-semibold text-gray-900 my-5;
   }
 
   h3 {
-    @apply text-lg font-medium text-slate-900 my-4;
+    @apply text-xl font-medium text-gray-900 my-4;
   }
 
   h4 {
-    @apply text-base font-medium text-slate-900 my-3;
+    @apply text-lg font-medium text-gray-900 my-3;
   }
 
   h5 {
-    @apply text-base font-medium text-slate-900 my-2;
+    @apply text-base font-medium text-gray-900 my-2;
   }
 
   h6 {
-    @apply text-base font-medium text-slate-900 my-1;
+    @apply text-base font-medium text-gray-900 my-1;
   }
 
   p {
-    @apply text-base leading-7 text-slate-900 my-4;
+    @apply text-base leading-8 text-gray-700 my-5;
   }
 
   a {
-    @apply text-slate-900 underline;
-  }
-  
-  a:hover {
-    @apply text-slate-900;
+    @apply text-accent underline hover:text-red-700 transition-colors;
   }
 
   blockquote {
-    @apply border-l-4 border-slate-900 pl-4 italic text-gray-600 my-4;
+    @apply border-l-4 border-accent pl-6 italic text-gray-600 my-6 bg-gray-50 py-4 pr-4;
   }
 
   figure {
-    @apply my-6;
+    @apply my-8;
   }
 
   figcaption {
-    @apply text-sm text-center text-gray-500;
+    @apply text-sm text-center text-gray-500 mt-2;
   }
 
   strong {
-    @apply font-semibold text-slate-900;
+    @apply font-semibold text-gray-900;
   }
 
   em {
-    @apply italic text-slate-900;
+    @apply italic text-gray-800;
   }
 
   code {
-    @apply bg-gray-100 px-1 py-0.5 rounded text-sm font-mono text-slate-900;
+    @apply bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800;
   }
 
   pre {
-    @apply text-slate-900 text-white p-4 rounded overflow-x-auto my-4;
+    @apply bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto my-6;
   }
 
   ol {
-    @apply list-decimal list-inside my-4 pl-5;
+    @apply list-decimal list-inside my-5 pl-6;
   }
 
   ul {
-    @apply list-disc list-inside my-4 pl-5;
+    @apply list-disc list-inside my-5 pl-6;
   }
 
   li {
-    @apply text-base leading-6 text-gray-700 my-1;
+    @apply text-base leading-7 text-gray-700 my-2;
   }
 
   table {
-    @apply w-full border-collapse my-6;
+    @apply w-full border-collapse my-8;
   }
 
   thead {
-    @apply bg-gray-200 text-slate-900;
+    @apply bg-gray-100 text-gray-900;
   }
 
   tr {
-    @apply border-b border-gray-300;
+    @apply border-b border-gray-200;
   }
 
   th, td {
-    @apply p-3 text-left;
+    @apply p-4 text-left;
   }
 
   th {
@@ -118,19 +112,55 @@ body {
   }
 
   img {
-    @apply max-w-full h-auto rounded my-4;
+    @apply max-w-full h-auto rounded-lg my-6;
   }
 
   video {
-    @apply max-w-full rounded my-4;
+    @apply max-w-full rounded-lg my-6;
   }
 
   hr {
-    @apply border-t border-gray-300 my-6;
+    @apply border-t border-gray-300 my-8;
   }
 
   iframe {
     width: 100%;
+    border-radius: 0.5rem;
   }
+}
 
+.post-card {
+  @apply bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300;
+}
+
+.post-card-image {
+  @apply relative overflow-hidden;
+}
+
+.post-card-image img {
+  @apply w-full h-48 object-cover transition-transform duration-300;
+}
+
+.post-card:hover .post-card-image img {
+  @apply scale-105;
+}
+
+.category-badge {
+  @apply inline-block px-3 py-1 text-xs font-semibold uppercase tracking-wider bg-accent text-white rounded;
+}
+
+.section-title {
+  @apply text-2xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-accent;
+}
+
+.headline-item {
+  @apply py-4 border-b border-gray-200 last:border-b-0;
+}
+
+.headline-item:hover h3 {
+  @apply text-accent;
+}
+
+.featured-overlay {
+  @apply absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent;
 }

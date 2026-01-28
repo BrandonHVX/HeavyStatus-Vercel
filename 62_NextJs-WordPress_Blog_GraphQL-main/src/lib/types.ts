@@ -11,6 +11,12 @@ export type Post = {
   date: string;
   content: string;
   excerpt?: string;
+  featuredImage?: {
+    node?: {
+      sourceUrl?: string;
+      altText?: string;
+    }
+  };
   seo?: {
     title?: string;
     metaDesc?: string;

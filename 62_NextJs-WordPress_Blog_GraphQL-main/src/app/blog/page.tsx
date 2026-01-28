@@ -1,5 +1,6 @@
 import { LatestPosts } from '@/components/latest-posts';
-import { getAllPosts } from '@/lib/queries';
+import { Categories } from '@/components/categories';
+import { getAllPosts, getCategories } from '@/lib/queries';
 
 type Params = Promise<{ slug: string }>
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
@@ -14,7 +15,7 @@ export default async function Page(props: {
   const before = searchParams.before as string || null;
   const after = searchParams.after as string || null;
 
-  // Get All Pots
+  const categories = await getCategories();
   const { posts, pageInfo } = await getAllPosts(searchTerm, category, {before, after});
   
   const latestPostProps = {
@@ -25,8 +26,9 @@ export default async function Page(props: {
   }
 
   return (
-    <section>
+    <>
+      <Categories categories={categories} />
       <LatestPosts {...latestPostProps} />
-    </section>
+    </>
   )
 }

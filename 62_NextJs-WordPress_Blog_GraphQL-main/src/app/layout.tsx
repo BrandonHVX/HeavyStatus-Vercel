@@ -38,12 +38,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased`}>
-        <div className="max-w-[780px] p-4 md:p-10 mx-auto bg-background min-h-screen">
-          <Header/>
+      <body className={`${inter.className} antialiased bg-light`}>
+        <Header/>
+        <main className="min-h-screen">
           {children}
-          <Footer/>
-        </div>
+        </main>
+        <Footer/>
       </body>
     </html>
   );

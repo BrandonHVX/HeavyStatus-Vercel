@@ -1,5 +1,4 @@
 import { Hero } from '@/components/hero';
-import { SocialIcons } from '@/components/social-icons';
 import { Categories } from '@/components/categories';
 import { LatestPosts } from '@/components/latest-posts';
 import { getCategories, getAllPosts } from '@/lib/queries';
@@ -9,17 +8,25 @@ export default async function Home() {
   const categories = await getCategories();
   const { posts } = await getAllPosts();
 
+  const featuredPost = posts[0];
+  const recentPosts = posts.slice(1, 6);
+  const latestPosts = posts.slice(1);
+
   return (
-    <section>
-      <Hero />
-      <SocialIcons />
+    <>
       <Categories categories={categories} />
-      <LatestPosts posts={posts} />
-      <div className='text-center'>
-        <Link href={`/blog`} className='hover:underline text-gray-900 py-5 block rounded-md'>
-          View More Posts
-        </Link>
+      <Hero featuredPost={featuredPost} recentPosts={recentPosts} />
+      <LatestPosts posts={latestPosts} showSearch={false} />
+      <div className='bg-white pb-10'>
+        <div className='max-w-7xl mx-auto px-4 text-center'>
+          <Link 
+            href={`/blog`} 
+            className='inline-block px-8 py-3 bg-accent text-white font-medium rounded hover:bg-red-600 transition-colors'
+          >
+            View All Posts
+          </Link>
+        </div>
       </div>
-    </section>
+    </>
   );
 }
