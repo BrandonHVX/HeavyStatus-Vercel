@@ -1,0 +1,153 @@
+23
+
+2026-01-29T04:38:16.693Z [WARNING]: npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+
+24
+
+2026-01-29T04:38:16.697Z [WARNING]: npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+
+25
+
+2026-01-29T04:38:16.714Z [WARNING]: npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+
+26
+
+2026-01-29T04:38:18.002Z [WARNING]: npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+
+27
+
+2026-01-29T04:38:23.352Z [INFO]: added 398 packages, and audited 399 packages in 22s
+
+28
+
+2026-01-29T04:38:23.356Z [INFO]: 141 packages are looking for funding
+
+29
+
+                                 run `npm fund` for details
+
+30
+
+2026-01-29T04:38:23.433Z [INFO]: 4 vulnerabilities (1 low, 1 moderate, 1 high, 1 critical)
+
+31
+
+                                 To address issues that do not require attention, run:
+
+32
+
+                                 npm audit fix
+
+33
+
+                                 To address all issues, run:
+
+34
+
+                                 npm audit fix --force
+
+35
+
+                                 Run `npm audit` for details.
+
+36
+
+2026-01-29T04:38:23.450Z [INFO]: # Completed phase: preBuild
+
+37
+
+                                 # Starting phase: build
+
+38
+
+                                 # Executing command: npm run build
+
+39
+
+2026-01-29T04:38:23.531Z [INFO]: > nextjs-wp-graphql@0.1.0 build
+
+40
+
+                                 > next build
+
+41
+
+2026-01-29T04:38:24.093Z [WARNING]: ⨯ Failed to load next.config.ts, see more info here https://nextjs.org/docs/messages/next-config-error
+
+42
+
+2026-01-29T04:38:24.094Z [WARNING]: > Build error occurred
+
+43
+
+2026-01-29T04:38:24.096Z [WARNING]: Error: Cannot find module '@ducanh2912/next-pwa'
+
+44
+
+                                    Require stack:
+
+45
+
+                                    - /codebuild/output/src140137938/src/NewsPWA/next.config.compiled.js
+
+46
+
+                                    - /codebuild/output/src140137938/src/NewsPWA/node_modules/next/dist/build/next-config-ts/transpile-config.js
+
+47
+
+                                    - /codebuild/output/src140137938/src/NewsPWA/node_modules/next/dist/server/config.js
+
+48
+
+                                    - /codebuild/output/src140137938/src/NewsPWA/node_modules/next/dist/cli/next-test.js
+
+49
+
+                                    - /codebuild/output/src140137938/src/NewsPWA/node_modules/next/dist/bin/next
+
+50
+
+                                    at <unknown> (/codebuild/output/src140137938/src/NewsPWA/node_modules/next/dist/server/require-hook.js:55:36)
+
+51
+
+                                    at mod.require (/codebuild/output/src140137938/src/NewsPWA/node_modules/next/dist/server/require-hook.js:65:28) {
+
+52
+
+                                    code: 'MODULE_NOT_FOUND',
+
+53
+
+                                    requireStack: [Array]
+
+54
+
+                                    }
+
+55
+
+2026-01-29T04:38:24.108Z [ERROR]: !!! Build failed
+
+56
+
+2026-01-29T04:38:24.108Z [INFO]: Please read more about Amplify Hosting's support for SSR frameworks to find if your build failure is related to an unsupported feature: https://docs.aws.amazon.com/amplify/latest/userguide/amplify-ssr-framework-support.html. You may also find this troubleshooting guide useful: https://docs.aws.amazon.com/amplify/latest/userguide/troubleshooting-ssr-deployment.html
+
+57
+
+2026-01-29T04:38:24.108Z [ERROR]: !!! Error: Command failed with exit code 1
+
+58
+
+2026-01-29T04:38:24.108Z [INFO]: # Starting environment caching...
+
+59
+
+2026-01-29T04:38:24.108Z [INFO]: # Environment caching completed
+
+60
+
+61
+
+Deploy
