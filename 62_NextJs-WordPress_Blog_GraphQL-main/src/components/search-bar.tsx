@@ -45,17 +45,10 @@ export function SearchBar() {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
   const listboxId = 'search-listbox';
 
   const totalResults = results.posts.length + results.categories.length + results.tags.length;
-
-  const debounce = <T extends (...args: Parameters<T>) => void>(fn: T, delay: number) => {
-    let timeoutId: NodeJS.Timeout;
-    return (...args: Parameters<T>) => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => fn(...args), delay);
-    };
-  };
 
   const fetchResults = useCallback(async (query: string) => {
     if (query.trim().length < 2) {
@@ -78,14 +71,20 @@ export function SearchBar() {
     }
   }, []);
 
-  const debouncedSearch = useCallback(
-    debounce((query: string) => fetchResults(query), 300),
-    [fetchResults]
-  );
-
   useEffect(() => {
-    debouncedSearch(searchTerm);
-  }, [searchTerm, debouncedSearch]);
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+    debounceRef.current = setTimeout(() => {
+      fetchResults(searchTerm);
+    }, 300);
+
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
+  }, [searchTerm, fetchResults]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

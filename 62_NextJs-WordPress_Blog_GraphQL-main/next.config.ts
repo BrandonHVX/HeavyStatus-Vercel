@@ -1,4 +1,3 @@
-import type { NextConfig } from "next";
 import withPWAInit from "@ducanh2912/next-pwa";
 
 const withPWA = withPWAInit({
@@ -7,19 +6,20 @@ const withPWA = withPWAInit({
   register: true,
 });
 
-const nextConfig: NextConfig = {
+const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
+        protocol: 'https' as const,
         hostname: 'heavy-status.com',
       },
       {
-        protocol: 'https',
+        protocol: 'https' as const,
         hostname: '*.heavy-status.com',
       },
     ],
   },
+  output: 'standalone' as const,
 };
 
 export default withPWA(nextConfig);
