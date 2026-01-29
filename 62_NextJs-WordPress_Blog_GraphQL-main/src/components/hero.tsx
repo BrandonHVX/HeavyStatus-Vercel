@@ -14,8 +14,15 @@ export function Hero({ featuredPost, recentPosts = [] }: HeroProps){
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
   };
+
+  const stripHtml = (html: string) => {
+    return html.replace(/<[^>]*>/g, '').trim();
+  };
+
+  const excerpt = featuredPost.excerpt ? stripHtml(featuredPost.excerpt).substring(0, 200) : '';
 
   return (
     <section className="bg-white">
@@ -47,10 +54,12 @@ export function Hero({ featuredPost, recentPosts = [] }: HeroProps){
                   className="vogue-headline text-3xl md:text-4xl mb-4"
                   dangerouslySetInnerHTML={{ __html: featuredPost.title }}
                 />
-                {featuredPost.excerpt && (
-                  <p className="text-gray-600 text-base mb-4 max-w-2xl" dangerouslySetInnerHTML={{ __html: featuredPost.excerpt.substring(0, 200) + '...' }} />
+                {excerpt && (
+                  <p className="text-gray-600 text-base mb-4 max-w-2xl">
+                    {excerpt}{excerpt.length >= 200 ? '...' : ''}
+                  </p>
                 )}
-                <p className="vogue-byline">By Heavy Status &middot; {formatDate(featuredPost.date)}</p>
+                <p className="vogue-byline">By Heavy Status · {formatDate(featuredPost.date)}</p>
               </div>
             </Link>
           </div>
@@ -58,7 +67,7 @@ export function Hero({ featuredPost, recentPosts = [] }: HeroProps){
           <div className="lg:col-span-4 border-t lg:border-t-0 lg:border-l border-gray-200 pt-8 lg:pt-0 lg:pl-8">
             <h3 className="text-xs uppercase tracking-widest font-semibold mb-6">Latest</h3>
             <div className="space-y-6">
-              {recentPosts.slice(0, 5).map((post, index) => (
+              {recentPosts.slice(0, 5).map((post) => (
                 <Link 
                   key={post.id} 
                   href={`/blog/${post.slug}`}
