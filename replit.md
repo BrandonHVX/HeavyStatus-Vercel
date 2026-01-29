@@ -10,9 +10,18 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- **Jan 29, 2026**: Complete UI/UX redesign to match Vanity Fair magazine editorial style:
+  - Full-width 16:9 hero image with headline/category overlay and gradient
+  - Sticky header with centered logo, left navigation, right search/subscribe
+  - Top Stories grid (4 columns) below hero
+  - Latest Stories section with 16:9 thumbnails and author bylines
+  - Most Popular sidebar with 1:1 square images
+  - Categories sidebar with tag-style buttons
+  - Accent color changed to burgundy red (#c41e3a)
+  - ALL CAPS category labels with accent color
+  - Author attribution on every article card
+  - Article pages with full-width featured image header
 - **Jan 28, 2026**: Added dynamic search bar with live typing and autocomplete for posts, categories, and tags from WordPress GraphQL
-- **Jan 28, 2026**: Complete UI/UX redesign to match Vogue magazine editorial style with clean white background, serif typography, centered logo with wide letter spacing, uppercase navigation, and elegant article grid layout
-- **Jan 28, 2026**: Fixed responsive design for mobile, centered mobile logo, removed Inter font in favor of system serif/sans fonts
 - **Jan 28, 2026**: Added featured image support via GraphQL with proper Next.js Image optimization
 
 ## System Architecture
@@ -23,15 +32,19 @@ Preferred communication style: Simple, everyday language.
 - **Tailwind CSS** for utility-first styling with custom Vogue-inspired theme
 - **React 19** as the UI library
 
-### Design System (Vogue-Inspired)
+### Design System (Vanity Fair-Inspired)
 - **Background**: Pure white (#ffffff)
 - **Primary text**: Black (#000000)
 - **Accent color**: Burgundy red (#c41e3a)
 - **Typography**: Georgia serif for headlines, Helvetica Neue sans-serif for body
-- Centered logo with wide letter spacing (0.3em)
-- Uppercase navigation and category labels with tracking
-- Clean editorial grid layouts with generous whitespace
-- Minimalist hover effects (color transition to accent)
+- Centered logo with wide letter spacing (0.25em)
+- Sticky header that appears on scroll
+- Full-width hero with 16:9 aspect ratio and gradient overlay
+- Category labels in ALL CAPS with accent color
+- Author bylines on all article cards ("By Author Name")
+- 16:9 aspect ratio for article thumbnails
+- 1:1 square images for Most Popular section
+- Hover effects with smooth image zoom and color transition
 
 ### Content Management
 - **WordPress** serves as the headless CMS backend (heavy-status.com)

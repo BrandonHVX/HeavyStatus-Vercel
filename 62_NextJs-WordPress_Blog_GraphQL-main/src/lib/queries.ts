@@ -85,6 +85,11 @@ export async function getAllPosts(
               sourceUrl
             }
           }
+          author {
+            node {
+              name
+            }
+          }
           categories {
             nodes {
               name

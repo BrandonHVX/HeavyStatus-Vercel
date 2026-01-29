@@ -5,6 +5,8 @@
 :root {
   --background: #ffffff;
   --foreground: #000000;
+  --accent: #c41e3a;
+  --accent-hover: #a31830;
 }
 
 * {
@@ -134,30 +136,59 @@ body {
   }
 }
 
-.vogue-headline {
-  @apply font-serif text-black leading-tight;
+.vf-headline {
+  @apply font-serif text-black leading-tight transition-colors duration-200;
 }
 
-.vogue-category {
-  @apply text-xs uppercase tracking-widest text-gray-600 font-sans;
+.vf-headline-hover:hover .vf-headline {
+  color: var(--accent);
 }
 
-.vogue-byline {
+.vf-category {
+  @apply text-[10px] uppercase tracking-[0.15em] font-semibold text-accent;
+}
+
+.vf-byline {
   @apply text-xs text-gray-500 font-sans;
 }
 
-.vogue-card {
+.vf-author {
+  @apply text-xs text-gray-600 font-sans;
+}
+
+.vf-card {
   @apply block;
 }
 
-.vogue-card:hover .vogue-headline {
-  @apply text-accent;
+.vf-card:hover .vf-headline {
+  color: var(--accent);
 }
 
-.section-divider {
-  @apply border-t border-black py-8;
+.vf-section-title {
+  @apply text-[11px] uppercase tracking-[0.2em] font-bold text-black mb-6 pb-3 border-b border-black;
 }
 
 .nav-link {
   @apply text-xs uppercase tracking-widest text-black hover:text-accent transition-colors;
+}
+
+.hero-overlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 40%, transparent 100%);
+}
+
+.sticky-header {
+  @apply fixed top-0 left-0 right-0 z-50 bg-white shadow-sm;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.header-animate {
+  animation: slideDown 0.3s ease-out;
 }
