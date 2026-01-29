@@ -113,10 +113,16 @@ body {
 
   img {
     @apply max-w-full h-auto my-8;
+    content-visibility: auto;
   }
 
   video {
     @apply max-w-full my-8;
+    content-visibility: auto;
+  }
+
+  iframe {
+    content-visibility: auto;
   }
 
   hr {
