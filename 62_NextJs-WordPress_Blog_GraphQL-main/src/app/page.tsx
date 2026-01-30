@@ -1,9 +1,8 @@
 // app/page.tsx
 import Link from "next/link";
+import Image from "next/image";
 import { getCategories, getAllPosts } from "@/lib/queries";
-
-type WPPost = any;
-type WPCategory = any;
+import { Post, Category } from "@/lib/types";
 
 function stripHtml(input?: string) {
   if (!input) return "";
@@ -13,32 +12,27 @@ function stripHtml(input?: string) {
     .trim();
 }
 
-function getPostTitle(p?: WPPost) {
+function getPostTitle(p?: Post) {
   return p?.title ?? "Untitled";
 }
 
-function getPostExcerpt(p?: WPPost) {
+function getPostExcerpt(p?: Post) {
   const raw = p?.excerpt ?? p?.content ?? "";
   const clean = stripHtml(raw);
   return clean.length > 170 ? clean.slice(0, 167) + "…" : clean;
 }
 
-function getPostAuthor(p?: WPPost) {
-  return p?.author?.node?.name || p?.author?.name || p?.authorName || "Staff";
+function getPostAuthor(p?: Post) {
+  return p?.author?.node?.name || "Staff";
 }
 
-function getPostHref(p?: WPPost) {
-  // Prefer WPGraphQL "uri" if your routes support it.
-  // Otherwise it falls back to "/{slug}".
-  return p?.uri || (p?.slug ? `/${p.slug}` : "#");
+function getPostHref(p?: Post) {
+  return p?.slug ? `/${p.slug}` : "#";
 }
 
-function getPostImage(p?: WPPost) {
-  // WPGraphQL typical: featuredImage.node.sourceUrl
+function getPostImage(p?: Post) {
   return (
     p?.featuredImage?.node?.sourceUrl ||
-    p?.featuredImage?.sourceUrl ||
-    p?.image ||
     "https://placehold.co/1200x700/png?text=IMAGE"
   );
 }
@@ -58,26 +52,21 @@ export default async function Home() {
   const categoriesData = await getCategories();
   const { posts } = await getAllPosts();
 
-  const cats: WPCategory[] =
-    categoriesData?.categories?.nodes ||
-    categoriesData?.nodes ||
-    categoriesData ||
-    [];
+  const cats: Category[] = Array.isArray(categoriesData) ? categoriesData : [];
 
-  const safePosts: WPPost[] = Array.isArray(posts) ? posts : [];
+  const safePosts: Post[] = Array.isArray(posts) ? posts : [];
 
   const featuredPost = safePosts[0];
-  const topStories = safePosts.slice(1, 5); // [1..4]
-  const latestPosts = safePosts.slice(5, 12); // [5..11]
+  const topStories = safePosts.slice(1, 5);
+  const latestPosts = safePosts.slice(5, 12);
   const popularPosts = safePosts.slice(0, 4);
 
-  // Slot mapping (avoid duplicates as much as possible)
   const leftTopPost = topStories[0];
   const leftMidPost = topStories[1];
   const leftBottomPost = topStories[2];
 
-  const midRows = latestPosts.slice(0, 2); // two rows beneath hero
-  const latestList = latestPosts.slice(2, 7); // 5 items in right "Latest Stories"
+  const midRows = latestPosts.slice(0, 2);
+  const latestList = latestPosts.slice(2, 7);
 
   const rightFeaturePost =
     topStories[3] || popularPosts[1] || latestPosts[0] || safePosts[0];
@@ -103,21 +92,9 @@ export default async function Home() {
     />
   );
 
-  const TopNavCats =
-    cats?.length > 0
-      ? cats.slice(0, 5).map((c: any) => ({
-          name: (c?.name ?? "").toUpperCase(),
-          href: c?.uri || (c?.slug ? `/category/${c.slug}` : "#"),
-        }))
-      : [
-          { name: "POLITICS", href: "#" },
-          { name: "HOLLYWOOD", href: "#" },
-          { name: "ROYALS", href: "#" },
-          { name: "STYLE", href: "#" },
-          { name: "CULTURE", href: "#" },
-        ];
+  // Categories available for navigation
+  void cats;
 
-  // Simple empty-state (no sample “content”, just structure)
   if (!featuredPost) {
     return (
       <div className="min-h-screen bg-[#e6f4f1] text-[#0b0b0b]">
@@ -143,25 +120,23 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-[#e6f4f1] text-[#0b0b0b]">
-      {/* Top black bar */}
-
-      {/* Thin rule */}
       <div className="mx-auto h-px w-[min(1120px,calc(100%-40px))] bg-[rgba(0,0,0,0.65)]" />
 
-      {/* Content */}
       <main className="py-[22px] pb-[60px]">
         <div className="mx-auto grid w-[min(1120px,calc(100%-40px))] grid-cols-[270px_1fr_320px] gap-[34px] max-[980px]:grid-cols-1 max-[980px]:gap-[22px]">
-          {/* Left column */}
           <aside>
             {leftTopPost && (
               <article>
                 <Link href={getPostHref(leftTopPost)}>
-                  <img
-                    className="block h-auto w-full"
-                    src={getPostImage(leftTopPost)}
-                    alt=""
-                    loading="lazy"
-                  />
+                  <div className="relative w-full aspect-video">
+                    <Image
+                      className="object-cover"
+                      src={getPostImage(leftTopPost)}
+                      alt=""
+                      fill
+                      sizes="270px"
+                    />
+                  </div>
                 </Link>
                 <div className="pt-[14px]">
                   <Tag>
@@ -192,12 +167,15 @@ export default async function Home() {
             {leftMidPost && (
               <>
                 <Link href={getPostHref(leftMidPost)}>
-                  <img
-                    className="block h-auto w-full"
-                    src={getPostImage(leftMidPost)}
-                    alt=""
-                    loading="lazy"
-                  />
+                  <div className="relative w-full aspect-video">
+                    <Image
+                      className="object-cover"
+                      src={getPostImage(leftMidPost)}
+                      alt=""
+                      fill
+                      sizes="270px"
+                    />
+                  </div>
                 </Link>
 
                 <article>
@@ -231,12 +209,15 @@ export default async function Home() {
             {leftBottomPost && (
               <article>
                 <Link href={getPostHref(leftBottomPost)}>
-                  <img
-                    className="block h-auto w-full"
-                    src={getPostImage(leftBottomPost)}
-                    alt=""
-                    loading="lazy"
-                  />
+                  <div className="relative w-full aspect-video">
+                    <Image
+                      className="object-cover"
+                      src={getPostImage(leftBottomPost)}
+                      alt=""
+                      fill
+                      sizes="270px"
+                    />
+                  </div>
                 </Link>
                 <div className="pt-[14px]">
                   <Tag>
@@ -264,15 +245,19 @@ export default async function Home() {
             )}
           </aside>
 
-          {/* Middle column */}
           <section>
             <article>
               <Link href={getPostHref(featuredPost)}>
-                <img
-                  className="block h-[320px] w-full object-cover max-[980px]:h-[260px]"
-                  src={getPostImage(featuredPost)}
-                  alt=""
-                />
+                <div className="relative w-full h-[320px] max-[980px]:h-[260px]">
+                  <Image
+                    className="object-cover"
+                    src={getPostImage(featuredPost)}
+                    alt=""
+                    fill
+                    sizes="(max-width: 980px) 100vw, 530px"
+                    priority
+                  />
+                </div>
               </Link>
               <div className="pt-[14px]">
                 <Tag>
@@ -329,12 +314,15 @@ export default async function Home() {
                   href={getPostHref(p)}
                   className="block max-[980px]:order-first"
                 >
-                  <img
-                    className="block h-[118px] w-[200px] justify-self-end bg-[#d7e9e6] object-cover max-[980px]:h-[180px] max-[980px]:w-full"
-                    src={getPostImage(p)}
-                    alt=""
-                    loading="lazy"
-                  />
+                  <div className="relative w-[200px] h-[118px] max-[980px]:w-full max-[980px]:h-[180px] bg-[#d7e9e6]">
+                    <Image
+                      className="object-cover"
+                      src={getPostImage(p)}
+                      alt=""
+                      fill
+                      sizes="(max-width: 980px) 100vw, 200px"
+                    />
+                  </div>
                 </Link>
               </article>
             ))}
@@ -342,7 +330,6 @@ export default async function Home() {
             <div className="my-[18px] h-px w-full bg-[rgba(0,0,0,0.16)]" />
           </section>
 
-          {/* Right column */}
           <aside>
             <div className="mb-[10px] font-sans text-[14px] font-black uppercase tracking-[0.28em]">
               LATEST STORIES
@@ -367,12 +354,15 @@ export default async function Home() {
                   </div>
 
                   <Link href={getPostHref(p)} className="block">
-                    <img
-                      className="block h-[52px] w-[52px] bg-[#d7e9e6] object-cover"
-                      src={getPostImage(p)}
-                      alt=""
-                      loading="lazy"
-                    />
+                    <div className="relative w-[52px] h-[52px] bg-[#d7e9e6]">
+                      <Image
+                        className="object-cover"
+                        src={getPostImage(p)}
+                        alt=""
+                        fill
+                        sizes="52px"
+                      />
+                    </div>
                   </Link>
                 </article>
               ))}
@@ -389,11 +379,15 @@ export default async function Home() {
                 </Tag>
 
                 <Link href={getPostHref(rightFeaturePost)} className="block">
-                  <img
-                    className="my-2 block h-[160px] w-full bg-[#d7e9e6] object-cover"
-                    src={getPostImage(rightFeaturePost)}
-                    alt=""
-                  />
+                  <div className="relative w-full h-[160px] my-2 bg-[#d7e9e6]">
+                    <Image
+                      className="object-cover"
+                      src={getPostImage(rightFeaturePost)}
+                      alt=""
+                      fill
+                      sizes="320px"
+                    />
+                  </div>
                 </Link>
 
                 <h3 className="font-serif text-[18px] font-extrabold leading-[1.15]">

@@ -1,0 +1,63 @@
+16:45:30.312 Running build in Washington, D.C., USA (East) – iad1
+16:45:30.313 Build machine configuration: 4 cores, 8 GB
+16:45:30.418 Cloning github.com/BrandonHVX/HeavyStatus-Vercel (Branch: main, Commit: 4c07cf5)
+16:45:30.419 Previous build caches not available.
+16:45:30.675 Cloning completed: 257.000ms
+16:45:31.046 Running "vercel build"
+16:45:31.999 Vercel CLI 50.9.6
+16:45:32.304 Installing dependencies...
+16:45:35.152 npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+16:45:35.224 npm warn deprecated sourcemap-codec@1.4.8: Please use @jridgewell/sourcemap-codec instead
+16:45:35.786 npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+16:45:35.832 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+16:45:37.089 npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+16:45:37.183 npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+16:45:38.208 npm warn deprecated source-map@0.8.0-beta.0: The work that was done in this beta branch won't be included in future versions
+16:45:38.216 npm warn deprecated source-map@0.8.0-beta.0: The work that was done in this beta branch won't be included in future versions
+16:45:41.125 npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+16:45:46.441 
+16:45:46.441 added 662 packages in 14s
+16:45:46.442 
+16:45:46.442 159 packages are looking for funding
+16:45:46.442   run `npm fund` for details
+16:45:46.501 Detected Next.js version: 15.0.4
+16:45:46.507 Running "npm run build"
+16:45:46.606 
+16:45:46.606 > nextjs-wp-graphql@0.1.0 build
+16:45:46.606 > next build
+16:45:46.607 
+16:45:47.722 Attention: Next.js now collects completely anonymous telemetry regarding usage.
+16:45:47.722 This information is used to shape Next.js' roadmap and prioritize features.
+16:45:47.722 You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+16:45:47.723 https://nextjs.org/telemetry
+16:45:47.723 
+16:45:47.780    ▲ Next.js 15.0.4
+16:45:47.780 
+16:45:47.793    Creating an optimized production build ...
+16:45:48.119  ✓ (pwa) Compiling for server...
+16:45:48.123  ✓ (pwa) Compiling for server...
+16:45:48.125  ✓ (pwa) Compiling for client (static)...
+16:45:48.127  ○ (pwa) Service worker: /vercel/path0/public/sw.js
+16:45:48.127  ○ (pwa)   URL: /sw.js
+16:45:48.128  ○ (pwa)   Scope: /
+16:45:48.129  ○ (pwa) Custom runtimeCaching array found, using it instead of the default one.
+16:45:57.606  ✓ Compiled successfully
+16:45:57.608    Linting and checking validity of types ...
+16:46:00.891 
+16:46:00.891 Failed to compile.
+16:46:00.891 
+16:46:00.891 ./src/app/page.tsx
+16:46:00.892 5:15  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:46:00.892 6:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:46:00.892 106:9  Error: 'TopNavCats' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+16:46:00.892 108:34  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:46:00.892 159:19  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+16:46:00.892 195:19  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+16:46:00.892 234:19  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+16:46:00.893 271:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+16:46:00.893 332:19  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+16:46:00.893 370:21  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+16:46:00.893 392:19  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+16:46:00.893 
+16:46:00.893 info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/building-your-application/configuring/eslint#disabling-rules
+16:46:00.963 Error: Command "npm run build" exited with 1
