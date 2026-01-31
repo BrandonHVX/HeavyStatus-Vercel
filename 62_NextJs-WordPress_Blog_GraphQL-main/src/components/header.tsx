@@ -243,16 +243,10 @@ export function Header(){
 
       <nav className="hidden sm:flex justify-center gap-4 md:gap-[22px] border-t border-white/10 bg-[#0b0b0b] px-[14px] py-[10px]">
         <Link href="/" className="text-[10px] md:text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] hover:text-white transition-colors">
-          HOME
+          TODAY
         </Link>
         <Link href="/blog" className="text-[10px] md:text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] hover:text-white transition-colors">
-          ARTICLES
-        </Link>
-        <Link href="/about" className="text-[10px] md:text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] hover:text-white transition-colors">
-          ABOUT
-        </Link>
-        <Link href="/contact" className="text-[10px] md:text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] hover:text-white transition-colors">
-          CONTACT
+          HEADLINES
         </Link>
       </nav>
 
@@ -274,22 +268,12 @@ export function Header(){
           <ul className="flex flex-col items-center gap-4">
             <li>
               <Link href="/" className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] py-2 block">
-                HOME
+                TODAY
               </Link>
             </li>
             <li>
               <Link href="/blog" className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] py-2 block">
-                ARTICLES
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] py-2 block">
-                ABOUT
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] py-2 block">
-                CONTACT
+                HEADLINES
               </Link>
             </li>
             <li className="pt-2 border-t border-white/10 w-32 text-center">
