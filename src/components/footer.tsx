@@ -21,22 +21,12 @@ export function Footer(){
             <ul className="space-y-3">
               <li>
                 <Link href="/" className="text-sm text-gray-600 hover:text-black transition-colors">
-                  Home
+                  Today
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-sm text-gray-600 hover:text-black transition-colors">
-                  Articles
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-sm text-gray-600 hover:text-black transition-colors">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-sm text-gray-600 hover:text-black transition-colors">
-                  Contact
+                <Link href="/headlines" className="text-sm text-gray-600 hover:text-black transition-colors">
+                  Headlines
                 </Link>
               </li>
             </ul>
