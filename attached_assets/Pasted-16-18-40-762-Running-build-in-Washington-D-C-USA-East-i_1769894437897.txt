@@ -1,0 +1,69 @@
+16:18:40.762 Running build in Washington, D.C., USA (East) – iad1
+16:18:40.763 Build machine configuration: 4 cores, 8 GB
+16:18:40.872 Cloning github.com/BrandonHVX/HeavyStatus-Vercel (Branch: main, Commit: 272dc62)
+16:18:41.212 Cloning completed: 340.000ms
+16:18:41.985 Restored build cache from previous deployment (3EtqoMRNEb6e6tSxYv4PYUnEG5tD)
+16:18:42.253 Running "vercel build"
+16:18:43.088 Vercel CLI 50.9.6
+16:18:43.374 Installing dependencies...
+16:18:45.889 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+16:18:55.391 
+16:18:55.391 added 27 packages, removed 30 packages, and changed 131 packages in 12s
+16:18:55.391 
+16:18:55.391 159 packages are looking for funding
+16:18:55.391   run `npm fund` for details
+16:18:55.439 Detected Next.js version: 15.0.4
+16:18:55.445 Running "npm run build"
+16:18:55.543 
+16:18:55.543 > nextjs-wp-graphql@0.1.0 build
+16:18:55.543 > next build
+16:18:55.543 
+16:18:56.820    ▲ Next.js 15.0.4
+16:18:56.820 
+16:18:56.832    Creating an optimized production build ...
+16:18:57.174  ✓ (pwa) Compiling for server...
+16:18:57.178  ✓ (pwa) Compiling for server...
+16:18:57.180  ✓ (pwa) Compiling for client (static)...
+16:18:57.183  ○ (pwa) Service worker: /vercel/path0/public/sw.js
+16:18:57.183  ○ (pwa)   URL: /sw.js
+16:18:57.183  ○ (pwa)   Scope: /
+16:18:57.184  ○ (pwa) Custom runtimeCaching array found, using it instead of the default one.
+16:19:06.210  ✓ Compiled successfully
+16:19:06.213    Linting and checking validity of types ...
+16:19:10.238    Collecting page data ...
+16:19:12.411    Generating static pages (0/12) ...
+16:19:13.302    Generating static pages (3/12) 
+16:19:13.302    Generating static pages (6/12) 
+16:19:13.351    Generating static pages (9/12) 
+16:19:13.529  ✓ Generating static pages (12/12)
+16:19:14.096    Finalizing page optimization ...
+16:19:14.096    Collecting build traces ...
+16:19:19.530 
+16:19:19.533 Route (app)                              Size     First Load JS
+16:19:19.533 ┌ ○ /                                    183 B           117 kB
+16:19:19.533 ├ ○ /_not-found                          153 B           103 kB
+16:19:19.533 ├ ○ /about                               153 B           103 kB
+16:19:19.533 ├ ƒ /api/notify                          153 B           103 kB
+16:19:19.533 ├ ƒ /api/search                          153 B           103 kB
+16:19:19.533 ├ ƒ /blog                                2.68 kB         119 kB
+16:19:19.534 ├ ƒ /blog/[slug]                         178 B           112 kB
+16:19:19.534 ├ ○ /contact                             153 B           103 kB
+16:19:19.534 ├ ƒ /headlines                           2.68 kB         119 kB
+16:19:19.534 ├ ƒ /headlines/[slug]                    178 B           112 kB
+16:19:19.534 ├ ƒ /news-sitemap.xml                    153 B           103 kB
+16:19:19.534 ├ ƒ /rss.xml                             153 B           103 kB
+16:19:19.534 └ ○ /sitemap.xml                         0 B                0 B
+16:19:19.534 + First Load JS shared by all            102 kB
+16:19:19.534   ├ chunks/455-8398d79b743d2931.js       48 kB
+16:19:19.534   ├ chunks/4bd1b696-b7229a4e4ee25997.js  52.5 kB
+16:19:19.534   └ other shared chunks (total)          1.91 kB
+16:19:19.534 
+16:19:19.535 
+16:19:19.535 ○  (Static)   prerendered as static content
+16:19:19.535 ƒ  (Dynamic)  server-rendered on demand
+16:19:19.535 
+16:19:19.762 Traced Next.js server files in: 140.43ms
+16:19:19.904 Created all serverless functions in: 142.386ms
+16:19:19.915 Collected static files (public/, static/, .next/static): 6.182ms
+16:19:20.003 Build Completed in /vercel/output [37s]
+16:19:20.237 Error: Vulnerable version of Next.js detected, please update immediately. Learn More: https://vercel.link/CVE-2025-66478

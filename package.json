@@ -12,7 +12,7 @@
     "@ducanh2912/next-pwa": "^10.2.9",
     "@octokit/rest": "^22.0.0",
     "graphql-request": "^7.1.2",
-    "next": "15.0.4",
+    "next": "^15.5.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
