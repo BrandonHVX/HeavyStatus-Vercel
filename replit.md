@@ -34,12 +34,25 @@ Preferred communication style: Simple, everyday language.
 
 ### Routing Structure
 - `/` - Homepage with featured post and recent stories
-- `/blog` - Article listing with pagination, search, and category filtering
-- `/blog/[slug]` - Individual article pages with SEO metadata
+- `/headlines` - Article listing with pagination, search, and category filtering
+- `/headlines/[slug]` - Individual article pages with SEO metadata
+- `/posts` - Redirects to `/headlines`
+- `/posts/[slug]` - Redirects to `/headlines/[slug]`
+- `/blog` - Legacy article listing (redirects available)
+- `/blog/[slug]` - Legacy individual article pages
 - `/about`, `/contact` - Static pages
 - `/rss.xml` - RSS feed route
 - `/news-sitemap.xml` - Google News sitemap
 - `/sitemap.ts` - Dynamic sitemap generation
+
+## Recent Changes
+
+### January 31, 2026
+- Fixed post routing: Links now correctly point to `/headlines/{slug}` instead of `/{slug}`
+- Added `/posts` and `/posts/[slug]` redirects to `/headlines` routes
+- Updated Next.js from 15.0.4 to 15.5.11 (security fix for CVE-2025-66478)
+- Configured OneSignal push notifications for posts tagged with "notify"
+- OneSignal API endpoint updated to `https://api.onesignal.com/notifications`
 
 ### SEO Implementation
 - Dynamic metadata generation using WordPress SEO fields
