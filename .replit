@@ -11,6 +11,7 @@ integrations = ["github:1.0.0"]
 
 [userenv.shared]
 WORDPRESS_URL = "https://heavy-status.com"
+NEXT_PUBLIC_ONESIGNAL_APP_ID = "1e4a9567-b83d-48e5-815e-9693386df41f"
 
 [workflows]
 runButton = "Project"
