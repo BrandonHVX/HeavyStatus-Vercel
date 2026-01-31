@@ -10,6 +10,16 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- **Jan 31, 2026**: Added OneSignal push notifications integration:
+  - OneSignal SDK for user subscription prompts
+  - Service worker at `/public/OneSignalSDKWorker.js`
+  - API endpoint `/api/notify` for WordPress webhook integration
+  - Sends notifications for posts tagged with "notify"
+- **Jan 31, 2026**: Added mobile navigation enhancements (≤768px):
+  - Fixed header at top of screen
+  - Floating pill-shaped bottom navigation bar with TODAY and HEADLINES
+  - iOS-style "Add to Home Screen" notification banner
+  - Session-based dismissal (reappears on next visit)
 - **Jan 29, 2026**: Complete UI/UX redesign to match Vanity Fair magazine editorial style:
   - Full-width 16:9 hero image with headline/category overlay and gradient
   - Sticky header with centered logo, left navigation, right search/subscribe
@@ -27,10 +37,10 @@ Preferred communication style: Simple, everyday language.
 ## System Architecture
 
 ### Frontend Framework
-- **Next.js 15** with App Router for server-side rendering and routing
+- **Next.js 14.2.35** with App Router for server-side rendering and routing
 - **TypeScript** for type safety across the codebase
-- **Tailwind CSS** for utility-first styling with custom Vogue-inspired theme
-- **React 19** as the UI library
+- **Tailwind CSS** for utility-first styling with custom Vanity Fair-inspired theme
+- **React 18** as the UI library
 
 ### Design System (Vanity Fair-Inspired)
 - **Background**: Pure white (#ffffff)
@@ -53,11 +63,10 @@ Preferred communication style: Simple, everyday language.
 - Content is fetched at request time using `graphql-request` library
 
 ### Routing Structure
-- `/` - Home page with hero, category bar, and latest posts
-- `/blog` - Blog listing with search and cursor-based pagination
-- `/blog/[slug]` - Individual post pages with dynamic Yoast SEO metadata
-- `/about` - About page with technology overview
-- `/contact` - Contact page with contact form
+- `/` - Home page (TODAY) with hero, category bar, and latest posts
+- `/headlines` - Headlines listing with search and cursor-based pagination
+- `/headlines/[slug]` - Individual post pages with dynamic Yoast SEO metadata
+- `/api/notify` - POST endpoint for WordPress push notification webhook
 - `/rss.xml` - Dynamic RSS feed generation
 - `/sitemap.xml` - Dynamic sitemap for SEO
 - `/news-sitemap.xml` - Google/Yahoo News sitemap
@@ -80,12 +89,22 @@ Preferred communication style: Simple, everyday language.
 - Uses `@ducanh2912/next-pwa` for Progressive Web App features
 - Service worker disabled in development mode
 - Manifest file at `public/manifest.json`
+- OneSignal service worker at `public/OneSignalSDKWorker.js`
+
+### Push Notifications (OneSignal)
+- App ID stored in `NEXT_PUBLIC_ONESIGNAL_APP_ID` environment variable
+- REST API Key stored in `ONESIGNAL_REST_API_KEY` secret
+- WordPress webhook calls `/api/notify` endpoint
+- Only posts with "notify" tag trigger push notifications
 
 ### Component Architecture
 - Reusable components in `src/components/`
-- Client components marked with `'use client'` directive (SearchBar, Header with mobile menu)
+- Client components marked with `'use client'` directive:
+  - `Header` - Navigation with search modal
+  - `AddToHomeScreen` - iOS-style PWA install prompt
+  - `OneSignalInit` - Push notification SDK initialization
 - Server components handle data fetching by default
-- Mobile-first responsive design with accessible navigation
+- Mobile-first responsive design with floating bottom navigation (≤768px)
 
 ## External Dependencies
 
