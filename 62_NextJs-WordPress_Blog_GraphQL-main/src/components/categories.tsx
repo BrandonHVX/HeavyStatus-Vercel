@@ -8,7 +8,7 @@ export function Categories({ categories }:{categories: Category[]}){
         <ul className="flex gap-6 flex-wrap items-center justify-center overflow-x-auto scrollbar-hide">
           <li className="flex-shrink-0">
             <Link 
-              href="/blog"
+              href="/headlines"
               className="text-[11px] uppercase tracking-[0.15em] text-black hover:text-accent transition-colors font-semibold"
             >
               All
@@ -17,7 +17,7 @@ export function Categories({ categories }:{categories: Category[]}){
           {categories.slice(0, 10).map((category: Category) => (
             <li key={category.id} className="flex-shrink-0">
               <Link 
-                href={`/blog?categories=${category.slug}`}
+                href={`/headlines?categories=${category.slug}`}
                 className="text-[11px] uppercase tracking-[0.15em] text-gray-500 hover:text-black transition-colors"
               >
                 {category.name}

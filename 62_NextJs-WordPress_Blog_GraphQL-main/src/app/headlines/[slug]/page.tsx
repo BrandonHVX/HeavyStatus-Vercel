@@ -44,7 +44,7 @@ export default async function Page({ params} : {
       <div className="bg-white min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-serif text-black mb-4">Article not found</h1>
-          <Link href="/blog" className="text-accent hover:underline text-sm uppercase tracking-wider">
+          <Link href="/headlines" className="text-accent hover:underline text-sm uppercase tracking-wider">
             Return to articles
           </Link>
         </div>
@@ -73,7 +73,7 @@ export default async function Page({ params} : {
     "description": post.seo?.metaDesc || post.title,
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://heavy-status.com/blog/${post.slug}`,
+      "@id": `https://heavy-status.com/headlines/${post.slug}`,
     },
     "image": post.seo?.opengraphImage?.sourceUrl || post.featuredImage?.node?.sourceUrl
   };
@@ -136,7 +136,7 @@ export default async function Page({ params} : {
 
         <div className="mt-12 pt-8 border-t border-gray-200">
           <Link 
-            href="/blog" 
+            href="/headlines" 
             className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-black hover:text-accent transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

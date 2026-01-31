@@ -40,7 +40,7 @@ export function LatestPosts({ posts, searchTerm, pageInfo, category, showSearch 
             return (
               <Link
                 key={post.id}
-                href={`/blog/${post.slug}`}
+                href={`/headlines/${post.slug}`}
                 className="vf-card group"
               >
                 <div className="relative aspect-[16/9] mb-4 overflow-hidden">
@@ -78,7 +78,7 @@ export function LatestPosts({ posts, searchTerm, pageInfo, category, showSearch 
             {pageInfo?.hasPreviousPage && (
               <Link
                 href={{
-                  pathname: '/blog',
+                  pathname: '/headlines',
                   query: {
                     before: pageInfo.startCursor,
                     ...(searchTerm && { search: searchTerm }),
@@ -94,7 +94,7 @@ export function LatestPosts({ posts, searchTerm, pageInfo, category, showSearch 
             {pageInfo?.hasNextPage && (
               <Link
                 href={{
-                  pathname: '/blog',
+                  pathname: '/headlines',
                   query: {
                     after: pageInfo.endCursor,
                     ...(searchTerm && { search: searchTerm }),

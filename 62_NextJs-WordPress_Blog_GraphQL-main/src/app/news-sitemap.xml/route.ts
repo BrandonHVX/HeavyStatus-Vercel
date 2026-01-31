@@ -17,7 +17,7 @@ export async function GET() {
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   ${newsPosts.map(post => `
   <url>
-    <loc>${baseUrl}/blog/${post.slug}</loc>
+    <loc>${baseUrl}/headlines/${post.slug}</loc>
     <news:news>
       <news:publication>
         <news:name>Heavy Status</news:name>

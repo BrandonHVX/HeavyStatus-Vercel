@@ -99,7 +99,7 @@ export function SearchBar() {
 
   const navigateToSearch = () => {
     if (searchTerm.trim()) {
-      router.push(`/blog?search=${encodeURIComponent(searchTerm)}`);
+      router.push(`/headlines?search=${encodeURIComponent(searchTerm)}`);
       setIsOpen(false);
       setSearchTerm('');
     }
@@ -144,11 +144,11 @@ export function SearchBar() {
       const selected = allItems[selectedIndex];
       if (selected) {
         if (selected.type === 'post') {
-          router.push(`/blog/${selected.slug}`);
+          router.push(`/headlines/${selected.slug}`);
         } else if (selected.type === 'category') {
-          router.push(`/blog?categories=${selected.slug}`);
+          router.push(`/headlines?categories=${selected.slug}`);
         } else {
-          router.push(`/blog?search=${selected.slug}`);
+          router.push(`/headlines?search=${selected.slug}`);
         }
         setIsOpen(false);
         setSearchTerm('');
@@ -222,7 +222,7 @@ export function SearchBar() {
                   <Link
                     key={post.id}
                     id={optionId}
-                    href={`/blog/${post.slug}`}
+                    href={`/headlines/${post.slug}`}
                     onClick={handleResultClick}
                     className={`flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors ${
                       selectedIndex === currentIndex ? 'bg-gray-100' : ''
@@ -264,7 +264,7 @@ export function SearchBar() {
                   <Link
                     key={category.id}
                     id={optionId}
-                    href={`/blog?categories=${category.slug}`}
+                    href={`/headlines?categories=${category.slug}`}
                     onClick={handleResultClick}
                     className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors ${
                       selectedIndex === currentIndex ? 'bg-gray-100' : ''
@@ -295,7 +295,7 @@ export function SearchBar() {
                   <Link
                     key={tag.id}
                     id={optionId}
-                    href={`/blog?search=${tag.slug}`}
+                    href={`/headlines?search=${tag.slug}`}
                     onClick={handleResultClick}
                     className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors ${
                       selectedIndex === currentIndex ? 'bg-gray-100' : ''

@@ -21,7 +21,7 @@ export function Hero({ featuredPost, topStories = [] }: HeroProps){
 
   return (
     <section className="bg-white">
-      <Link href={`/blog/${featuredPost.slug}`} className="vf-headline-hover block relative">
+      <Link href={`/headlines/${featuredPost.slug}`} className="vf-headline-hover block relative">
         <div className="relative aspect-[16/9] w-full">
           {featuredPost.featuredImage?.node?.sourceUrl ? (
             <Image
@@ -66,7 +66,7 @@ export function Hero({ featuredPost, topStories = [] }: HeroProps){
               return (
                 <Link 
                   key={post.id} 
-                  href={`/blog/${post.slug}`}
+                  href={`/headlines/${post.slug}`}
                   className="vf-card group"
                 >
                   <div className="relative aspect-[16/9] mb-4 overflow-hidden">

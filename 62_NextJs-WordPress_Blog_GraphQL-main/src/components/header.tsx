@@ -122,7 +122,7 @@ export function Header(){
 
   const navigateToSearch = () => {
     if (searchTerm.trim()) {
-      router.push(`/blog?search=${encodeURIComponent(searchTerm)}`);
+      router.push(`/headlines?search=${encodeURIComponent(searchTerm)}`);
       closeModal();
     }
   };
@@ -168,11 +168,11 @@ export function Header(){
       const selected = allItems[selectedIndex];
       if (selected) {
         if (selected.type === 'post') {
-          router.push(`/blog/${selected.slug}`);
+          router.push(`/headlines/${selected.slug}`);
         } else if (selected.type === 'category') {
-          router.push(`/blog?categories=${selected.slug}`);
+          router.push(`/headlines?categories=${selected.slug}`);
         } else {
-          router.push(`/blog?search=${selected.slug}`);
+          router.push(`/headlines?search=${selected.slug}`);
         }
         closeModal();
       }
@@ -190,7 +190,7 @@ export function Header(){
       <header className="grid h-[58px] grid-cols-[auto_1fr_auto] items-center bg-[#050505] px-4 text-white">
         <div className="flex items-center gap-3">
           <Link
-            href="/blog"
+            href="/headlines"
             className="hidden sm:block rounded-[2px] border border-[rgba(255,255,255,0.18)] bg-[#cf1717] px-3 py-[6px] text-[10px] font-bold tracking-[0.14em] hover:bg-[#b51414] transition-colors"
           >
             SUBSCRIBE
@@ -245,7 +245,7 @@ export function Header(){
         <Link href="/" className="text-[10px] md:text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] hover:text-white transition-colors">
           TODAY
         </Link>
-        <Link href="/blog" className="text-[10px] md:text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] hover:text-white transition-colors">
+        <Link href="/headlines" className="text-[10px] md:text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] hover:text-white transition-colors">
           HEADLINES
         </Link>
       </nav>
@@ -256,7 +256,7 @@ export function Header(){
         </div>
         <div className="justify-self-center font-sans text-[11px] md:text-[12px] text-[#111] text-center">
           Power. Personality. And freedom of the press.&nbsp;&nbsp;
-          <Link href="/blog" className="font-bold text-[#cf1717] hover:underline">
+          <Link href="/headlines" className="font-bold text-[#cf1717] hover:underline">
             Get unlimited access.
           </Link>
         </div>
@@ -272,13 +272,13 @@ export function Header(){
               </Link>
             </li>
             <li>
-              <Link href="/blog" className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] py-2 block">
+              <Link href="/headlines" className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] py-2 block">
                 HEADLINES
               </Link>
             </li>
             <li className="pt-2 border-t border-white/10 w-32 text-center">
               <Link
-                href="/blog"
+                href="/headlines"
                 className="inline-block rounded-[2px] border border-[rgba(255,255,255,0.18)] bg-[#cf1717] px-4 py-2 text-[10px] font-bold tracking-[0.14em] text-white"
               >
                 SUBSCRIBE
@@ -362,7 +362,7 @@ export function Header(){
                         <Link
                           key={post.id}
                           id={optionId}
-                          href={`/blog/${post.slug}`}
+                          href={`/headlines/${post.slug}`}
                           onClick={handleResultClick}
                           className={`flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors ${
                             selectedIndex === currentIndex ? 'bg-gray-100' : ''
@@ -404,7 +404,7 @@ export function Header(){
                         <Link
                           key={category.id}
                           id={optionId}
-                          href={`/blog?categories=${category.slug}`}
+                          href={`/headlines?categories=${category.slug}`}
                           onClick={handleResultClick}
                           className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors ${
                             selectedIndex === currentIndex ? 'bg-gray-100' : ''
@@ -435,7 +435,7 @@ export function Header(){
                         <Link
                           key={tag.id}
                           id={optionId}
-                          href={`/blog?search=${tag.slug}`}
+                          href={`/headlines?search=${tag.slug}`}
                           onClick={handleResultClick}
                           className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors ${
                             selectedIndex === currentIndex ? 'bg-gray-100' : ''

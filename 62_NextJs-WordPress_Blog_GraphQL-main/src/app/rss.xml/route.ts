@@ -15,9 +15,9 @@ export async function GET() {
     ${posts.map(post => `
     <item>
       <title>${post.title}</title>
-      <link>${baseUrl}/blog/${post.slug}</link>
+      <link>${baseUrl}/headlines/${post.slug}</link>
       <pubDate>${new Date(post.date).toUTCString()}</pubDate>
-      <guid>${baseUrl}/blog/${post.slug}</guid>
+      <guid>${baseUrl}/headlines/${post.slug}</guid>
       <description><![CDATA[${post.excerpt || ''}]]></description>
     </item>`).join('')}
   </channel>
