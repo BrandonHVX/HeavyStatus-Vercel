@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import AddToHomeScreen from "@/components/AddToHomeScreen";
+import OneSignalInit from "@/components/OneSignalInit";
 
 export const metadata: Metadata = {
   title: "Heavy Status - Latest News",
@@ -47,6 +49,8 @@ export default function RootLayout({
           {children}
         </main>
         <Footer/>
+        <AddToHomeScreen />
+        <OneSignalInit />
       </body>
     </html>
   );
