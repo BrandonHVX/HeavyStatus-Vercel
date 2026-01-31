@@ -1,0 +1,44 @@
+16:14:12.531 Running build in Washington, D.C., USA (East) – iad1
+16:14:12.532 Build machine configuration: 4 cores, 8 GB
+16:14:12.664 Cloning github.com/BrandonHVX/HeavyStatus-Vercel (Branch: main, Commit: 10674b5)
+16:14:12.937 Cloning completed: 273.000ms
+16:14:13.494 Restored build cache from previous deployment (3EtqoMRNEb6e6tSxYv4PYUnEG5tD)
+16:14:13.828 Running "vercel build"
+16:14:14.680 Vercel CLI 50.9.6
+16:14:14.948 Installing dependencies...
+16:14:17.227 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+16:14:26.615 
+16:14:26.615 added 27 packages, removed 30 packages, and changed 131 packages in 11s
+16:14:26.615 
+16:14:26.615 159 packages are looking for funding
+16:14:26.615   run `npm fund` for details
+16:14:26.659 Detected Next.js version: 15.0.4
+16:14:26.664 Running "npm run build"
+16:14:26.767 
+16:14:26.767 > nextjs-wp@0.1.0 build
+16:14:26.767 > next build
+16:14:26.767 
+16:14:28.173    ▲ Next.js 15.0.4
+16:14:28.174 
+16:14:28.193    Creating an optimized production build ...
+16:14:28.571  ✓ (pwa) Compiling for server...
+16:14:28.575  ✓ (pwa) Compiling for server...
+16:14:28.578  ✓ (pwa) Compiling for client (static)...
+16:14:28.580  ○ (pwa) Service worker: /vercel/path0/public/sw.js
+16:14:28.581  ○ (pwa)   URL: /sw.js
+16:14:28.581  ○ (pwa)   Scope: /
+16:14:28.582  ○ (pwa) Custom runtimeCaching array found, using it instead of the default one.
+16:14:38.636  ✓ Compiled successfully
+16:14:38.638    Linting and checking validity of types ...
+16:14:42.217 
+16:14:42.217 Failed to compile.
+16:14:42.217 
+16:14:42.218 ./src/app/api/notify/route.ts
+16:14:42.218 55:12  Error: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+16:14:42.218 
+16:14:42.218 ./src/components/OneSignalInit.tsx
+16:14:42.218 7:43  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:14:42.218 17:61  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+16:14:42.218 
+16:14:42.218 info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/building-your-application/configuring/eslint#disabling-rules
+16:14:42.283 Error: Command "npm run build" exited with 1

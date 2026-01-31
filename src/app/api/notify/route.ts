@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ success: true, id: result.id })
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, message: 'Server error' },
       { status: 500 }

@@ -2,9 +2,34 @@
 
 import { useEffect } from 'react'
 
+interface OneSignalInstance {
+  init: (config: {
+    appId: string
+    allowLocalhostAsSecureOrigin?: boolean
+    notifyButton?: { enable: boolean }
+    promptOptions?: {
+      slidedown?: {
+        prompts?: Array<{
+          type: string
+          autoPrompt?: boolean
+          text?: {
+            actionMessage?: string
+            acceptButton?: string
+            cancelButton?: string
+          }
+          delay?: {
+            pageViews?: number
+            timeDelay?: number
+          }
+        }>
+      }
+    }
+  }) => Promise<void>
+}
+
 declare global {
   interface Window {
-    OneSignalDeferred?: Array<(OneSignal: any) => void>
+    OneSignalDeferred?: Array<(OneSignal: OneSignalInstance) => void>
   }
 }
 
@@ -14,7 +39,7 @@ export default function OneSignalInit() {
     if (!appId) return
 
     window.OneSignalDeferred = window.OneSignalDeferred || []
-    window.OneSignalDeferred.push(async function(OneSignal: any) {
+    window.OneSignalDeferred.push(async function(OneSignal: OneSignalInstance) {
       await OneSignal.init({
         appId: appId,
         allowLocalhostAsSecureOrigin: true,
