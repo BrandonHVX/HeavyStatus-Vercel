@@ -481,9 +481,9 @@ export function Header(){
         </div>
       )}
 
-      <div className="h-[60px] md:hidden" />
-      <nav className="fixed md:hidden bottom-0 left-0 right-0 z-40 bg-[#050505] border-t border-white/10">
-        <div className="grid grid-cols-2 h-[60px]">
+      <div className="h-[76px] md:hidden" />
+      <nav className="fixed md:hidden bottom-4 left-4 right-4 z-40 bg-[#050505] rounded-full shadow-lg shadow-black/30">
+        <div className="grid grid-cols-2 h-[56px]">
           <Link
             href="/"
             className={`flex flex-col items-center justify-center gap-1 transition-colors ${
