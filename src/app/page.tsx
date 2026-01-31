@@ -27,7 +27,7 @@ function getPostAuthor(p?: Post) {
 }
 
 function getPostHref(p?: Post) {
-  return p?.slug ? `/${p.slug}` : "#";
+  return p?.slug ? `/headlines/${p.slug}` : "#";
 }
 
 function getPostImage(p?: Post) {
