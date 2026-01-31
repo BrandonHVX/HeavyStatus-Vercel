@@ -6,9 +6,8 @@ export default function AddToHomeScreen() {
   const [showBanner, setShowBanner] = useState(false)
 
   useEffect(() => {
-    const dismissed = localStorage.getItem('a2hs_dismissed')
+    const dismissed = sessionStorage.getItem('a2hs_dismissed')
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
     
     if (!dismissed && !isStandalone) {
       const timer = setTimeout(() => setShowBanner(true), 2000)
@@ -18,7 +17,7 @@ export default function AddToHomeScreen() {
 
   const handleDismiss = () => {
     setShowBanner(false)
-    localStorage.setItem('a2hs_dismissed', 'true')
+    sessionStorage.setItem('a2hs_dismissed', 'true')
   }
 
   if (!showBanner) return null
