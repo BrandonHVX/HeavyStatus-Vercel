@@ -32,3 +32,8 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+NEXT_PUBLIC_ONESIGNAL_APP_ID = "1e4a9567-b83d-48e5-815e-9693386df41f"
