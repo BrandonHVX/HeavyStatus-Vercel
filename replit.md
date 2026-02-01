@@ -34,10 +34,12 @@ Preferred communication style: Simple, everyday language.
 
 ### Routing Structure
 - `/` - Homepage with featured post and recent stories
+- `/[slug]` - Individual article pages with SEO metadata (root-level routing)
 - `/headlines` - Article listing with pagination, search, and category filtering
-- `/headlines/[slug]` - Individual article pages with SEO metadata
+- `/headlines/[slug]` - Redirects to `/[slug]`
 - `/posts` - Redirects to `/headlines`
-- `/posts/[slug]` - Redirects to `/headlines/[slug]`
+- `/posts/[slug]` - Redirects to `/[slug]`
+- `/explore` - Explore page with search bar and popular categories/tags
 - `/blog` - Legacy article listing (redirects available)
 - `/blog/[slug]` - Legacy individual article pages
 - `/about`, `/contact` - Static pages
@@ -45,7 +47,19 @@ Preferred communication style: Simple, everyday language.
 - `/news-sitemap.xml` - Google News sitemap
 - `/sitemap.ts` - Dynamic sitemap generation
 
+### API Endpoints
+- `/api/search` - Real-time search for posts, categories, and tags
+- `/api/topics` - Fetches all categories and tags for the explore page
+- `/tag/notify` - Webhook endpoint for OneSignal push notifications
+
 ## Recent Changes
+
+### February 1, 2026
+- Changed post routes from `/headlines/{slug}` to `/{slug}` (root-level routing)
+- Added redirects from `/headlines/[slug]` and `/posts/[slug]` to `/[slug]`
+- Created Explore page at `/explore` with dynamic search bar and popular categories/tags
+- Added `/api/topics` endpoint to fetch all categories and tags
+- Added Explore link to main navigation and mobile menu
 
 ### January 31, 2026
 - Fixed post routing: Links now correctly point to `/headlines/{slug}` instead of `/{slug}`

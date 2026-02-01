@@ -1,8 +1,8 @@
 'use client';
 
-import Link from 'next/link';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Image from 'next/image';
 
 interface SearchPost {
@@ -36,46 +36,43 @@ interface SearchResults {
   tags: SearchTag[];
 }
 
-export function Header(){
+interface TopicsData {
+  categories: SearchCategory[];
+  tags: SearchTag[];
+}
+
+export default function ExplorePage() {
   const router = useRouter();
-  const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState<SearchResults>({ posts: [], categories: [], tags: [] });
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const searchRef = useRef<HTMLDivElement>(null);
+  const [topics, setTopics] = useState<TopicsData>({ categories: [], tags: [] });
+  const [topicsLoading, setTopicsLoading] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
-  const listboxId = 'header-search-listbox';
+  const listboxId = 'explore-search-listbox';
 
   const totalResults = results.posts.length + results.categories.length + results.tags.length;
 
   useEffect(() => {
-    setMobileMenuOpen(false);
-    setSearchModalOpen(false);
-    setIsOpen(false);
-    setSearchTerm('');
-  }, [pathname]);
-
-  useEffect(() => {
-    if (searchModalOpen && inputRef.current) {
-      inputRef.current.focus();
+    async function fetchTopics() {
+      try {
+        const response = await fetch('/api/topics');
+        const data = await response.json();
+        setTopics({
+          categories: data.categories || [],
+          tags: data.tags || []
+        });
+      } catch (error) {
+        console.error('Failed to fetch topics:', error);
+      } finally {
+        setTopicsLoading(false);
+      }
     }
-  }, [searchModalOpen]);
-
-  useEffect(() => {
-    if (searchModalOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [searchModalOpen]);
+    fetchTopics();
+  }, []);
 
   const fetchResults = useCallback(async (query: string) => {
     if (query.trim().length < 2) {
@@ -113,17 +110,9 @@ export function Header(){
     };
   }, [searchTerm, fetchResults]);
 
-  const closeModal = () => {
-    setSearchModalOpen(false);
-    setIsOpen(false);
-    setSearchTerm('');
-    setResults({ posts: [], categories: [], tags: [] });
-  };
-
   const navigateToSearch = () => {
     if (searchTerm.trim()) {
       router.push(`/headlines?search=${encodeURIComponent(searchTerm)}`);
-      closeModal();
     }
   };
 
@@ -143,15 +132,10 @@ export function Header(){
     const items = getAllItems();
     const selected = items[selectedIndex];
     if (!selected) return undefined;
-    return `header-search-option-${selected.type}-${selected.id}`;
+    return `explore-search-option-${selected.type}-${selected.id}`;
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      closeModal();
-      return;
-    }
-
     if (!isOpen || totalResults === 0) {
       return;
     }
@@ -174,143 +158,21 @@ export function Header(){
         } else {
           router.push(`/headlines?search=${selected.slug}`);
         }
-        closeModal();
       }
     }
   };
 
-  const handleResultClick = () => {
-    closeModal();
-  };
-
   let itemIndex = -1;
 
-  return(
-    <>
-      <div className="h-[58px] md:hidden" />
-      <header className="fixed md:relative top-0 left-0 right-0 z-40 grid h-[58px] grid-cols-[auto_1fr_auto] items-center bg-[#050505] px-4 text-white">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/headlines"
-            className="hidden sm:block rounded-[2px] border border-[rgba(255,255,255,0.18)] bg-[#cf1717] px-3 py-[6px] text-[10px] font-bold tracking-[0.14em] hover:bg-[#b51414] transition-colors"
-          >
-            SUBSCRIBE
-          </Link>
-          <button
-            className="sm:hidden text-white p-1"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={mobileMenuOpen}
-          >
-            {mobileMenuOpen ? (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </button>
-        </div>
+  return (
+    <div className="min-h-screen bg-[#e6f4f1]">
+      <div className="max-w-3xl mx-auto px-4 py-12">
+        <h1 className="text-4xl md:text-5xl font-serif font-extrabold text-center mb-8 text-[#0b0b0b]">
+          Explore
+        </h1>
 
-        <Link
-          href="/"
-          className="justify-self-center font-serif text-[16px] sm:text-[18px] md:text-[20px] font-extrabold tracking-[0.1em] sm:tracking-[0.12em] hover:text-gray-300 transition-colors whitespace-nowrap"
-        >
-          HEAVY STATUS
-        </Link>
-
-        <div className="flex items-center gap-2 sm:gap-4">
-          <button
-            onClick={() => setSearchModalOpen(true)}
-            className="flex items-center gap-1.5 text-[rgba(255,255,255,0.88)] hover:text-white transition-colors"
-            aria-label="Open search"
-          >
-            <span className="hidden sm:inline text-[11px] font-bold tracking-[0.14em]">SEARCH</span>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </button>
-
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="hidden sm:block text-[11px] font-bold tracking-[0.14em] text-[rgba(255,255,255,0.88)] hover:text-white transition-colors"
-          >
-            MENU <span className="relative top-[1px] ml-1 text-[14px]">≡</span>
-          </button>
-        </div>
-      </header>
-
-      <nav className="hidden sm:flex justify-center gap-4 md:gap-[22px] border-t border-white/10 bg-[#0b0b0b] px-[14px] py-[10px]">
-        <Link href="/" className="text-[10px] md:text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] hover:text-white transition-colors">
-          TODAY
-        </Link>
-        <Link href="/headlines" className="text-[10px] md:text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] hover:text-white transition-colors">
-          HEADLINES
-        </Link>
-        <Link href="/explore" className="text-[10px] md:text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] hover:text-white transition-colors">
-          EXPLORE
-        </Link>
-      </nav>
-
-      <div className="hidden sm:grid grid-cols-[1fr_auto_1fr] items-center bg-[#e6f4f1] px-[18px] py-[12px]">
-        <div className="justify-self-start font-sans text-[9px] font-extrabold tracking-[0.18em] text-[#111]">
-          HEAVY STATUS
-        </div>
-        <div className="justify-self-center font-sans text-[11px] md:text-[12px] text-[#111] text-center">
-          Power. Personality. And freedom of the press.&nbsp;&nbsp;
-          <Link href="/headlines" className="font-bold text-[#cf1717] hover:underline">
-            Get unlimited access.
-          </Link>
-        </div>
-        <div />
-      </div>
-
-      {mobileMenuOpen && (
-        <nav className="sm:hidden bg-[#0b0b0b] py-4 border-t border-white/10" role="navigation" aria-label="Mobile navigation">
-          <ul className="flex flex-col items-center gap-4">
-            <li>
-              <Link href="/" className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] py-2 block">
-                TODAY
-              </Link>
-            </li>
-            <li>
-              <Link href="/headlines" className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] py-2 block">
-                HEADLINES
-              </Link>
-            </li>
-            <li>
-              <Link href="/explore" className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] py-2 block">
-                EXPLORE
-              </Link>
-            </li>
-            <li className="pt-2 border-t border-white/10 w-32 text-center">
-              <Link
-                href="/headlines"
-                className="inline-block rounded-[2px] border border-[rgba(255,255,255,0.18)] bg-[#cf1717] px-4 py-2 text-[10px] font-bold tracking-[0.14em] text-white"
-              >
-                SUBSCRIBE
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      )}
-
-      {searchModalOpen && (
-        <div 
-          className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] bg-black/60 backdrop-blur-sm"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) closeModal();
-          }}
-        >
-          <div 
-            ref={searchRef}
-            className="w-full max-w-xl mx-4 bg-white rounded-lg shadow-2xl overflow-hidden"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Search"
-          >
+        <div className="relative mb-12">
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="flex items-center border-b border-gray-200 px-4">
               <svg className="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -339,16 +201,6 @@ export function Header(){
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
               )}
-              <button
-                type="button"
-                onClick={closeModal}
-                className="ml-2 p-1 text-gray-400 hover:text-gray-600 transition-colors"
-                aria-label="Close search"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
             </div>
 
             {isOpen && totalResults > 0 && (
@@ -366,13 +218,12 @@ export function Header(){
                     {results.posts.map((post) => {
                       itemIndex++;
                       const currentIndex = itemIndex;
-                      const optionId = `header-search-option-post-${post.id}`;
+                      const optionId = `explore-search-option-post-${post.id}`;
                       return (
                         <Link
                           key={post.id}
                           id={optionId}
                           href={`/${post.slug}`}
-                          onClick={handleResultClick}
                           className={`flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors ${
                             selectedIndex === currentIndex ? 'bg-gray-100' : ''
                           }`}
@@ -408,13 +259,12 @@ export function Header(){
                     {results.categories.map((category) => {
                       itemIndex++;
                       const currentIndex = itemIndex;
-                      const optionId = `header-search-option-category-${category.id}`;
+                      const optionId = `explore-search-option-category-${category.id}`;
                       return (
                         <Link
                           key={category.id}
                           id={optionId}
                           href={`/headlines?categories=${category.slug}`}
-                          onClick={handleResultClick}
                           className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors ${
                             selectedIndex === currentIndex ? 'bg-gray-100' : ''
                           }`}
@@ -439,13 +289,12 @@ export function Header(){
                     {results.tags.map((tag) => {
                       itemIndex++;
                       const currentIndex = itemIndex;
-                      const optionId = `header-search-option-tag-${tag.id}`;
+                      const optionId = `explore-search-option-tag-${tag.id}`;
                       return (
                         <Link
                           key={tag.id}
                           id={optionId}
                           href={`/headlines?search=${tag.slug}`}
-                          onClick={handleResultClick}
                           className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors ${
                             selectedIndex === currentIndex ? 'bg-gray-100' : ''
                           }`}
@@ -479,43 +328,59 @@ export function Header(){
                 <p className="text-sm text-gray-500">No results found for &quot;{searchTerm}&quot;</p>
               </div>
             )}
-
-            {!isOpen && searchTerm.length < 2 && (
-              <div className="px-4 py-6 text-center">
-                <p className="text-xs text-gray-400">Type at least 2 characters to search</p>
-              </div>
-            )}
           </div>
         </div>
-      )}
 
-      <div className="h-[76px] md:hidden" />
-      <nav className="fixed md:hidden bottom-4 left-4 right-4 z-40 bg-[#050505] rounded-full shadow-lg shadow-black/30">
-        <div className="grid grid-cols-2 h-[56px]">
-          <Link
-            href="/"
-            className={`flex flex-col items-center justify-center gap-1 transition-colors ${
-              pathname === '/' ? 'text-white' : 'text-[rgba(255,255,255,0.6)]'
-            }`}
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <span className="text-[10px] font-bold tracking-[0.14em]">TODAY</span>
-          </Link>
-          <Link
-            href="/headlines"
-            className={`flex flex-col items-center justify-center gap-1 transition-colors ${
-              pathname === '/headlines' || pathname.startsWith('/headlines/') ? 'text-white' : 'text-[rgba(255,255,255,0.6)]'
-            }`}
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-            </svg>
-            <span className="text-[10px] font-bold tracking-[0.14em]">HEADLINES</span>
-          </Link>
-        </div>
-      </nav>
-    </>
-  )
+        <section className="mb-12">
+          <h2 className="text-sm font-sans font-extrabold uppercase tracking-[0.2em] text-[#0b0b0b] mb-6">
+            Popular Categories
+          </h2>
+          {topicsLoading ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="h-14 bg-white/50 rounded-lg animate-pulse" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {topics.categories.map((category) => (
+                <Link
+                  key={category.id}
+                  href={`/headlines?categories=${category.slug}`}
+                  className="flex items-center justify-between px-4 py-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                >
+                  <span className="font-serif font-bold text-[#0b0b0b]">{category.name}</span>
+                  {category.count !== undefined && (
+                    <span className="text-xs text-gray-400">{category.count}</span>
+                  )}
+                </Link>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {topics.tags.length > 0 && (
+          <section>
+            <h2 className="text-sm font-sans font-extrabold uppercase tracking-[0.2em] text-[#0b0b0b] mb-6">
+              Popular Tags
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {topics.tags.map((tag) => (
+                <Link
+                  key={tag.id}
+                  href={`/headlines?search=${tag.slug}`}
+                  className="px-4 py-2 bg-white rounded-full text-sm text-gray-700 hover:bg-gray-100 transition-colors shadow-sm"
+                >
+                  #{tag.name}
+                  {tag.count !== undefined && (
+                    <span className="ml-1 text-xs text-gray-400">({tag.count})</span>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+    </div>
+  );
 }
