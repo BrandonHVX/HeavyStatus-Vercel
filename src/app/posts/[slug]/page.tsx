@@ -6,5 +6,5 @@ interface PageProps {
 
 export default async function PostPage({ params }: PageProps) {
   const { slug } = await params;
-  redirect(`/headlines/${slug}`);
+  redirect(`/${slug}`);
 }

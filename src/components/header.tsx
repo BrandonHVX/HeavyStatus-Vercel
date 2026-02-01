@@ -168,7 +168,7 @@ export function Header(){
       const selected = allItems[selectedIndex];
       if (selected) {
         if (selected.type === 'post') {
-          router.push(`/headlines/${selected.slug}`);
+          router.push(`/${selected.slug}`);
         } else if (selected.type === 'category') {
           router.push(`/headlines?categories=${selected.slug}`);
         } else {
@@ -363,7 +363,7 @@ export function Header(){
                         <Link
                           key={post.id}
                           id={optionId}
-                          href={`/headlines/${post.slug}`}
+                          href={`/${post.slug}`}
                           onClick={handleResultClick}
                           className={`flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors ${
                             selectedIndex === currentIndex ? 'bg-gray-100' : ''
