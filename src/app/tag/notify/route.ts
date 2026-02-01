@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    return NextResponse.json({ success: true, id: result.id, recipients: result.recipients })
+    return NextResponse.json({ success: true, id: result.id, recipients: result.recipients, onesignal: result })
   } catch {
     return NextResponse.json(
       { success: false, message: 'Server error' },
