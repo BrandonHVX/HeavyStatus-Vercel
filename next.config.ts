@@ -56,6 +56,10 @@ const nextConfig = {
         protocol: 'https' as const,
         hostname: '*.heavy-status.com',
       },
+      {
+        protocol: 'https' as const,
+        hostname: 'placehold.co',
+      },
     ],
     formats: ['image/avif', 'image/webp'] as ('image/avif' | 'image/webp')[],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
