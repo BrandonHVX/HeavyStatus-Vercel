@@ -3,19 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { title, message, url, tags } = body
-
-    const hasTags = tags && Array.isArray(tags) && tags.some(
-      (tag: { slug?: string; name?: string }) => 
-        tag.slug === 'notify' || tag.name?.toLowerCase() === 'notify'
-    )
-
-    if (!hasTags) {
-      return NextResponse.json(
-        { success: false, message: 'Post does not have notify tag' },
-        { status: 200 }
-      )
-    }
+    const { title, message, url } = body
 
     const appId = process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID
     const apiKey = process.env.ONESIGNAL_REST_API_KEY
