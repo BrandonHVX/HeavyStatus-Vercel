@@ -31,6 +31,7 @@ export async function POST(request: NextRequest) {
     })
 
     const result = await response.json()
+    console.log('OneSignal response:', JSON.stringify(result))
 
     if (!response.ok) {
       return NextResponse.json(
@@ -39,7 +40,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    return NextResponse.json({ success: true, id: result.id })
+    return NextResponse.json({ success: true, id: result.id, recipients: result.recipients })
   } catch {
     return NextResponse.json(
       { success: false, message: 'Server error' },
