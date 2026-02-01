@@ -3,7 +3,6 @@ import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import AddToHomeScreen from "@/components/AddToHomeScreen";
-import OneSignalInit from "@/components/OneSignalInit";
 
 export const metadata: Metadata = {
   title: "Heavy Status - Latest News",
@@ -47,6 +46,19 @@ export default function RootLayout({
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9621492718805938"
           crossOrigin="anonymous"
         />
+        <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.OneSignalDeferred = window.OneSignalDeferred || [];
+              OneSignalDeferred.push(async function(OneSignal) {
+                await OneSignal.init({
+                  appId: "1e4a9567-b83d-48e5-815e-9693386df41f",
+                });
+              });
+            `,
+          }}
+        />
       </head>
       <body className="antialiased bg-white">
         <Header/>
@@ -55,7 +67,6 @@ export default function RootLayout({
         </main>
         <Footer/>
         <AddToHomeScreen />
-        <OneSignalInit />
       </body>
     </html>
   );
