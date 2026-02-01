@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         app_id: appId,
-        included_segments: ['Subscribed Users'],
+        included_segments: ['All'],
         headings: { en: title || 'New Story' },
         contents: { en: message || 'Check out our latest story!' },
         url: url || 'https://heavy-status.com',
