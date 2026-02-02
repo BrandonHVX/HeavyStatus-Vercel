@@ -205,3 +205,46 @@ export async function getPostsBySlug(slug: string) : Promise<Post | null> {
   const data : { post: Post } = await client.request(query, variables);
   return data.post;
 }
+
+export async function getPostsByTag(tagSlug: string): Promise<Post[]> {
+  const query = gql`
+    query GetPostsByTag($tagSlug: String!) {
+      posts(first: 100, where: { tag: $tagSlug }) {
+        nodes {
+          id
+          title
+          content
+          date
+          excerpt
+          slug
+          featuredImage {
+            node {
+              sourceUrl
+              altText
+            }
+          }
+          author {
+            node {
+              name
+            }
+          }
+          categories {
+            nodes {
+              name
+              slug
+            }
+          }
+          tags {
+            nodes {
+              name
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const variables = { tagSlug };
+  const data: { posts: { nodes: Post[] } } = await client.request(query, variables);
+  return data.posts.nodes;
+}
