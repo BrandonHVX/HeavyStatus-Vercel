@@ -47,12 +47,31 @@ Preferred communication style: Simple, everyday language.
 - `/news-sitemap.xml` - Google News sitemap
 - `/sitemap.ts` - Dynamic sitemap generation
 
+### Authentication & Subscriptions
+- **NextAuth.js** for authentication (Google OAuth + email/password)
+- **Stripe** for subscription payments ($9.99/month)
+- **PostgreSQL** (Replit built-in) for user/subscription data
+- Key files: `src/lib/auth.ts`, `src/lib/db.ts`, `src/lib/stripe.ts`
+
 ### API Endpoints
 - `/api/search` - Real-time search for posts, categories, and tags
 - `/api/topics` - Fetches all categories and tags for the explore page
+- `/api/init` - Initialize database tables (run once on setup)
+- `/api/auth/[...nextauth]` - NextAuth.js authentication endpoints
+- `/api/stripe/checkout` - Create Stripe checkout session for subscriptions
+- `/api/stripe/portal` - Create Stripe customer portal session
+- `/api/stripe/webhook` - Handle Stripe webhook events
 - `/tag/notify` - Webhook endpoint for OneSignal push notifications
 
 ## Recent Changes
+
+### February 2, 2026
+- Implemented subscription system with Stripe payments ($9.99/month)
+- Added NextAuth.js authentication (email/password + Google OAuth ready)
+- Created PostgreSQL database schema using Replit built-in database
+- Built subscription pages: `/subscribe`, `/account`, `/auth/signin`, `/auth/register`
+- Added `Paywall` component for exclusive content gating
+- Stripe webhooks configured for subscription lifecycle management
 
 ### February 1, 2026
 - Changed post routes from `/headlines/{slug}` to `/{slug}` (root-level routing)
@@ -88,3 +107,11 @@ Preferred communication style: Simple, everyday language.
 
 ### Environment Variables
 - `WORDPRESS_URL` - Base URL for the WordPress installation (required for GraphQL queries)
+- `DATABASE_URL` - PostgreSQL connection string (auto-set by Replit)
+- `NEXTAUTH_SECRET` - Secret for NextAuth.js JWT signing
+- `NEXTAUTH_URL` - Base URL for NextAuth.js callbacks
+- `GOOGLE_CLIENT_ID` - Google OAuth client ID (optional, for Google sign-in)
+- `GOOGLE_CLIENT_SECRET` - Google OAuth client secret (optional)
+- `STRIPE_SECRET_KEY` - Stripe API secret key (managed via Replit integration)
+- `STRIPE_WEBHOOK_SECRET` - Stripe webhook signing secret
+- `SUBSCRIPTION_PRICE_ID` - Stripe price ID for the $9.99/month subscription
