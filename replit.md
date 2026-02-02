@@ -67,11 +67,13 @@ Preferred communication style: Simple, everyday language.
 
 ### February 2, 2026
 - Implemented subscription system with Stripe payments ($9.99/month)
-- Added NextAuth.js authentication (email/password + Google OAuth ready)
+- Added NextAuth.js authentication (email/password + Google OAuth)
 - Created PostgreSQL database schema using Replit built-in database
 - Built subscription pages: `/subscribe`, `/account`, `/auth/signin`, `/auth/register`
 - Added `Paywall` component for exclusive content gating
 - Stripe webhooks configured for subscription lifecycle management
+- Added Google OAuth sign-in support
+- Created `SubscriptionPrompt` component - shows centered modal after 5 seconds asking visitors to register
 
 ### February 1, 2026
 - Changed post routes from `/headlines/{slug}` to `/{slug}` (root-level routing)

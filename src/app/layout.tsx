@@ -4,6 +4,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import AddToHomeScreen from "@/components/AddToHomeScreen";
 import { Providers } from "@/components/Providers";
+import SubscriptionPrompt from "@/components/SubscriptionPrompt";
 
 export const metadata: Metadata = {
   title: "Political Aficionado - Latest News",
@@ -69,6 +70,7 @@ export default function RootLayout({
           </main>
           <Footer/>
           <AddToHomeScreen />
+          <SubscriptionPrompt />
         </Providers>
       </body>
     </html>
