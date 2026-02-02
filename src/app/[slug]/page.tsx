@@ -120,7 +120,7 @@ export default async function Page({ params} : {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-12">
-        {post.tags?.nodes?.some(tag => tag.name.toLowerCase() === 'photo gallery') ? (
+        {post.tags?.nodes?.some(tag => tag.name.toLowerCase() === 'photo library') ? (
           <>
             {post.excerpt && (
               <div className="mb-8 text-lg text-gray-600" dangerouslySetInnerHTML={{ __html: post.excerpt }} />
