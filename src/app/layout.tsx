@@ -3,6 +3,7 @@ import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import AddToHomeScreen from "@/components/AddToHomeScreen";
+import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
   title: "Political Aficionado - Latest News",
@@ -61,12 +62,14 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased bg-white">
-        <Header/>
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer/>
-        <AddToHomeScreen />
+        <Providers>
+          <Header/>
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer/>
+          <AddToHomeScreen />
+        </Providers>
       </body>
     </html>
   );

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useSession, signOut } from 'next-auth/react';
 
 interface SearchPost {
   id: string;
@@ -39,8 +40,13 @@ interface SearchResults {
 export function Header(){
   const router = useRouter();
   const pathname = usePathname();
+  const { data: session, status } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  
+  const user = session?.user as any;
+  const isSubscribed = user?.subscriptionStatus === 'active';
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState<SearchResults>({ posts: [], categories: [], tags: [] });
   const [isOpen, setIsOpen] = useState(false);
@@ -56,9 +62,20 @@ export function Header(){
   useEffect(() => {
     setMobileMenuOpen(false);
     setSearchModalOpen(false);
+    setUserMenuOpen(false);
     setIsOpen(false);
     setSearchTerm('');
   }, [pathname]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (userMenuOpen && !(e.target as Element).closest('.relative')) {
+        setUserMenuOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [userMenuOpen]);
 
   useEffect(() => {
     if (searchModalOpen && inputRef.current) {
@@ -190,12 +207,14 @@ export function Header(){
       <div className="h-[58px] md:hidden" />
       <header className="fixed md:relative top-0 left-0 right-0 z-40 grid h-[58px] grid-cols-[auto_1fr_auto] items-center bg-[#050505] px-4 text-white">
         <div className="flex items-center gap-3">
-          <Link
-            href="/headlines"
-            className="hidden sm:block rounded-[2px] border border-[rgba(255,255,255,0.18)] bg-[#cf1717] px-3 py-[6px] text-[10px] font-bold tracking-[0.14em] hover:bg-[#b51414] transition-colors"
-          >
-            SUBSCRIBE
-          </Link>
+          {!isSubscribed && (
+            <Link
+              href="/subscribe"
+              className="hidden sm:block rounded-[2px] border border-[rgba(255,255,255,0.18)] bg-[#cf1717] px-3 py-[6px] text-[10px] font-bold tracking-[0.14em] hover:bg-[#b51414] transition-colors"
+            >
+              SUBSCRIBE
+            </Link>
+          )}
           <button
             className="sm:hidden text-white p-1"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -232,6 +251,59 @@ export function Header(){
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
+
+          <div className="relative">
+            {status === 'loading' ? (
+              <span className="text-[11px] font-bold tracking-[0.14em] text-[rgba(255,255,255,0.5)]">...</span>
+            ) : session ? (
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                className="hidden sm:flex items-center gap-1 text-[11px] font-bold tracking-[0.14em] text-[rgba(255,255,255,0.88)] hover:text-white transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                ACCOUNT
+              </button>
+            ) : (
+              <Link
+                href="/auth/signin"
+                className="hidden sm:block text-[11px] font-bold tracking-[0.14em] text-[rgba(255,255,255,0.88)] hover:text-white transition-colors"
+              >
+                SIGN IN
+              </Link>
+            )}
+            
+            {userMenuOpen && session && (
+              <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+                <Link
+                  href="/account"
+                  onClick={() => setUserMenuOpen(false)}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  My Account
+                </Link>
+                {!isSubscribed && (
+                  <Link
+                    href="/subscribe"
+                    onClick={() => setUserMenuOpen(false)}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Subscribe
+                  </Link>
+                )}
+                <button
+                  onClick={() => {
+                    setUserMenuOpen(false);
+                    signOut({ callbackUrl: '/' });
+                  }}
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  Sign Out
+                </button>
+              </div>
+            )}
+          </div>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -285,14 +357,39 @@ export function Header(){
                 EXPLORE
               </Link>
             </li>
-            <li className="pt-2 border-t border-white/10 w-32 text-center">
-              <Link
-                href="/headlines"
-                className="inline-block rounded-[2px] border border-[rgba(255,255,255,0.18)] bg-[#cf1717] px-4 py-2 text-[10px] font-bold tracking-[0.14em] text-white"
-              >
-                SUBSCRIBE
-              </Link>
-            </li>
+            {session ? (
+              <>
+                <li className="pt-2 border-t border-white/10 w-48">
+                  <Link href="/account" className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] py-2 block text-center">
+                    MY ACCOUNT
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={() => signOut({ callbackUrl: '/' })}
+                    className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.6)] py-2"
+                  >
+                    SIGN OUT
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="pt-2 border-t border-white/10 w-48">
+                  <Link href="/auth/signin" className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] py-2 block text-center">
+                    SIGN IN
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/subscribe"
+                    className="inline-block rounded-[2px] border border-[rgba(255,255,255,0.18)] bg-[#cf1717] px-4 py-2 text-[10px] font-bold tracking-[0.14em] text-white"
+                  >
+                    SUBSCRIBE
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       )}
