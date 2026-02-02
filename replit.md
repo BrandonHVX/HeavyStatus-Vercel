@@ -1,8 +1,8 @@
-# Heavy Status - Headless WordPress Blog
+# Political Aficionado - Headless WordPress Blog
 
 ## Overview
 
-Heavy Status is a headless WordPress blog built with Next.js 15 App Router and TypeScript. The application fetches content from a WordPress backend via GraphQL and presents it through a modern, Vogue-inspired frontend. It functions as a news/blog platform with features including article browsing, category filtering, search functionality, RSS feeds, and SEO optimization for Google News.
+Political Aficionado is a headless WordPress blog built with Next.js 15 App Router and TypeScript. The application fetches content from a WordPress backend via GraphQL and presents it through a modern, Vogue-inspired frontend. It functions as a news/blog platform with features including article browsing, category filtering, search functionality, RSS feeds, and SEO optimization for Google News.
 
 ## User Preferences
 

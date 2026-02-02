@@ -5,27 +5,27 @@ import { Footer } from "@/components/footer";
 import AddToHomeScreen from "@/components/AddToHomeScreen";
 
 export const metadata: Metadata = {
-  title: "Heavy Status - Latest News",
-  description: "Stay updated with the latest from Heavy Status. Featured in Google News and Yahoo News.",
+  title: "Political Aficionado - Latest News",
+  description: "Stay updated with the latest from Political Aficionado. Featured in Google News and Yahoo News.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Heavy Status",
+    title: "Political Aficionado",
   },
   formatDetection: {
     telephone: false,
   },
   openGraph: {
     type: "website",
-    siteName: "Heavy Status",
-    title: "Heavy Status - Latest News",
-    description: "Stay updated with the latest from Heavy Status.",
+    siteName: "Political Aficionado",
+    title: "Political Aficionado - Latest News",
+    description: "Stay updated with the latest from Political Aficionado.",
   },
   twitter: {
     card: "summary",
-    title: "Heavy Status",
-    description: "Stay updated with the latest from Heavy Status.",
+    title: "Political Aficionado",
+    description: "Stay updated with the latest from Political Aficionado.",
   },
 };
 

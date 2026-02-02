@@ -20,7 +20,7 @@ export async function GET() {
     <loc>${baseUrl}/blog/${post.slug}</loc>
     <news:news>
       <news:publication>
-        <news:name>Heavy Status</news:name>
+        <news:name>Political Aficionado</news:name>
         <news:language>en</news:language>
       </news:publication>
       <news:publication_date>${new Date(post.date).toISOString()}</news:publication_date>

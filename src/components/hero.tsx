@@ -59,7 +59,7 @@ export function Hero({ featuredPost, recentPosts = [] }: HeroProps){
                     {excerpt}{excerpt.length >= 200 ? '...' : ''}
                   </p>
                 )}
-                <p className="vogue-byline">By Heavy Status · {formatDate(featuredPost.date)}</p>
+                <p className="vogue-byline">By Political Aficionado · {formatDate(featuredPost.date)}</p>
               </div>
             </Link>
           </div>

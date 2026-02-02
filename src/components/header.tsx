@@ -218,7 +218,7 @@ export function Header(){
           href="/"
           className="justify-self-center font-serif text-[16px] sm:text-[18px] md:text-[20px] font-extrabold tracking-[0.1em] sm:tracking-[0.12em] hover:text-gray-300 transition-colors whitespace-nowrap"
         >
-          HEAVY STATUS
+          POLITICAL AFICIONADO
         </Link>
 
         <div className="flex items-center gap-2 sm:gap-4">
@@ -256,7 +256,7 @@ export function Header(){
 
       <div className="hidden sm:grid grid-cols-[1fr_auto_1fr] items-center bg-[#e6f4f1] px-[18px] py-[12px]">
         <div className="justify-self-start font-sans text-[9px] font-extrabold tracking-[0.18em] text-[#111]">
-          HEAVY STATUS
+          POLITICAL AFICIONADO
         </div>
         <div className="justify-self-center font-sans text-[11px] md:text-[12px] text-[#111] text-center">
           Power. Personality. And freedom of the press.&nbsp;&nbsp;

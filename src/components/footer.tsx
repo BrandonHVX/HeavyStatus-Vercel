@@ -9,7 +9,7 @@ export function Footer(){
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           <div className="md:col-span-2">
             <Link href="/" className="font-serif text-2xl tracking-[0.2em] uppercase text-black">
-              Heavy Status
+              Political Aficionado
             </Link>
             <p className="text-sm text-gray-600 mt-4 max-w-md leading-relaxed">
               Your source for the latest news, insights, and stories that matter.
@@ -46,7 +46,7 @@ export function Footer(){
         
         <div className="border-t border-gray-200 pt-8 text-center">
           <p className="text-xs text-gray-500 uppercase tracking-wider">
-            &copy; {currentYear} Heavy Status. All rights reserved.
+            &copy; {currentYear} Political Aficionado. All rights reserved.
           </p>
         </div>
       </div>

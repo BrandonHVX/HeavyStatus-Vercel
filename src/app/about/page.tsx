@@ -11,7 +11,7 @@ export default function Page() {
           
           <div className="border-t border-gray-200 pt-10 mt-10">
             <p className="text-gray-600 leading-relaxed mb-6">
-              Welcome to Heavy Status. We are committed to delivering quality journalism and in-depth analysis on topics that matter most to you.
+              Welcome to Political Aficionado. We are committed to delivering quality journalism and in-depth analysis on topics that matter most to you.
             </p>
             
             <p className="text-gray-600 leading-relaxed mb-6">
@@ -19,7 +19,7 @@ export default function Page() {
             </p>
             
             <p className="text-gray-600 leading-relaxed mb-8">
-              Whether you are looking for breaking news, thought-provoking opinion pieces, or comprehensive coverage of current events, Heavy Status is here to keep you informed.
+              Whether you are looking for breaking news, thought-provoking opinion pieces, or comprehensive coverage of current events, Political Aficionado is here to keep you informed.
             </p>
           </div>
 

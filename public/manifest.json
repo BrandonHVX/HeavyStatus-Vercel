@@ -1,7 +1,7 @@
 {
-  "name": "Heavy Status",
-  "short_name": "Heavy Status",
-  "description": "Heavy Status Blog",
+  "name": "Political Aficionado",
+  "short_name": "Political Aficionado",
+  "description": "Political Aficionado Blog",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

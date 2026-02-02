@@ -9,9 +9,9 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>Heavy Status</title>
+    <title>Political Aficionado</title>
     <link>${baseUrl}</link>
-    <description>Latest news from Heavy Status</description>
+    <description>Latest news from Political Aficionado</description>
     ${posts.map(post => `
     <item>
       <title>${post.title}</title>
