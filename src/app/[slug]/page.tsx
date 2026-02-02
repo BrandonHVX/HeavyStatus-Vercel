@@ -1,8 +1,24 @@
 import type { Metadata, ResolvingMetadata } from 'next';
 import { getPostsBySlug } from '@/lib/queries';
 import Link from 'next/link';
+import PhotoGallery from '@/components/PhotoGallery';
 
 export const revalidate = 60;
+
+function extractImagesFromContent(content: string): { src: string; alt: string }[] {
+  const imgRegex = /<img[^>]+src=["']([^"']+)["'][^>]*(?:alt=["']([^"']*)["'])?[^>]*>/gi;
+  const images: { src: string; alt: string }[] = [];
+  let match;
+  while ((match = imgRegex.exec(content)) !== null) {
+    if (match[1] && !match[1].includes('data:')) {
+      images.push({
+        src: match[1],
+        alt: match[2] || '',
+      });
+    }
+  }
+  return images;
+}
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -104,7 +120,38 @@ export default async function Page({ params} : {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-12">
-        <div className='article' dangerouslySetInnerHTML={{ __html: post?.content }}/>
+        {post.tags?.nodes?.some(tag => tag.name.toLowerCase() === 'photo gallery') ? (
+          <>
+            {post.excerpt && (
+              <div className="mb-8 text-lg text-gray-600" dangerouslySetInnerHTML={{ __html: post.excerpt }} />
+            )}
+            <PhotoGallery 
+              images={(() => {
+                const images: { src: string; alt: string; title: string; postSlug: string }[] = [];
+                if (post.featuredImage?.node?.sourceUrl) {
+                  images.push({
+                    src: post.featuredImage.node.sourceUrl,
+                    alt: post.featuredImage.node.altText || post.title,
+                    title: post.title,
+                    postSlug: post.slug,
+                  });
+                }
+                const contentImages = extractImagesFromContent(post.content || '');
+                contentImages.forEach((img, index) => {
+                  images.push({
+                    src: img.src,
+                    alt: img.alt || `${post.title} - Image ${index + 1}`,
+                    title: post.title,
+                    postSlug: post.slug,
+                  });
+                });
+                return images;
+              })()}
+            />
+          </>
+        ) : (
+          <div className='article' dangerouslySetInnerHTML={{ __html: post?.content }}/>
+        )}
         
         {post.tags?.nodes && post.tags.nodes.length > 0 && (
           <div className="mt-12 pt-8 border-t border-gray-200">
