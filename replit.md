@@ -48,7 +48,7 @@ Preferred communication style: Simple, everyday language.
 - `/sitemap.ts` - Dynamic sitemap generation
 
 ### Authentication & Subscriptions
-- **NextAuth.js** for authentication (Google OAuth + email/password)
+- **NextAuth.js** for authentication (email/password)
 - **Stripe** for subscription payments ($9.99/month)
 - **PostgreSQL** (Replit built-in) for user/subscription data
 - Key files: `src/lib/auth.ts`, `src/lib/db.ts`, `src/lib/stripe.ts`

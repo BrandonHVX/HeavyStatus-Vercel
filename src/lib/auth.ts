@@ -1,61 +1,10 @@
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import GoogleProvider from 'next-auth/providers/google';
 import bcrypt from 'bcryptjs';
 import { query, User } from './db';
 
 export const authOptions: NextAuthOptions = {
-  cookies: {
-    pkceCodeVerifier: {
-      name: 'next-auth.pkce.code_verifier',
-      options: {
-        httpOnly: true,
-        sameSite: 'none',
-        path: '/',
-        secure: true,
-      },
-    },
-    state: {
-      name: 'next-auth.state',
-      options: {
-        httpOnly: true,
-        sameSite: 'none',
-        path: '/',
-        secure: true,
-      },
-    },
-    callbackUrl: {
-      name: 'next-auth.callback-url',
-      options: {
-        sameSite: 'none',
-        path: '/',
-        secure: true,
-      },
-    },
-    csrfToken: {
-      name: 'next-auth.csrf-token',
-      options: {
-        httpOnly: true,
-        sameSite: 'none',
-        path: '/',
-        secure: true,
-      },
-    },
-  },
   providers: [
-    ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET ? [
-      GoogleProvider({
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        authorization: {
-          params: {
-            prompt: 'consent',
-            access_type: 'offline',
-            response_type: 'code',
-          },
-        },
-      }),
-    ] : []),
     CredentialsProvider({
       name: 'Email',
       credentials: {
@@ -74,7 +23,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         if (!user.password_hash) {
-          throw new Error('Please sign in with Google');
+          throw new Error('No password set for this account');
         }
 
         const isValid = await bcrypt.compare(credentials.password, user.password_hash);
@@ -91,16 +40,6 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account }) {
-      if (account?.provider === 'google') {
-        const existingUser = await getUserByEmail(user.email!);
-
-        if (!existingUser) {
-          await createUserFromGoogle(user.email!, user.name || null);
-        }
-      }
-      return true;
-    },
     async jwt({ token, user, trigger }) {
       if (user || trigger === 'update') {
         const dbUser = await getUserByEmail(token.email!);
@@ -157,17 +96,6 @@ export async function createUser(email: string, password: string, name?: string)
      VALUES ($1, $2, $3) 
      RETURNING *`,
     [email.toLowerCase(), hashedPassword, name || null]
-  );
-
-  return result.rows[0] || null;
-}
-
-async function createUserFromGoogle(email: string, name: string | null): Promise<User | null> {
-  const result = await query(
-    `INSERT INTO users (email, name) 
-     VALUES ($1, $2) 
-     RETURNING *`,
-    [email.toLowerCase(), name]
   );
 
   return result.rows[0] || null;
