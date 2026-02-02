@@ -2,6 +2,8 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { getPostsBySlug } from '@/lib/queries';
 import Link from 'next/link';
 
+export const revalidate = 60;
+
 type Props = {
   params: Promise<{ slug: string }>
 }

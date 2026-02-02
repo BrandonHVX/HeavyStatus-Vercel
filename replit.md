@@ -65,6 +65,11 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### February 2, 2026 (Update)
+- Removed Google OAuth (using email/password only now)
+- Added ISR (Incremental Static Regeneration) with 60-second revalidation for homepage and post pages
+- Pages load instantly from cache while staying fresh with automatic background updates
+
 ### February 2, 2026
 - Implemented subscription system with Stripe payments ($9.99/month)
 - Added NextAuth.js authentication (email/password + Google OAuth)

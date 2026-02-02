@@ -4,6 +4,8 @@ import Image from "next/image";
 import { getCategories, getAllPosts } from "@/lib/queries";
 import { Post, Category } from "@/lib/types";
 
+export const revalidate = 60;
+
 function stripHtml(input?: string) {
   if (!input) return "";
   return input
