@@ -2,11 +2,11 @@
 
 import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 
-export default function SubscribePage() {
-  const { data: session, status } = useSession();
+function SubscribeContent() {
+  const { data: session } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -42,20 +42,20 @@ export default function SubscribePage() {
         setError(data.error || 'Could not start checkout');
         setLoading(false);
       }
-    } catch (err) {
+    } catch {
       setError('Something went wrong');
       setLoading(false);
     }
   };
 
-  const user = session?.user as any;
+  const user = session?.user as { subscriptionStatus?: string } | undefined;
   const isSubscribed = user?.subscriptionStatus === 'active';
 
   if (isSubscribed) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
         <div className="max-w-md text-center">
-          <h1 className="text-3xl font-serif mb-4">You're Already Subscribed</h1>
+          <h1 className="text-3xl font-serif mb-4">You&apos;re Already Subscribed</h1>
           <p className="text-gray-600 mb-6">
             You have access to all exclusive content.
           </p>
@@ -138,5 +138,13 @@ export default function SubscribePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SubscribePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="text-gray-500">Loading...</div></div>}>
+      <SubscribeContent />
+    </Suspense>
   );
 }

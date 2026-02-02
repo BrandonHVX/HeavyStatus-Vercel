@@ -45,7 +45,7 @@ export function Header(){
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   
-  const user = session?.user as any;
+  const user = session?.user as { subscriptionStatus?: string } | undefined;
   const isSubscribed = user?.subscriptionStatus === 'active';
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState<SearchResults>({ posts: [], categories: [], tags: [] });

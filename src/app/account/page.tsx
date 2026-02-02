@@ -2,10 +2,10 @@
 
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
 
-export default function AccountPage() {
+function AccountContent() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -33,7 +33,7 @@ export default function AccountPage() {
       } else {
         setMessage(data.error || 'Could not open billing portal');
       }
-    } catch (error) {
+    } catch {
       setMessage('Something went wrong');
     }
     setLoading(false);
@@ -51,7 +51,7 @@ export default function AccountPage() {
     return null;
   }
 
-  const user = session.user as any;
+  const user = session.user as { subscriptionStatus?: string; name?: string; email?: string };
   const isSubscribed = user?.subscriptionStatus === 'active';
 
   return (
@@ -116,5 +116,13 @@ export default function AccountPage() {
         </button>
       </div>
     </div>
+  );
+}
+
+export default function AccountPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="text-gray-500">Loading...</div></div>}>
+      <AccountContent />
+    </Suspense>
   );
 }

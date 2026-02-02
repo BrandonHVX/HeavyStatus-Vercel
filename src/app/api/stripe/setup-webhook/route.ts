@@ -44,10 +44,11 @@ export async function GET(request: Request) {
       secret: webhook.secret,
       note: 'Save the secret as STRIPE_WEBHOOK_SECRET in your environment'
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Webhook setup error:', error);
+    const message = error instanceof Error ? error.message : 'Failed to setup webhook';
     return NextResponse.json(
-      { error: error.message || 'Failed to setup webhook' },
+      { error: message },
       { status: 500 }
     );
   }

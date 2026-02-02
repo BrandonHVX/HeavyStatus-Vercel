@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 
-let connectionSettings: any;
+let connectionSettings: { settings: { publishable?: string; secret?: string } } | undefined;
 
 async function getCredentials() {
   const hostname = process.env.REPLIT_CONNECTORS_HOSTNAME;
@@ -48,7 +48,7 @@ export async function getStripeClient() {
   const { secretKey } = await getCredentials();
 
   return new Stripe(secretKey, {
-    apiVersion: '2025-08-27.basil' as any,
+    apiVersion: '2025-08-27.basil' as Stripe.LatestApiVersion,
   });
 }
 

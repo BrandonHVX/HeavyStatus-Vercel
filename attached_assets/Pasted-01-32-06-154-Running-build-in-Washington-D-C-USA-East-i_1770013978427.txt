@@ -1,0 +1,92 @@
+01:32:06.154 Running build in Washington, D.C., USA (East) – iad1
+01:32:06.155 Build machine configuration: 4 cores, 8 GB
+01:32:06.257 Cloning github.com/BrandonHVX/HeavyStatus-Vercel (Branch: main, Commit: fcdbb92)
+01:32:06.498 Cloning completed: 240.000ms
+01:32:07.393 Restored build cache from previous deployment (FJePBYTG7tXZ2DkLC9KJQhrrWM9y)
+01:32:07.662 Running "vercel build"
+01:32:08.706 Vercel CLI 50.9.6
+01:32:09.754 Installing dependencies...
+01:32:12.200 
+01:32:12.201 added 46 packages in 2s
+01:32:12.201 
+01:32:12.201 163 packages are looking for funding
+01:32:12.201   run `npm fund` for details
+01:32:12.238 Detected Next.js version: 15.5.11
+01:32:12.244 Running "npm run build"
+01:32:12.373 
+01:32:12.374 > nextjs-wp-graphql@0.1.0 build
+01:32:12.374 > next build
+01:32:12.374 
+01:32:13.286  ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
+01:32:14.170    ▲ Next.js 15.5.11
+01:32:14.170 
+01:32:14.209    Creating an optimized production build ...
+01:32:14.347  ✓ (pwa) Compiling for server...
+01:32:14.352  ✓ (pwa) Compiling for server...
+01:32:14.355  ✓ (pwa) Compiling for client (static)...
+01:32:14.357  ○ (pwa) Service worker: /vercel/path0/public/sw.js
+01:32:14.358  ○ (pwa)   URL: /sw.js
+01:32:14.358  ○ (pwa)   Scope: /
+01:32:14.359  ○ (pwa) Custom runtimeCaching array found, using it instead of the default one.
+01:32:22.877  ✓ Compiled successfully in 8.5s
+01:32:22.879    Linting and checking validity of types ...
+01:32:26.943 
+01:32:26.943 Failed to compile.
+01:32:26.944 
+01:32:26.944 ./src/app/account/page.tsx
+01:32:26.944 36:14  Error: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+01:32:26.944 54:32  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.944 
+01:32:26.944 ./src/app/api/init/route.ts
+01:32:26.944 8:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.944 
+01:32:26.944 ./src/app/api/stripe/checkout/route.ts
+01:32:26.944 62:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.945 
+01:32:26.945 ./src/app/api/stripe/portal/route.ts
+01:32:26.945 34:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.945 
+01:32:26.945 ./src/app/api/stripe/setup-webhook/route.ts
+01:32:26.945 47:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.945 
+01:32:26.945 ./src/app/api/stripe/webhook/route.ts
+01:32:26.945 31:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.945 97:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.945 
+01:32:26.945 ./src/app/auth/register/page.tsx
+01:32:26.946 60:14  Error: 'err' is defined but never used.  @typescript-eslint/no-unused-vars
+01:32:26.946 
+01:32:26.946 ./src/app/auth/signin/page.tsx
+01:32:26.946 120:14  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+01:32:26.946 
+01:32:26.946 ./src/app/subscribe/page.tsx
+01:32:26.946 9:26  Error: 'status' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+01:32:26.946 45:14  Error: 'err' is defined but never used.  @typescript-eslint/no-unused-vars
+01:32:26.946 51:33  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.946 58:55  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+01:32:26.946 
+01:32:26.953 ./src/components/Paywall.tsx
+01:32:26.953 14:33  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.953 
+01:32:26.953 ./src/components/SubscriptionPrompt.tsx
+01:32:26.953 14:47  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.953 
+01:32:26.953 ./src/components/header.tsx
+01:32:26.953 48:33  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.953 
+01:32:26.953 ./src/lib/auth.ts
+01:32:26.953 118:26  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.954 119:26  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.954 120:26  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.954 185:17  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.954 224:17  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.954 
+01:32:26.954 ./src/lib/db.ts
+01:32:26.954 7:52  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.954 
+01:32:26.954 ./src/lib/stripe.ts
+01:32:26.954 3:25  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.954 51:39  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+01:32:26.954 
+01:32:26.954 info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+01:32:27.013 Error: Command "npm run build" exited with 1

@@ -11,7 +11,7 @@ export default function SubscriptionPrompt() {
   useEffect(() => {
     if (status === 'loading') return;
     
-    const hasSubscription = (session?.user as any)?.subscriptionStatus === 'active';
+    const hasSubscription = (session?.user as { subscriptionStatus?: string } | undefined)?.subscriptionStatus === 'active';
     const hasDismissed = sessionStorage.getItem('subscription-prompt-dismissed');
     
     if (!hasSubscription && !hasDismissed) {

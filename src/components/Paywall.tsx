@@ -11,7 +11,7 @@ type PaywallProps = {
 export function Paywall({ children, preview }: PaywallProps) {
   const { data: session, status } = useSession();
   
-  const user = session?.user as any;
+  const user = session?.user as { subscriptionStatus?: string } | undefined;
   const isSubscribed = user?.subscriptionStatus === 'active';
 
   if (status === 'loading') {

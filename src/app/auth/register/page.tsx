@@ -57,7 +57,7 @@ export default function RegisterPage() {
       } else {
         router.push('/');
       }
-    } catch (err) {
+    } catch {
       setError('Something went wrong');
       setLoading(false);
     }

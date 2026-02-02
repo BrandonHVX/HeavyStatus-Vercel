@@ -115,9 +115,10 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (token && session.user) {
-        (session.user as any).id = token.userId;
-        (session.user as any).subscriptionStatus = token.subscriptionStatus;
-        (session.user as any).stripeCustomerId = token.stripeCustomerId;
+        const user = session.user as { id?: string; subscriptionStatus?: string; stripeCustomerId?: string };
+        user.id = token.userId as string;
+        user.subscriptionStatus = token.subscriptionStatus as string;
+        user.stripeCustomerId = token.stripeCustomerId as string;
       }
       return session;
     },
@@ -182,7 +183,7 @@ export async function updateUserSubscription(
   }
 ): Promise<User | null> {
   const setClauses: string[] = ['updated_at = NOW()'];
-  const values: any[] = [];
+  const values: (string | null)[] = [];
   let paramIndex = 1;
 
   if (updates.stripe_customer_id !== undefined) {
@@ -221,7 +222,7 @@ export async function updateUserByStripeCustomerId(
   }
 ): Promise<User | null> {
   const setClauses: string[] = ['updated_at = NOW()'];
-  const values: any[] = [];
+  const values: (string | null)[] = [];
   let paramIndex = 1;
 
   if (updates.stripe_subscription_id !== undefined) {

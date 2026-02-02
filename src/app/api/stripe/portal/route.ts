@@ -31,10 +31,11 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({ url: portalSession.url });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Portal error:', error);
+    const message = error instanceof Error ? error.message : 'Failed to create portal session';
     return NextResponse.json(
-      { error: error.message || 'Failed to create portal session' },
+      { error: message },
       { status: 500 }
     );
   }

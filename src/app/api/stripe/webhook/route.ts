@@ -28,8 +28,9 @@ export async function POST(request: NextRequest) {
     let event;
     try {
       event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
-    } catch (err: any) {
-      console.error('Webhook signature verification failed:', err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Unknown error';
+      console.error('Webhook signature verification failed:', message);
       return NextResponse.json(
         { error: 'Webhook signature verification failed' },
         { status: 400 }
@@ -50,8 +51,8 @@ export async function POST(request: NextRequest) {
       }
 
       case 'customer.subscription.updated': {
-        const subscription = event.data.object;
-        const customerId = subscription.customer as string;
+        const subscription = event.data.object as { customer: string; status: string; current_period_end?: number };
+        const customerId = subscription.customer;
         const status = subscription.status;
 
         let subscriptionStatus: 'active' | 'canceled' | 'past_due' | 'inactive' = 'inactive';
@@ -94,7 +95,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ received: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Webhook error:', error);
     return NextResponse.json(
       { error: 'Webhook processing failed' },

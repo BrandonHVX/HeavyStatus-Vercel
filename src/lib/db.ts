@@ -4,7 +4,7 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-export async function query(text: string, params?: any[]) {
+export async function query(text: string, params?: (string | number | boolean | null | undefined)[]) {
   const client = await pool.connect();
   try {
     const result = await client.query(text, params);
