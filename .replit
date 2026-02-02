@@ -39,3 +39,6 @@ channel = "stable-25_05"
 [userenv.shared]
 NEXT_PUBLIC_ONESIGNAL_APP_ID = "1e4a9567-b83d-48e5-815e-9693386df41f"
 STRIPE_PRICE_ID = "price_1SwFcP7etGGJfG04ZRBrm4sS"
+
+[userenv.development]
+NEXTAUTH_URL = "https://19334b90-1e8b-4f8d-8375-0c3cc7d33747-00-16nnn67dr8tdv.worf.replit.dev"
