@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStripeClient } from '@/lib/stripe';
-import { supabaseAdmin } from '@/lib/supabase';
+import { updateUserByStripeCustomerId } from '@/lib/auth';
 
 export async function POST(request: NextRequest) {
   try {
@@ -38,18 +38,10 @@ export async function POST(request: NextRequest) {
         const customerId = session.customer as string;
         const subscriptionId = session.subscription as string;
 
-        const { error } = await supabaseAdmin
-          .from('users')
-          .update({
-            stripe_subscription_id: subscriptionId,
-            subscription_status: 'active',
-            updated_at: new Date().toISOString(),
-          })
-          .eq('stripe_customer_id', customerId);
-
-        if (error) {
-          console.error('Error updating user after checkout:', error);
-        }
+        await updateUserByStripeCustomerId(customerId, {
+          stripe_subscription_id: subscriptionId,
+          subscription_status: 'active',
+        });
         break;
       }
 
@@ -67,20 +59,12 @@ export async function POST(request: NextRequest) {
           subscriptionStatus = 'past_due';
         }
 
-        const { error } = await supabaseAdmin
-          .from('users')
-          .update({
-            subscription_status: subscriptionStatus,
-            subscription_end_date: subscription.current_period_end
-              ? new Date(subscription.current_period_end * 1000).toISOString()
-              : null,
-            updated_at: new Date().toISOString(),
-          })
-          .eq('stripe_customer_id', customerId);
-
-        if (error) {
-          console.error('Error updating subscription status:', error);
-        }
+        await updateUserByStripeCustomerId(customerId, {
+          subscription_status: subscriptionStatus,
+          subscription_end_date: subscription.current_period_end
+            ? new Date(subscription.current_period_end * 1000).toISOString()
+            : undefined,
+        });
         break;
       }
 
@@ -88,17 +72,9 @@ export async function POST(request: NextRequest) {
         const subscription = event.data.object;
         const customerId = subscription.customer as string;
 
-        const { error } = await supabaseAdmin
-          .from('users')
-          .update({
-            subscription_status: 'canceled',
-            updated_at: new Date().toISOString(),
-          })
-          .eq('stripe_customer_id', customerId);
-
-        if (error) {
-          console.error('Error updating canceled subscription:', error);
-        }
+        await updateUserByStripeCustomerId(customerId, {
+          subscription_status: 'canceled',
+        });
         break;
       }
 
@@ -106,17 +82,9 @@ export async function POST(request: NextRequest) {
         const invoice = event.data.object;
         const customerId = invoice.customer as string;
 
-        const { error } = await supabaseAdmin
-          .from('users')
-          .update({
-            subscription_status: 'past_due',
-            updated_at: new Date().toISOString(),
-          })
-          .eq('stripe_customer_id', customerId);
-
-        if (error) {
-          console.error('Error updating failed payment:', error);
-        }
+        await updateUserByStripeCustomerId(customerId, {
+          subscription_status: 'past_due',
+        });
         break;
       }
     }

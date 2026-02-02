@@ -2,14 +2,16 @@ import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import bcrypt from 'bcryptjs';
-import { supabaseAdmin, User } from './supabase';
+import { query, User } from './db';
 
 export const authOptions: NextAuthOptions = {
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
+    ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET ? [
+      GoogleProvider({
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      }),
+    ] : []),
     CredentialsProvider({
       name: 'Email',
       credentials: {
@@ -21,13 +23,9 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Please enter email and password');
         }
 
-        const { data: user, error } = await supabaseAdmin
-          .from('users')
-          .select('*')
-          .eq('email', credentials.email.toLowerCase())
-          .single();
+        const user = await getUserByEmail(credentials.email);
 
-        if (error || !user) {
+        if (!user) {
           throw new Error('Invalid email or password');
         }
 
@@ -51,32 +49,17 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === 'google') {
-        const { data: existingUser } = await supabaseAdmin
-          .from('users')
-          .select('id')
-          .eq('email', user.email!.toLowerCase())
-          .single();
+        const existingUser = await getUserByEmail(user.email!);
 
         if (!existingUser) {
-          const { error } = await supabaseAdmin.from('users').insert({
-            email: user.email!.toLowerCase(),
-            name: user.name,
-          });
-          if (error) {
-            console.error('Error creating user:', error);
-            return false;
-          }
+          await createUserFromGoogle(user.email!, user.name || null);
         }
       }
       return true;
     },
-    async jwt({ token, user }) {
-      if (user) {
-        const { data: dbUser } = await supabaseAdmin
-          .from('users')
-          .select('id, subscription_status, stripe_customer_id')
-          .eq('email', user.email!.toLowerCase())
-          .single();
+    async jwt({ token, user, trigger }) {
+      if (user || trigger === 'update') {
+        const dbUser = await getUserByEmail(token.email!);
 
         if (dbUser) {
           token.userId = dbUser.id;
@@ -102,43 +85,51 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || 'development-secret-change-in-production',
 };
 
 export async function getUserByEmail(email: string): Promise<User | null> {
-  const { data, error } = await supabaseAdmin
-    .from('users')
-    .select('*')
-    .eq('email', email.toLowerCase())
-    .single();
+  const result = await query(
+    'SELECT * FROM users WHERE email = $1',
+    [email.toLowerCase()]
+  );
+  return result.rows[0] || null;
+}
 
-  if (error || !data) return null;
-  return data as User;
+export async function getUserByStripeCustomerId(stripeCustomerId: string): Promise<User | null> {
+  const result = await query(
+    'SELECT * FROM users WHERE stripe_customer_id = $1',
+    [stripeCustomerId]
+  );
+  return result.rows[0] || null;
 }
 
 export async function createUser(email: string, password: string, name?: string): Promise<User | null> {
   const hashedPassword = await bcrypt.hash(password, 12);
 
-  const { data, error } = await supabaseAdmin
-    .from('users')
-    .insert({
-      email: email.toLowerCase(),
-      password_hash: hashedPassword,
-      name: name || null,
-    })
-    .select()
-    .single();
+  const result = await query(
+    `INSERT INTO users (email, password_hash, name) 
+     VALUES ($1, $2, $3) 
+     RETURNING *`,
+    [email.toLowerCase(), hashedPassword, name || null]
+  );
 
-  if (error) {
-    console.error('Error creating user:', error);
-    return null;
-  }
+  return result.rows[0] || null;
+}
 
-  return data as User;
+async function createUserFromGoogle(email: string, name: string | null): Promise<User | null> {
+  const result = await query(
+    `INSERT INTO users (email, name) 
+     VALUES ($1, $2) 
+     RETURNING *`,
+    [email.toLowerCase(), name]
+  );
+
+  return result.rows[0] || null;
 }
 
 export async function updateUserSubscription(
-  userId: string,
+  id: string,
   updates: {
     stripe_customer_id?: string;
     stripe_subscription_id?: string;
@@ -146,17 +137,68 @@ export async function updateUserSubscription(
     subscription_end_date?: string;
   }
 ): Promise<User | null> {
-  const { data, error } = await supabaseAdmin
-    .from('users')
-    .update({ ...updates, updated_at: new Date().toISOString() })
-    .eq('id', userId)
-    .select()
-    .single();
+  const setClauses: string[] = ['updated_at = NOW()'];
+  const values: any[] = [];
+  let paramIndex = 1;
 
-  if (error) {
-    console.error('Error updating user subscription:', error);
-    return null;
+  if (updates.stripe_customer_id !== undefined) {
+    setClauses.push(`stripe_customer_id = $${paramIndex++}`);
+    values.push(updates.stripe_customer_id);
+  }
+  if (updates.stripe_subscription_id !== undefined) {
+    setClauses.push(`stripe_subscription_id = $${paramIndex++}`);
+    values.push(updates.stripe_subscription_id);
+  }
+  if (updates.subscription_status !== undefined) {
+    setClauses.push(`subscription_status = $${paramIndex++}`);
+    values.push(updates.subscription_status);
+  }
+  if (updates.subscription_end_date !== undefined) {
+    setClauses.push(`subscription_end_date = $${paramIndex++}`);
+    values.push(updates.subscription_end_date);
   }
 
-  return data as User;
+  values.push(id);
+
+  const result = await query(
+    `UPDATE users SET ${setClauses.join(', ')} WHERE id = $${paramIndex} RETURNING *`,
+    values
+  );
+
+  return result.rows[0] || null;
+}
+
+export async function updateUserByStripeCustomerId(
+  stripeCustomerId: string,
+  updates: {
+    stripe_subscription_id?: string;
+    subscription_status?: 'active' | 'canceled' | 'past_due' | 'inactive';
+    subscription_end_date?: string;
+  }
+): Promise<User | null> {
+  const setClauses: string[] = ['updated_at = NOW()'];
+  const values: any[] = [];
+  let paramIndex = 1;
+
+  if (updates.stripe_subscription_id !== undefined) {
+    setClauses.push(`stripe_subscription_id = $${paramIndex++}`);
+    values.push(updates.stripe_subscription_id);
+  }
+  if (updates.subscription_status !== undefined) {
+    setClauses.push(`subscription_status = $${paramIndex++}`);
+    values.push(updates.subscription_status);
+  }
+  if (updates.subscription_end_date !== undefined) {
+    setClauses.push(`subscription_end_date = $${paramIndex++}`);
+    values.push(updates.subscription_end_date);
+  }
+
+  values.push(stripeCustomerId);
+
+  const result = await query(
+    `UPDATE users SET ${setClauses.join(', ')} WHERE stripe_customer_id = $${paramIndex} RETURNING *`,
+    values
+  );
+
+  return result.rows[0] || null;
 }
