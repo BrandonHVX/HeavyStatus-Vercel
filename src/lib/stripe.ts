@@ -57,4 +57,4 @@ export async function getStripePublishableKey() {
   return publishableKey;
 }
 
-export const SUBSCRIPTION_PRICE_ID = process.env.STRIPE_PRICE_ID || 'price_placeholder';
+export const SUBSCRIPTION_PRICE_ID = process.env.STRIPE_PRICE_ID || 'price_1SwFcP7etGGJfG04ZRBrm4sS';
