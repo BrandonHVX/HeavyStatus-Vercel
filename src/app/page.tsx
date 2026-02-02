@@ -125,8 +125,8 @@ export default async function Home() {
       <div className="mx-auto h-px w-[min(1120px,calc(100%-40px))] bg-[rgba(0,0,0,0.65)]" />
 
       <main className="py-[22px] pb-[60px]">
-        <div className="mx-auto grid w-[min(1120px,calc(100%-40px))] grid-cols-[270px_1fr_320px] gap-[34px] max-[980px]:grid-cols-1 max-[980px]:gap-[22px]">
-          <aside>
+        <div className="mx-auto grid w-[min(1120px,calc(100%-40px))] grid-cols-[270px_1fr_320px] gap-[34px] max-[900px]:grid-cols-[1fr_320px] max-[600px]:grid-cols-1 max-[600px]:gap-[22px]">
+          <aside className="max-[900px]:hidden">
             {leftTopPost && (
               <article>
                 <Link href={getPostHref(leftTopPost)}>
