@@ -23,8 +23,14 @@ export async function POST(request: NextRequest) {
     }
 
     const stripe = await getStripeClient();
-    const { priceId } = await request.json();
-    const finalPriceId = priceId || SUBSCRIPTION_PRICE_ID;
+    const finalPriceId = SUBSCRIPTION_PRICE_ID;
+    
+    if (!finalPriceId) {
+      return NextResponse.json(
+        { error: 'Subscription price not configured' },
+        { status: 500 }
+      );
+    }
 
     let customerId = user.stripe_customer_id;
     

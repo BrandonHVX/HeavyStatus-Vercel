@@ -15,6 +15,8 @@ export async function query(text: string, params?: any[]) {
 }
 
 export async function initDatabase() {
+  await query(`CREATE EXTENSION IF NOT EXISTS pgcrypto`);
+  
   await query(`
     CREATE TABLE IF NOT EXISTS users (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
