@@ -1,12 +1,11 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /account/
 
 Sitemap: https://politicalaficionado.com/sitemap.xml
 Sitemap: https://politicalaficionado.com/news-sitemap.xml
 
 User-agent: Googlebot-News
 Allow: /
-
-Disallow: /api/
-Disallow: /auth/
-Disallow: /account/

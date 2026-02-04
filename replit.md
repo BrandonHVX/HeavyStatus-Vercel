@@ -65,6 +65,14 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### February 4, 2026
+- Added ads.txt and robots.txt for AdSense verification and crawler guidance
+- Created AdUnit component for ad placements (above-fold + in-content)
+- Built comprehensive About page with mission, coverage areas, and editorial standards
+- Added PWA icons (72px to 512px) for app install prompts
+- Updated manifest.json with proper icon references
+- Author pages now display Gravatar avatars and link from article bylines
+
 ### February 2, 2026 (Update)
 - Removed Google OAuth (using email/password only now)
 - Added ISR (Incremental Static Regeneration) with 60-second revalidation for homepage and post pages
@@ -122,3 +130,6 @@ Preferred communication style: Simple, everyday language.
 - `STRIPE_SECRET_KEY` - Stripe API secret key (managed via Replit integration)
 - `STRIPE_WEBHOOK_SECRET` - Stripe webhook signing secret
 - `SUBSCRIPTION_PRICE_ID` - Stripe price ID for the $9.99/month subscription
+- `NEXT_PUBLIC_AD_SLOT_ABOVE_FOLD` - AdSense slot ID for above-fold ad placement
+- `NEXT_PUBLIC_AD_SLOT_IN_CONTENT` - AdSense slot ID for in-content ad placement
+- `NEXT_PUBLIC_AD_SLOT_SIDEBAR` - AdSense slot ID for sidebar ad placement (optional)

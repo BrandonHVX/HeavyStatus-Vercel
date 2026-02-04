@@ -148,7 +148,7 @@ export default async function Page({ params} : {
       <div className="max-w-4xl mx-auto px-4 py-12">
         {/* Above-fold ad slot */}
         <div className="mb-8">
-          <AdUnit slot="1234567890" format="horizontal" className="min-h-[90px]" />
+          <AdUnit slot="aboveFold" format="horizontal" className="min-h-[90px]" />
         </div>
 
         {post.tags?.nodes?.some(tag => tag.name.toLowerCase() === 'photo library') ? (
@@ -186,7 +186,7 @@ export default async function Page({ params} : {
 
         {/* In-content ad slot */}
         <div className="my-8">
-          <AdUnit slot="0987654321" format="rectangle" className="min-h-[250px]" />
+          <AdUnit slot="inContent" format="rectangle" className="min-h-[250px]" />
         </div>
         
         {post.tags?.nodes && post.tags.nodes.length > 0 && (
