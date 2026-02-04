@@ -1,6 +1,6 @@
 const baseUrl = process.env.WORDPRESS_URL || 'https://heavy-status.com';
 import { gql, GraphQLClient } from 'graphql-request';
-import { Category, Post } from '@/lib/types';
+import { Author, Category, Post } from '@/lib/types';
 
 const client = new GraphQLClient(`${baseUrl}/graphql`);
 
@@ -88,6 +88,7 @@ export async function getAllPosts(
           author {
             node {
               name
+              slug
             }
           }
           categories {
@@ -185,6 +186,7 @@ export async function getPostsBySlug(slug: string) : Promise<Post | null> {
         author {
           node {
             name
+            slug
           }
         }
         categories {
@@ -248,4 +250,77 @@ export async function getPostsByTag(tagSlug: string): Promise<Post[]> {
   const variables = { tagSlug };
   const data: { posts: { nodes: Post[] } } = await client.request(query, variables);
   return data.posts.nodes;
+}
+
+export async function getAuthorBySlug(slug: string): Promise<Author | null> {
+  const query = gql`
+    query GetAuthorBySlug($slug: ID!) {
+      user(id: $slug, idType: SLUG) {
+        id
+        slug
+        name
+        description
+        avatar {
+          url
+        }
+      }
+    }
+  `;
+
+  const variables = { slug };
+  const data: { user: Author | null } = await client.request(query, variables);
+  return data.user;
+}
+
+export async function getPostsByAuthor(authorSlug: string): Promise<Post[]> {
+  const query = gql`
+    query GetPostsByAuthor($authorSlug: String!) {
+      posts(first: 50, where: { authorName: $authorSlug }) {
+        nodes {
+          id
+          title
+          excerpt
+          date
+          slug
+          featuredImage {
+            node {
+              sourceUrl
+              altText
+            }
+          }
+          categories {
+            nodes {
+              name
+              slug
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const variables = { authorSlug };
+  const data: { posts: { nodes: Post[] } } = await client.request(query, variables);
+  return data.posts.nodes;
+}
+
+export async function getAllAuthors(): Promise<Author[]> {
+  const query = gql`
+    query GetAllAuthors {
+      users(first: 100) {
+        nodes {
+          id
+          slug
+          name
+          description
+          avatar {
+            url
+          }
+        }
+      }
+    }
+  `;
+
+  const data: { users: { nodes: Author[] } } = await client.request(query);
+  return data.users.nodes;
 }

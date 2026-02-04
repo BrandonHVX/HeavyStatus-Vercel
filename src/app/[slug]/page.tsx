@@ -137,7 +137,7 @@ export default async function Page({ params} : {
             dangerouslySetInnerHTML={{ __html: post.title }}
           />
           <div className="flex items-center justify-center gap-4 text-gray-300">
-            <span>By <span className="text-white font-medium">{post?.author?.node?.name}</span></span>
+            <span>By <Link href={`/author/${post?.author?.node?.slug}`} className="text-white font-medium hover:underline">{post?.author?.node?.name}</Link></span>
             <span>•</span>
             <span>{date}</span>
           </div>

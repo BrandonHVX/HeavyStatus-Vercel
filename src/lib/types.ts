@@ -4,6 +4,16 @@ export type Category = {
   slug: string;
 }
 
+export type Author = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string | null;
+  avatar: {
+    url: string;
+  } | null;
+}
+
 export type Post = {
   id: number;
   title: string;
@@ -34,7 +44,8 @@ export type Post = {
   };
   author: {
     node: {
-      name: string
+      name: string;
+      slug: string;
     }
   }
   categories: {
