@@ -159,6 +159,7 @@ export async function getPostsBySlug(slug: string) : Promise<Post | null> {
         title
         content
         date
+        modified
         excerpt
         slug
         featuredImage {

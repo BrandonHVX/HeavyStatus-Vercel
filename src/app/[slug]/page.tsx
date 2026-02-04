@@ -82,19 +82,40 @@ export default async function Page({ params} : {
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
+    "@type": "NewsArticle",
     "headline": post.seo?.title || post.title,
     "datePublished": post.date,
+    "dateModified": post.modified || post.date,
     "author": {
       "@type": "Person",
       "name": post?.author?.node?.name,
+      "url": `${baseUrl}/about`
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Political Aficionado",
+      "url": baseUrl,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${baseUrl}/logo.png`,
+        "width": 600,
+        "height": 60
+      }
     },
     "description": post.seo?.metaDesc || post.title,
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": articleUrl,
     },
-    "image": post.seo?.opengraphImage?.sourceUrl
+    "image": post.seo?.opengraphImage?.sourceUrl || post.featuredImage?.node?.sourceUrl,
+    "articleSection": post.categories?.nodes?.[0]?.name,
+    "keywords": post.tags?.nodes?.map(tag => tag.name).join(', '),
+    "isAccessibleForFree": false,
+    "hasPart": {
+      "@type": "WebPageElement",
+      "isAccessibleForFree": false,
+      "cssSelector": ".article"
+    }
   };
 
   return (

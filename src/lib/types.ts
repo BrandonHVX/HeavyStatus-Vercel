@@ -9,6 +9,7 @@ export type Post = {
   title: string;
   slug: string;
   date: string;
+  modified: string;
   content: string;
   excerpt?: string;
   featuredImage?: {
