@@ -35,9 +35,9 @@ export default function CorrectionsPolicyPage() {
             Updates are added to stories when significant new information becomes available after publication. Updates are clearly dated and marked within the article.
           </p>
 
-          <h3 className="text-lg font-medium mt-6 mb-3">Editor's Notes</h3>
+          <h3 className="text-lg font-medium mt-6 mb-3">Editor&apos;s Notes</h3>
           <p className="text-gray-600 leading-relaxed mb-6">
-            Editor's notes are used to provide additional context, disclose conflicts of interest, or address other matters that require transparency with our readers.
+            Editor&apos;s notes are used to provide additional context, disclose conflicts of interest, or address other matters that require transparency with our readers.
           </p>
 
           <h2 className="text-xl font-semibold mt-8 mb-4">How We Handle Corrections</h2>

@@ -64,14 +64,14 @@ export default function PrivacyPolicyPage() {
             Our website may contain links to third-party websites. We are not responsible for the privacy practices of these external sites. We encourage you to review their privacy policies.
           </p>
 
-          <h2 className="text-xl font-semibold mt-8 mb-4">8. Children's Privacy</h2>
+          <h2 className="text-xl font-semibold mt-8 mb-4">8. Children&apos;s Privacy</h2>
           <p className="text-gray-600 leading-relaxed mb-6">
             Our services are not intended for individuals under the age of 16. We do not knowingly collect personal information from children.
           </p>
 
           <h2 className="text-xl font-semibold mt-8 mb-4">9. Changes to This Policy</h2>
           <p className="text-gray-600 leading-relaxed mb-6">
-            We may update this Privacy Policy from time to time. We will notify you of any significant changes by posting the new policy on this page and updating the "Last updated" date.
+            We may update this Privacy Policy from time to time. We will notify you of any significant changes by posting the new policy on this page and updating the &quot;Last updated&quot; date.
           </p>
 
           <h2 className="text-xl font-semibold mt-8 mb-4">10. Contact Us</h2>
