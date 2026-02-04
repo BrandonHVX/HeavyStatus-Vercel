@@ -3,6 +3,7 @@ import { getPostsBySlug } from '@/lib/queries';
 import Link from 'next/link';
 import PhotoGallery from '@/components/PhotoGallery';
 import ShareButtons from '@/components/ShareButtons';
+import AdUnit from '@/components/AdUnit';
 
 export const revalidate = 60;
 
@@ -145,6 +146,11 @@ export default async function Page({ params} : {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-12">
+        {/* Above-fold ad slot */}
+        <div className="mb-8">
+          <AdUnit slot="1234567890" format="horizontal" className="min-h-[90px]" />
+        </div>
+
         {post.tags?.nodes?.some(tag => tag.name.toLowerCase() === 'photo library') ? (
           <>
             {post.excerpt && (
@@ -177,6 +183,11 @@ export default async function Page({ params} : {
         ) : (
           <div className='article' dangerouslySetInnerHTML={{ __html: post?.content }}/>
         )}
+
+        {/* In-content ad slot */}
+        <div className="my-8">
+          <AdUnit slot="0987654321" format="rectangle" className="min-h-[250px]" />
+        </div>
         
         {post.tags?.nodes && post.tags.nodes.length > 0 && (
           <div className="mt-12 pt-8 border-t border-gray-200">
