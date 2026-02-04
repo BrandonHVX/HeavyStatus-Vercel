@@ -1,0 +1,159 @@
+1) Revenue engine requirements (how you get “top CPM/RPM” from AdSense)
+A. You optimize for Page RPM, not just traffic
+
+AdSense defines Page RPM as:
+(estimated earnings ÷ pageviews) × 1000.
+So your job is to raise earnings per session by improving:
+
+1) Viewability (biggest RPM lever on news sites)
+Google explicitly recommends optimizing ad placement/design to improve viewability.
+Practical requirements:
+
+At least one strong above-the-fold slot that loads fast
+
+Longer article templates (so you can place 2–4 quality slots without cramming)
+
+Sticky footer/banner (mobile) without blocking content
+
+2) Policy-safe layouts (protect your account + keep advertisers bidding)
+Follow AdSense ad placement policies (avoid accidental clicks, misleading headings, content that mimics ads, etc.).
+
+3) Fast ads (don’t let ads kill your Core Web Vitals)
+Google’s publisher guidance emphasizes loading ads efficiently to avoid hurting page speed and UX.
+And Google has shown publishers can connect Core Web Vitals field data with AdSense/Ad Manager performance to understand revenue impact.
+
+4) Better advertisers → better bids
+AdSense pays more when your site attracts higher-value campaigns. Requirements:
+
+Clear topic/category taxonomy (Miami politics, real estate, business, law, luxury, etc.)
+
+Clean brand safety signals: no clickbait, no scraped content, no “thin” pages
+
+2) Search dominance requirements (Google SEO that actually ranks)
+A. Meet Google’s baseline + avoid penalties
+
+Start with Search Essentials (technical + content expectations).
+And take spam policies seriously—especially anything that looks like scaled low-quality publishing.
+
+B. News SEO must be “crawler-obvious”
+
+Your article pages must make it effortless for Google to understand:
+
+One canonical URL per story
+
+A visible headline (H1), author byline, publish date, and updated date (when applicable)
+
+Clean internal linking: section pages → story clusters → evergreen explainers
+
+C. Structured data is non-negotiable
+
+Google recommends Article structured data for news/blog pages to help with title/image/date understanding and eligibility across surfaces like Google News.
+Also follow Google’s structured data policies (markup must reflect visible content, be accurate, etc.).
+
+Date accuracy matters for news: show user-visible dates and keep structured data consistent—Google explicitly warns against incorrect/future dates and recommends datePublished/dateModified.
+
+3) Google News integration requirements (per article + site-wide)
+A. Use Publisher Center correctly
+
+Publisher Center is where publishers submit/manage content for Google News.
+
+B. Create a Google News sitemap
+
+Google’s official guidance:
+
+Only include articles from the last 2 days
+
+Update frequently as you publish
+
+Use proper <news:publication_date> and other required tags
+Publisher Center also documents News sitemap usage.
+
+C. Article template requirements for Google News
+
+Per Google’s Publisher Center best practices:
+
+Correct datePublished/dateModified + timezone
+
+If using a News sitemap, include <publication_date> per URL
+
+4) Yahoo distribution requirements (what’s realistic)
+
+Unlike Google News (mostly crawl + Publisher Center), Yahoo distribution is partnership-based:
+
+Option A: Publish directly to Yahoo via Yahoo for Creators
+
+Yahoo launched “Yahoo for Creators,” a publishing platform for vetted creators to publish and monetize on Yahoo’s network.
+
+Option B: Become a Yahoo content partner
+
+Yahoo’s official help doc says to complete their “Content Opportunities” form to form a content partnership (US).
+
+Requirement: Don’t think “toggle a setting per article.” Think feed + partnership + editorial quality.
+
+5) “Blazing fast” requirements (Core Web Vitals targets you must hit)
+
+If you want top SEO + high ad revenue, you need “Good” CWV in the real world:
+
+LCP ≤ 2.5s
+
+INP < 200ms
+
+CLS ≤ 0.1
+
+For your Next.js + WordPress GraphQL stack, that means:
+
+Server-side caching (HTML + data) + CDN edge caching
+
+Aggressive image optimization (next/image, proper sizes, modern formats)
+
+Minimal third-party scripts (every widget is a CWV tax)
+
+Load ads intelligently (lazy-load below fold; keep the first view fast)
+
+6) Social share requirements (so every article can spread)
+
+Your share buttons are the easy part—the real requirement is share-ready metadata:
+
+Open Graph: title, description, image, URL
+
+X/Twitter card tags
+
+Canonical URL
+
+Clean, stable featured image (consistent aspect ratio)
+
+UTM strategy for tracking (optional but powerful)
+
+Then implement share buttons for: X, Facebook, LinkedIn, WhatsApp, Email, Copy Link.
+
+7) The “money” ops requirements (the stuff most blogs skip)
+
+To be “best in the world,” you need newsroom-grade operations:
+
+Editorial trust pages: About, Contact, Editorial Policy, Corrections Policy, Privacy Policy
+
+Author pages with bios and expertise
+
+Clear separation of news vs sponsored
+
+A repeatable system:
+
+Daily publishing cadence
+
+Evergreen explainers that internal-link from breaking news
+
+Email newsletter + push notifications + social distribution
+
+Your priority checklist (build in this order)
+
+Core Web Vitals “Good” on mobile article pages
+
+Article structured data + correct dates
+
+Google News sitemap + Publisher Center setup
+
+AdSense: policy-safe placements + viewability improvements
+
+Share-ready OG/Twitter metadata + share buttons
+
+Yahoo: apply to Creators or content partnership
