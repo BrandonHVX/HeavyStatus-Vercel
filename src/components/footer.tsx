@@ -6,7 +6,7 @@ export function Footer(){
   return (
     <footer className="bg-white border-t border-gray-200 mt-16">
       <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-12">
           <div className="md:col-span-2">
             <Link href="/" className="font-serif text-2xl tracking-[0.2em] uppercase text-black">
               Political Aficionado
@@ -27,6 +27,37 @@ export function Footer(){
               <li>
                 <Link href="/headlines" className="text-sm text-gray-600 hover:text-black transition-colors">
                   Headlines
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="text-sm text-gray-600 hover:text-black transition-colors">
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-sm text-gray-600 hover:text-black transition-colors">
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="text-xs uppercase tracking-widest font-semibold mb-4">Policies</h4>
+            <ul className="space-y-3">
+              <li>
+                <Link href="/privacy" className="text-sm text-gray-600 hover:text-black transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/editorial-policy" className="text-sm text-gray-600 hover:text-black transition-colors">
+                  Editorial Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/corrections" className="text-sm text-gray-600 hover:text-black transition-colors">
+                  Corrections
                 </Link>
               </li>
             </ul>
