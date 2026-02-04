@@ -2,6 +2,7 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { getPostsBySlug } from '@/lib/queries';
 import Link from 'next/link';
 import PhotoGallery from '@/components/PhotoGallery';
+import ShareButtons from '@/components/ShareButtons';
 
 export const revalidate = 60;
 
@@ -76,6 +77,9 @@ export default async function Page({ params} : {
     year: 'numeric'
   });
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://heavy-status-vercel.vercel.app';
+  const articleUrl = `${baseUrl}/${post.slug}`;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -88,7 +92,7 @@ export default async function Page({ params} : {
     "description": post.seo?.metaDesc || post.title,
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://heavy-status-vercel.vercel.app/${post.slug}`,
+      "@id": articleUrl,
     },
     "image": post.seo?.opengraphImage?.sourceUrl
   };
@@ -170,6 +174,10 @@ export default async function Page({ params} : {
         )}
 
         <div className="mt-12 pt-8 border-t border-gray-200">
+          <ShareButtons url={articleUrl} title={post.title} />
+        </div>
+
+        <div className="mt-8 pt-8 border-t border-gray-200">
           <Link 
             href="/" 
             className="inline-flex items-center gap-2 text-accent hover:underline font-medium"
