@@ -1,6 +1,7 @@
 import type { Metadata, ResolvingMetadata } from 'next';
 import { getPostsBySlug } from '@/lib/queries';
 import Link from 'next/link';
+import BackButton from '@/components/BackButton';
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -14,7 +15,7 @@ export async function generateMetadata(
   if (!post) return {};
 
   const previousImages = (await parent).openGraph?.images || []
-  
+
   const seo = post.seo;
 
   return {
@@ -33,16 +34,16 @@ export async function generateMetadata(
   }
 }
 
-export default async function Page({ params} : {
-  params: Promise<{ slug: string}>
+export default async function Page({ params }: {
+  params: Promise<{ slug: string }>
 }) {
 
   const post = await getPostsBySlug((await params).slug);
-  if(!post) { 
+  if (!post) {
     return (
       <div className="bg-white min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Post not found</h1>
+          <h1 className="font-heading text-4xl font-bold text-gray-900 mb-4">Post not found</h1>
           <Link href="/blog" className="text-accent hover:underline">
             Return to blog
           </Link>
@@ -81,37 +82,38 @@ export default async function Page({ params} : {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      
-      <div className="bg-gradient-to-br from-primary to-secondary py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          {post.categories?.nodes?.[0] && (
-            <span className="category-badge mb-4 inline-block">
-              {post.categories.nodes[0].name}
-            </span>
-          )}
-          <h1 
-            className='text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight' 
-            dangerouslySetInnerHTML={{ __html: post.title }}
-          />
-          <div className="flex items-center justify-center gap-4 text-gray-300">
-            <span>By <span className="text-white font-medium">{post?.author?.node?.name}</span></span>
-            <span>•</span>
-            <span>{date}</span>
-          </div>
-        </div>
+
+      <div className="max-w-4xl mx-auto px-4 pt-4">
+        <BackButton label="Back" fallbackHref="/blog" />
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <div className='article' dangerouslySetInnerHTML={{ __html: post?.content }}/>
-        
+      <header className="max-w-4xl mx-auto px-4 pt-4 pb-6">
+        {post.categories?.nodes?.[0] && (
+          <span className="nb-category mb-3 inline-block">
+            {post.categories.nodes[0].name}
+          </span>
+        )}
+        <h1
+          className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-6 leading-tight"
+          dangerouslySetInnerHTML={{ __html: post.title }}
+        />
+        <div className="flex items-center gap-4 text-sm text-gray-500">
+          <span>By <span className="font-semibold text-black">{post?.author?.node?.name}</span></span>
+          <span className="entry-meta"><span className="has-dot">{date}</span></span>
+        </div>
+      </header>
+
+      <div className="max-w-3xl mx-auto px-4 pb-12">
+        <div className='article' dangerouslySetInnerHTML={{ __html: post?.content }} />
+
         {post.tags?.nodes && post.tags.nodes.length > 0 && (
-          <div className="mt-12 pt-8 border-t border-gray-200">
-            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Tags</h3>
+          <div className="mt-10 pt-6 border-t border-gray-200">
+            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Tags</h3>
             <div className="flex flex-wrap gap-2">
               {post.tags.nodes.map((tag, index) => (
-                <span 
+                <span
                   key={index}
-                  className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full"
+                  className="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-sm"
                 >
                   {tag.name}
                 </span>
@@ -120,16 +122,8 @@ export default async function Page({ params} : {
           </div>
         )}
 
-        <div className="mt-12 pt-8 border-t border-gray-200">
-          <Link 
-            href="/blog" 
-            className="inline-flex items-center gap-2 text-accent hover:underline font-medium"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to all posts
-          </Link>
+        <div className="mt-8 pt-6 border-t border-gray-200">
+          <BackButton label="Back to all posts" fallbackHref="/blog" />
         </div>
       </div>
     </article>

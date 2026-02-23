@@ -46,7 +46,7 @@ const withPWA = withPWAInit({
 });
 
 const nextConfig = {
-  allowedDevOrigins: ['*'],
+  allowedDevOrigins: ['*.replit.dev', '*.replit.app', '*.picard.replit.dev'],
   images: {
     remotePatterns: [
       {

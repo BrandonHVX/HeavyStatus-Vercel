@@ -37,14 +37,14 @@ interface SearchResults {
   tags: SearchTag[];
 }
 
-export function Header(){
+export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  
+
   const user = session?.user as { subscriptionStatus?: string } | undefined;
   const isSubscribed = user?.subscriptionStatus === 'active';
   const [searchTerm, setSearchTerm] = useState('');
@@ -61,7 +61,7 @@ export function Header(){
 
   useEffect(() => {
     setMobileMenuOpen(false);
-    setSearchModalOpen(false);
+    setSearchOpen(false);
     setUserMenuOpen(false);
     setIsOpen(false);
     setSearchTerm('');
@@ -69,7 +69,7 @@ export function Header(){
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (userMenuOpen && !(e.target as Element).closest('.relative')) {
+      if (userMenuOpen && !(e.target as Element).closest('.user-menu-container')) {
         setUserMenuOpen(false);
       }
     };
@@ -78,13 +78,13 @@ export function Header(){
   }, [userMenuOpen]);
 
   useEffect(() => {
-    if (searchModalOpen && inputRef.current) {
+    if (searchOpen && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [searchModalOpen]);
+  }, [searchOpen]);
 
   useEffect(() => {
-    if (searchModalOpen) {
+    if (mobileMenuOpen || searchOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -92,7 +92,7 @@ export function Header(){
     return () => {
       document.body.style.overflow = '';
     };
-  }, [searchModalOpen]);
+  }, [mobileMenuOpen, searchOpen]);
 
   const fetchResults = useCallback(async (query: string) => {
     if (query.trim().length < 2) {
@@ -130,8 +130,8 @@ export function Header(){
     };
   }, [searchTerm, fetchResults]);
 
-  const closeModal = () => {
-    setSearchModalOpen(false);
+  const closeSearch = () => {
+    setSearchOpen(false);
     setIsOpen(false);
     setSearchTerm('');
     setResults({ posts: [], categories: [], tags: [] });
@@ -140,7 +140,7 @@ export function Header(){
   const navigateToSearch = () => {
     if (searchTerm.trim()) {
       router.push(`/headlines?search=${encodeURIComponent(searchTerm)}`);
-      closeModal();
+      closeSearch();
     }
   };
 
@@ -165,13 +165,11 @@ export function Header(){
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
-      closeModal();
+      closeSearch();
       return;
     }
 
-    if (!isOpen || totalResults === 0) {
-      return;
-    }
+    if (!isOpen || totalResults === 0) return;
 
     if (e.key === 'ArrowDown') {
       e.preventDefault();
@@ -191,219 +189,240 @@ export function Header(){
         } else {
           router.push(`/headlines?search=${selected.slug}`);
         }
-        closeModal();
+        closeSearch();
       }
     }
   };
 
   const handleResultClick = () => {
-    closeModal();
+    closeSearch();
   };
 
   let itemIndex = -1;
 
-  return(
+  const navLinks = [
+    { href: '/', label: 'Home' },
+    { href: '/headlines', label: 'Headlines' },
+    { href: '/explore', label: 'Explore' },
+    { href: '/about', label: 'About' },
+    { href: '/contact', label: 'Contact' },
+  ];
+
+  return (
     <>
-      <div className="h-[58px] md:hidden" />
-      <header className="fixed md:relative top-0 left-0 right-0 z-40 grid h-[58px] grid-cols-[auto_1fr_auto] items-center bg-[#050505] px-4 text-white">
-        <div className="flex items-center gap-3">
-          {!isSubscribed && (
+      <div className="h-14 md:h-0" />
+
+      <header className="fixed md:sticky top-0 left-0 right-0 z-40 bg-white border-b border-gray-200 header-animate">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-between h-14">
+            <div className="flex items-center gap-3">
+              <button
+                className="md:hidden p-1.5 -ml-1.5 text-black"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={mobileMenuOpen}
+              >
+                {mobileMenuOpen ? (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                ) : (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                )}
+              </button>
+            </div>
+
             <Link
-              href="/subscribe"
-              className="hidden sm:block rounded-[2px] border border-[rgba(255,255,255,0.18)] bg-[#cf1717] px-3 py-[6px] text-[10px] font-bold tracking-[0.14em] hover:bg-[#b51414] transition-colors"
+              href="/"
+              className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 font-heading text-xl md:text-2xl font-bold tracking-wide text-black hover:text-accent transition-colors whitespace-nowrap"
             >
-              SUBSCRIBE
+              Political Aficionado
             </Link>
-          )}
-          <button
-            className="sm:hidden text-white p-1"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={mobileMenuOpen}
-          >
-            {mobileMenuOpen ? (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </button>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setSearchOpen(true)}
+                className="p-1.5 text-gray-600 hover:text-black transition-colors"
+                aria-label="Search"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </button>
+
+              <div className="user-menu-container relative">
+                {status === 'loading' ? (
+                  <span className="text-xs text-gray-400">...</span>
+                ) : session ? (
+                  <button
+                    onClick={() => setUserMenuOpen(!userMenuOpen)}
+                    className="p-1.5 text-gray-600 hover:text-black transition-colors"
+                    aria-label="Account menu"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </button>
+                ) : (
+                  <Link
+                    href="/auth/signin"
+                    className="hidden md:block text-xs font-bold uppercase tracking-wider text-gray-600 hover:text-black transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                )}
+
+                {userMenuOpen && session && (
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-50 animate-fade-in-up">
+                    <Link
+                      href="/account"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      My Account
+                    </Link>
+                    {!isSubscribed && (
+                      <Link
+                        href="/subscribe"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="block px-4 py-2.5 text-sm text-accent font-medium hover:bg-gray-50 transition-colors"
+                      >
+                        Subscribe
+                      </Link>
+                    )}
+                    <div className="h-px bg-gray-100 my-1" />
+                    <button
+                      onClick={() => {
+                        setUserMenuOpen(false);
+                        signOut({ callbackUrl: '/' });
+                      }}
+                      className="block w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
 
-        <Link
-          href="/"
-          className="justify-self-center font-serif text-[16px] sm:text-[18px] md:text-[20px] font-extrabold tracking-[0.1em] sm:tracking-[0.12em] hover:text-gray-300 transition-colors whitespace-nowrap"
-        >
-          POLITICAL AFICIONADO
-        </Link>
-
-        <div className="flex items-center gap-2 sm:gap-4">
-          <button
-            onClick={() => setSearchModalOpen(true)}
-            className="flex items-center gap-1.5 text-[rgba(255,255,255,0.88)] hover:text-white transition-colors"
-            aria-label="Open search"
-          >
-            <span className="hidden sm:inline text-[11px] font-bold tracking-[0.14em]">SEARCH</span>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </button>
-
-          <div className="relative">
-            {status === 'loading' ? (
-              <span className="text-[11px] font-bold tracking-[0.14em] text-[rgba(255,255,255,0.5)]">...</span>
-            ) : session ? (
-              <button
-                onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="hidden sm:flex items-center gap-1 text-[11px] font-bold tracking-[0.14em] text-[rgba(255,255,255,0.88)] hover:text-white transition-colors"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                ACCOUNT
-              </button>
-            ) : (
-              <Link
-                href="/auth/signin"
-                className="hidden sm:block text-[11px] font-bold tracking-[0.14em] text-[rgba(255,255,255,0.88)] hover:text-white transition-colors"
-              >
-                SIGN IN
-              </Link>
-            )}
-            
-            {userMenuOpen && session && (
-              <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+        <nav className="hidden md:block border-t border-gray-100">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex items-center justify-center gap-8 h-10">
+              {navLinks.map((link) => (
                 <Link
-                  href="/account"
-                  onClick={() => setUserMenuOpen(false)}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  key={link.href}
+                  href={link.href}
+                  className={`text-xs uppercase tracking-[0.15em] font-bold transition-colors ${
+                    pathname === link.href ? 'text-accent' : 'text-gray-700 hover:text-accent'
+                  }`}
                 >
-                  My Account
+                  {link.label}
                 </Link>
-                {!isSubscribed && (
+              ))}
+              {!isSubscribed && (
+                <Link
+                  href="/subscribe"
+                  className="text-xs uppercase tracking-[0.15em] font-bold text-white bg-accent px-3 py-1 rounded-sm hover:bg-accent-hover transition-colors"
+                >
+                  Subscribe
+                </Link>
+              )}
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-30 md:hidden">
+          <div className="absolute inset-0 bg-black/40" onClick={() => setMobileMenuOpen(false)} />
+          <nav className="absolute top-14 left-0 bottom-0 w-[280px] bg-white shadow-xl overflow-y-auto animate-slide-in-left">
+            <div className="py-4">
+              <div className="px-5 pb-3 mb-3 border-b border-gray-100">
+                <p className="text-xs uppercase tracking-widest text-gray-400 font-bold">Navigation</p>
+              </div>
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block px-5 py-3 text-base font-heading transition-colors ${
+                    pathname === link.href ? 'text-accent font-semibold' : 'text-gray-800 hover:text-accent hover:bg-gray-50'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+
+              <div className="h-px bg-gray-100 my-3" />
+
+              {session ? (
+                <>
+                  <Link
+                    href="/account"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block px-5 py-3 text-base font-heading text-gray-800 hover:text-accent hover:bg-gray-50 transition-colors"
+                  >
+                    My Account
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      signOut({ callbackUrl: '/' });
+                    }}
+                    className="block w-full text-left px-5 py-3 text-base font-heading text-gray-500 hover:text-accent hover:bg-gray-50 transition-colors"
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/auth/signin"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block px-5 py-3 text-base font-heading text-gray-800 hover:text-accent hover:bg-gray-50 transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/auth/register"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block px-5 py-3 text-base font-heading text-gray-800 hover:text-accent hover:bg-gray-50 transition-colors"
+                  >
+                    Register
+                  </Link>
+                </>
+              )}
+
+              {!isSubscribed && (
+                <div className="px-5 pt-4">
                   <Link
                     href="/subscribe"
-                    onClick={() => setUserMenuOpen(false)}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block w-full text-center bg-accent text-white text-sm font-bold uppercase tracking-wider py-3 rounded-sm hover:bg-accent-hover transition-colors"
                   >
                     Subscribe
                   </Link>
-                )}
-                <button
-                  onClick={() => {
-                    setUserMenuOpen(false);
-                    signOut({ callbackUrl: '/' });
-                  }}
-                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  Sign Out
-                </button>
-              </div>
-            )}
-          </div>
-
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="hidden sm:block text-[11px] font-bold tracking-[0.14em] text-[rgba(255,255,255,0.88)] hover:text-white transition-colors"
-          >
-            MENU <span className="relative top-[1px] ml-1 text-[14px]">≡</span>
-          </button>
+                </div>
+              )}
+            </div>
+          </nav>
         </div>
-      </header>
-
-      <nav className="hidden sm:flex justify-center gap-4 md:gap-[22px] border-t border-white/10 bg-[#0b0b0b] px-[14px] py-[10px]">
-        <Link href="/" className="text-[10px] md:text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] hover:text-white transition-colors">
-          TODAY
-        </Link>
-        <Link href="/headlines" className="text-[10px] md:text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] hover:text-white transition-colors">
-          HEADLINES
-        </Link>
-        <Link href="/explore" className="text-[10px] md:text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] hover:text-white transition-colors">
-          EXPLORE
-        </Link>
-      </nav>
-
-      <div className="hidden sm:grid grid-cols-[1fr_auto_1fr] items-center bg-[#e6f4f1] px-[18px] py-[12px]">
-        <div className="justify-self-start font-sans text-[9px] font-extrabold tracking-[0.18em] text-[#111]">
-          POLITICAL AFICIONADO
-        </div>
-        <div className="justify-self-center font-sans text-[11px] md:text-[12px] text-[#111] text-center">
-          Power. Personality. And freedom of the press.&nbsp;&nbsp;
-          <Link href="/headlines" className="font-bold text-[#cf1717] hover:underline">
-            Get unlimited access.
-          </Link>
-        </div>
-        <div />
-      </div>
-
-      {mobileMenuOpen && (
-        <nav className="sm:hidden bg-[#0b0b0b] py-4 border-t border-white/10" role="navigation" aria-label="Mobile navigation">
-          <ul className="flex flex-col items-center gap-4">
-            <li>
-              <Link href="/" className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] py-2 block">
-                TODAY
-              </Link>
-            </li>
-            <li>
-              <Link href="/headlines" className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] py-2 block">
-                HEADLINES
-              </Link>
-            </li>
-            <li>
-              <Link href="/explore" className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] py-2 block">
-                EXPLORE
-              </Link>
-            </li>
-            {session ? (
-              <>
-                <li className="pt-2 border-t border-white/10 w-48">
-                  <Link href="/account" className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] py-2 block text-center">
-                    MY ACCOUNT
-                  </Link>
-                </li>
-                <li>
-                  <button
-                    onClick={() => signOut({ callbackUrl: '/' })}
-                    className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.6)] py-2"
-                  >
-                    SIGN OUT
-                  </button>
-                </li>
-              </>
-            ) : (
-              <>
-                <li className="pt-2 border-t border-white/10 w-48">
-                  <Link href="/auth/signin" className="text-[11px] font-bold tracking-[0.18em] text-[rgba(255,255,255,0.86)] py-2 block text-center">
-                    SIGN IN
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/subscribe"
-                    className="inline-block rounded-[2px] border border-[rgba(255,255,255,0.18)] bg-[#cf1717] px-4 py-2 text-[10px] font-bold tracking-[0.14em] text-white"
-                  >
-                    SUBSCRIBE
-                  </Link>
-                </li>
-              </>
-            )}
-          </ul>
-        </nav>
       )}
 
-      {searchModalOpen && (
-        <div 
-          className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] bg-black/60 backdrop-blur-sm"
+      {searchOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-start justify-center pt-[12vh] md:pt-[15vh] bg-black/50 backdrop-blur-sm"
           onClick={(e) => {
-            if (e.target === e.currentTarget) closeModal();
+            if (e.target === e.currentTarget) closeSearch();
           }}
         >
-          <div 
+          <div
             ref={searchRef}
-            className="w-full max-w-xl mx-4 bg-white rounded-lg shadow-2xl overflow-hidden"
+            className="w-full max-w-xl mx-4 bg-white rounded-lg shadow-2xl overflow-hidden animate-fade-in-up"
             role="dialog"
             aria-modal="true"
             aria-label="Search"
@@ -438,7 +457,7 @@ export function Header(){
               )}
               <button
                 type="button"
-                onClick={closeModal}
+                onClick={closeSearch}
                 className="ml-2 p-1 text-gray-400 hover:text-gray-600 transition-colors"
                 aria-label="Close search"
               >
@@ -488,7 +507,7 @@ export function Header(){
                             </div>
                           )}
                           <span
-                            className="text-sm font-serif line-clamp-2 text-gray-900"
+                            className="text-sm font-heading line-clamp-2 text-gray-900"
                             dangerouslySetInnerHTML={{ __html: post.title }}
                           />
                         </Link>
@@ -586,33 +605,15 @@ export function Header(){
         </div>
       )}
 
-      <div className="h-[76px] md:hidden" />
-      <nav className="fixed md:hidden bottom-4 left-4 right-4 z-40 bg-[#050505] rounded-full shadow-lg shadow-black/30">
-        <div className="grid grid-cols-2 h-[56px]">
-          <Link
-            href="/"
-            className={`flex flex-col items-center justify-center gap-1 transition-colors ${
-              pathname === '/' ? 'text-white' : 'text-[rgba(255,255,255,0.6)]'
-            }`}
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <span className="text-[10px] font-bold tracking-[0.14em]">TODAY</span>
-          </Link>
-          <Link
-            href="/headlines"
-            className={`flex flex-col items-center justify-center gap-1 transition-colors ${
-              pathname === '/headlines' || pathname.startsWith('/headlines/') ? 'text-white' : 'text-[rgba(255,255,255,0.6)]'
-            }`}
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-            </svg>
-            <span className="text-[10px] font-bold tracking-[0.14em]">HEADLINES</span>
-          </Link>
-        </div>
-      </nav>
+      <style jsx>{`
+        @keyframes slideInLeft {
+          from { transform: translateX(-100%); }
+          to { transform: translateX(0); }
+        }
+        .animate-slide-in-left {
+          animation: slideInLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+      `}</style>
     </>
-  )
+  );
 }

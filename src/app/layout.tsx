@@ -6,6 +6,7 @@ import AddToHomeScreen from "@/components/AddToHomeScreen";
 import { Providers } from "@/components/Providers";
 import SubscriptionPrompt from "@/components/SubscriptionPrompt";
 import PullToRefresh from "@/components/PullToRefresh";
+import PageTransition from "@/components/PageTransition";
 
 export const metadata: Metadata = {
   title: "Political Aficionado - Latest News",
@@ -65,13 +66,15 @@ export default function RootLayout({
       </head>
       <body className="antialiased bg-white">
         <Providers>
-          <Header/>
+          <Header />
           <main className="min-h-screen">
             <PullToRefresh>
-              {children}
+              <PageTransition>
+                {children}
+              </PageTransition>
             </PullToRefresh>
           </main>
-          <Footer/>
+          <Footer />
           <AddToHomeScreen />
           <SubscriptionPrompt />
         </Providers>

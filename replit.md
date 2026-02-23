@@ -2,11 +2,37 @@
 
 ## Overview
 
-Political Aficionado is a headless WordPress blog built with Next.js 15 App Router and TypeScript. The application fetches content from a WordPress backend via GraphQL and presents it through a modern, Vogue-inspired frontend. It functions as a news/blog platform with features including article browsing, category filtering, search functionality, RSS feeds, and SEO optimization for Google News.
+Political Aficionado is a headless WordPress blog built with Next.js 15 App Router and TypeScript. The application fetches content from a WordPress backend via GraphQL and presents it through a modern, NewsBoard-inspired frontend with EB Garamond typography and newspaper-style layouts. It functions as a news/blog platform with features including article browsing, category filtering, search functionality, RSS feeds, and SEO optimization for Google News.
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Design preference: NewsBoard-template inspired design with EB Garamond fonts, newspaper-style layouts, mobile-first approach.
+
+## Design System
+
+### Typography
+- **Headings**: EB Garamond (serif) via `font-heading` class
+- **Body text**: Arial/Helvetica (sans-serif)
+- **Accent color**: #df4a2c (warm red-orange)
+
+### CSS Utility Classes
+- `.nb-category` - Category labels (uppercase, accent color, small)
+- `.nb-title` - Article titles (heading font, hover accent)
+- `.nb-byline` - Author/date lines (small, uppercase, tracking)
+- `.nb-section-title` - Section headers with bottom border
+- `.nb-card` - Card wrapper with hover effects
+- `.nb-divider` / `.nb-divider-dark` - Horizontal dividers
+- `.back-button` - Back navigation styling
+- `.hero-overlay` - Gradient overlay for hero images
+- `.img-hover-scale` - Scale images on hover
+- `.text-limit-2-row` / `.text-limit-3-row` - Text clamping
+
+### Key Components
+- `PageTransition` - GSAP fade-in animation on route changes
+- `BackButton` - Client-side back navigation (uses router.back() with fallback)
+- `Header` - Responsive header with mobile slide-out menu
+- `Footer` - Dark-themed footer with navigation links
 
 ## System Architecture
 
@@ -14,7 +40,8 @@ Preferred communication style: Simple, everyday language.
 - **Next.js 15** with App Router for server-side rendering and routing
 - **React 19** for UI components
 - **TypeScript** for type safety
-- **Tailwind CSS** for styling with a custom theme (serif fonts, minimal design)
+- **Tailwind CSS** for styling with NewsBoard-inspired custom theme
+- **GSAP** for page transition animations
 
 ### Content Management
 - **Headless WordPress** as the CMS backend
@@ -33,7 +60,7 @@ Preferred communication style: Simple, everyday language.
 - Manifest file at `public/manifest.json`
 
 ### Routing Structure
-- `/` - Homepage with featured post and recent stories
+- `/` - Homepage with featured post hero and recent stories sidebar
 - `/[slug]` - Individual article pages with SEO metadata (root-level routing)
 - `/headlines` - Article listing with pagination, search, and category filtering
 - `/headlines/[slug]` - Redirects to `/[slug]`
@@ -46,6 +73,7 @@ Preferred communication style: Simple, everyday language.
 - `/rss.xml` - RSS feed route
 - `/news-sitemap.xml` - Google News sitemap
 - `/sitemap.ts` - Dynamic sitemap generation
+- `/author/[slug]` - Author profile pages with article listings
 
 ### Authentication & Subscriptions
 - **NextAuth.js** for authentication (email/password)
@@ -64,6 +92,17 @@ Preferred communication style: Simple, everyday language.
 - `/tag/notify` - Webhook endpoint for OneSignal push notifications
 
 ## Recent Changes
+
+### February 23, 2026
+- Redesigned entire site with NewsBoard-inspired styling
+- Updated Tailwind config with EB Garamond fonts and custom theme
+- Created mobile-first responsive header with slide-out menu
+- Redesigned homepage with featured hero layout + sidebar "Latest Stories"
+- Created dark-themed footer with navigation links
+- Added GSAP page transitions via PageTransition component
+- Added BackButton component to all sub-pages (articles, about, contact, blog, author)
+- Fixed CSS @import ordering for Google Fonts
+- Updated next.config with proper allowedDevOrigins for Replit
 
 ### February 4, 2026
 - Added ads.txt and robots.txt for AdSense verification and crawler guidance
@@ -118,18 +157,20 @@ Preferred communication style: Simple, everyday language.
 ### NPM Packages
 - `graphql-request` - GraphQL client for fetching WordPress content
 - `@ducanh2912/next-pwa` - PWA support with Workbox
-- `@octokit/rest` - GitHub API client (present but usage not visible in provided files)
+- `gsap` - GreenSock Animation Platform for page transitions
+- `next-auth` - Authentication
+- `@stripe/stripe-js` / `stripe` - Payment processing
 
 ### Environment Variables
 - `WORDPRESS_URL` - Base URL for the WordPress installation (required for GraphQL queries)
 - `DATABASE_URL` - PostgreSQL connection string (auto-set by Replit)
 - `NEXTAUTH_SECRET` - Secret for NextAuth.js JWT signing
 - `NEXTAUTH_URL` - Base URL for NextAuth.js callbacks
-- `GOOGLE_CLIENT_ID` - Google OAuth client ID (optional, for Google sign-in)
-- `GOOGLE_CLIENT_SECRET` - Google OAuth client secret (optional)
 - `STRIPE_SECRET_KEY` - Stripe API secret key (managed via Replit integration)
 - `STRIPE_WEBHOOK_SECRET` - Stripe webhook signing secret
 - `SUBSCRIPTION_PRICE_ID` - Stripe price ID for the $9.99/month subscription
+- `NEXT_PUBLIC_ONESIGNAL_APP_ID` - OneSignal App ID for push notifications
+- `ONESIGNAL_REST_API_KEY` - OneSignal REST API key for sending notifications
 - `NEXT_PUBLIC_AD_SLOT_ABOVE_FOLD` - AdSense slot ID for above-fold ad placement
 - `NEXT_PUBLIC_AD_SLOT_IN_CONTENT` - AdSense slot ID for in-content ad placement
 - `NEXT_PUBLIC_AD_SLOT_SIDEBAR` - AdSense slot ID for sidebar ad placement (optional)

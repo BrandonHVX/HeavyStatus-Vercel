@@ -1,8 +1,11 @@
+import BackButton from '@/components/BackButton';
+
 export default function Page() {
   return (
     <section className="bg-white min-h-screen">
-      <div className="max-w-3xl mx-auto px-4 py-16">
-        <h1 className="font-serif text-4xl md:text-5xl text-center mb-8">Contact</h1>
+      <div className="max-w-3xl mx-auto px-4 py-8">
+        <BackButton />
+        <h1 className="font-heading text-4xl md:text-5xl text-center mb-8 mt-4">Contact</h1>
         
         <p className="text-gray-600 text-center mb-12 max-w-xl mx-auto">
           We would love to hear from you. Whether you have a question, feedback, or just want to say hello, feel free to reach out.

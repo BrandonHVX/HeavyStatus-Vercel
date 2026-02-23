@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import BackButton from '@/components/BackButton';
 
 export const metadata: Metadata = {
   title: 'About Us | Political Aficionado',
@@ -12,8 +13,9 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <main className="max-w-4xl mx-auto px-4 py-12">
-      <h1 className="text-4xl md:text-5xl font-bold mb-8">About Political Aficionado</h1>
+    <main className="max-w-4xl mx-auto px-4 py-8">
+      <BackButton />
+      <h1 className="font-heading text-4xl md:text-5xl font-bold mb-8 mt-4">About Political Aficionado</h1>
       
       <section className="prose prose-lg max-w-none">
         <p className="text-xl text-gray-600 mb-8 leading-relaxed">
