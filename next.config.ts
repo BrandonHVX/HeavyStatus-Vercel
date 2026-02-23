@@ -46,6 +46,7 @@ const withPWA = withPWAInit({
 });
 
 const nextConfig = {
+  allowedDevOrigins: ['*'],
   images: {
     remotePatterns: [
       {
