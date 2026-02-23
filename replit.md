@@ -2,21 +2,34 @@
 
 ## Overview
 
-Political Aficionado is a headless WordPress blog built with Next.js 15 App Router and TypeScript. The application fetches content from a WordPress backend via GraphQL and presents it through a modern, NewsBoard-inspired frontend with EB Garamond typography and newspaper-style layouts. It functions as a news/blog platform with features including article browsing, category filtering, search functionality, RSS feeds, and SEO optimization for Google News.
+Political Aficionado is a headless WordPress blog built with Next.js 15 App Router and TypeScript. The application fetches content from a WordPress backend via GraphQL and presents it through a modern, mobile-app-inspired frontend with card-based layouts, EB Garamond typography, and Inter body text. It functions as a news/blog platform with features including article browsing, category filtering, search functionality, RSS feeds, and SEO optimization for Google News.
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
-Design preference: NewsBoard-template inspired design with EB Garamond fonts, newspaper-style layouts, mobile-first approach.
+Design preference: Modern News & Article Mobile App UI Kit style - card-based layouts, rounded corners, category chips, read time indicators, mobile bottom navigation, frosted glass header.
 
 ## Design System
 
 ### Typography
 - **Headings**: EB Garamond (serif) via `font-heading` class
-- **Body text**: Arial/Helvetica (sans-serif)
-- **Accent color**: #df4a2c (warm red-orange)
+- **Body text**: Inter (sans-serif)
+- **Accent color**: #e94560 (pink-red)
+
+### Visual Tokens
+- **Card radius**: 16px (`rounded-card`)
+- **Card shadow**: `0 2px 12px rgba(0,0,0,0.06)`
+- **Background**: #f8fafc (light gray)
+- **Surfaces**: white cards on gray background
+- **Category chips**: Pill-shaped with accent-light bg + accent text
 
 ### CSS Utility Classes
+- `.card` / `.card-sm` / `.card-flat` - Card containers with shadows and hover effects
+- `.category-chip` / `.category-chip-sm` - Pill-shaped category labels
+- `.read-time` - Read time indicator with dot separator
+- `.section-header` / `.section-title` / `.section-link` - Section layout helpers
+- `.bottom-nav-item` - Mobile bottom nav styling
+- `.trending-dot` - Pulsing accent dot for trending section
 - `.nb-category` - Category labels (uppercase, accent color, small)
 - `.nb-title` - Article titles (heading font, hover accent)
 - `.nb-byline` - Author/date lines (small, uppercase, tracking)
@@ -93,14 +106,23 @@ Design preference: NewsBoard-template inspired design with EB Garamond fonts, ne
 
 ## Recent Changes
 
-### February 23, 2026
-- Redesigned entire site with NewsBoard-inspired styling
-- Updated Tailwind config with EB Garamond fonts and custom theme
-- Created mobile-first responsive header with slide-out menu
-- Redesigned homepage with featured hero layout + sidebar "Latest Stories"
-- Created dark-themed footer with navigation links
+### February 23, 2026 (v2 - Modern App UI Kit)
+- Complete UX/UI overhaul to match Modern News & Article Mobile App UI Kit
+- New design system: rounded cards (16px), Inter body font, pink-red accent (#e94560), subtle shadows
+- Frosted glass header with backdrop-blur and pill-shaped navigation items
+- Mobile bottom navigation bar (BottomNav) with filled/outlined icon states
+- Homepage redesign: hero card, horizontal "Trending Now" carousel, list-style "Latest News", topic pills, card grid
+- Category chips (pill-shaped), read time indicators, time-ago labels throughout
+- Article page: author avatar circle, category chips, rounded featured images
+- Updated BackButton with circular icon + label design
+- Updated latest-posts component with modern card grid and styled pagination buttons
+- Light gray background (#f8fafc) with white card surfaces
+- Body padding for mobile bottom nav, scrollbar styling
+
+### February 23, 2026 (v1 - NewsBoard)
+- Initial NewsBoard-inspired redesign with EB Garamond fonts
 - Added GSAP page transitions via PageTransition component
-- Added BackButton component to all sub-pages (articles, about, contact, blog, author)
+- Added BackButton component to all sub-pages
 - Fixed CSS @import ordering for Google Fonts
 - Updated next.config with proper allowedDevOrigins for Replit
 

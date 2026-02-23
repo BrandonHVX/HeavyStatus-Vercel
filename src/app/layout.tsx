@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import BottomNav from "@/components/BottomNav";
 import AddToHomeScreen from "@/components/AddToHomeScreen";
 import { Providers } from "@/components/Providers";
 import SubscriptionPrompt from "@/components/SubscriptionPrompt";
@@ -64,7 +65,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="antialiased bg-white">
+      <body className="antialiased">
         <Providers>
           <Header />
           <main className="min-h-screen">
@@ -75,6 +76,7 @@ export default function RootLayout({
             </PullToRefresh>
           </main>
           <Footer />
+          <BottomNav />
           <AddToHomeScreen />
           <SubscriptionPrompt />
         </Providers>

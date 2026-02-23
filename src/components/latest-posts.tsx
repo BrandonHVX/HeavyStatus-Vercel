@@ -16,96 +16,117 @@ export function LatestPosts({ posts, searchTerm, pageInfo, category, showSearch 
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  };
+
+  const getReadTime = (post: Post) => {
+    const words = post?.content?.split(/\s+/).length || 0;
+    return Math.max(1, Math.ceil(words / 200));
   };
 
   if (posts?.length === 0) {
     return (
       <div className="text-center py-16">
-        <p className="text-gray-500 text-lg font-serif italic">No articles found.</p>
+        <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2" />
+          </svg>
+        </div>
+        <p className="text-gray-400 text-sm font-medium">No articles found.</p>
       </div>
     );
   }
 
   return (
-    <section className="bg-white py-12">
+    <section className="py-6">
       <div className="max-w-7xl mx-auto px-4">
         {showSearch && (
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-6 border-b border-gray-200">
-            <h2 className="text-xs uppercase tracking-widest font-semibold">Articles</h2>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+            <h2 className="text-lg font-bold text-gray-900">Articles</h2>
             <div className="w-full md:w-auto">
               <SearchBar />
             </div>
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {posts.map((post: Post) => (
             <Link
               key={post.id}
-              href={`/blog/${post.slug}`}
-              className="vogue-card group"
+              href={`/${post.slug}`}
+              className="card group"
             >
-              <div className="relative aspect-[4/3] mb-4 overflow-hidden">
+              <div className="relative aspect-[4/3] img-hover-scale">
                 {post.featuredImage?.node?.sourceUrl ? (
                   <Image
                     src={post.featuredImage.node.sourceUrl}
                     alt={post.featuredImage.node.altText || post.title}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gray-100"></div>
+                  <div className="w-full h-full bg-gray-100" />
                 )}
               </div>
-              <div>
-                {post.categories?.nodes?.[0] && (
-                  <span className="vogue-category mb-2 inline-block">
-                    {post.categories.nodes[0].name}
-                  </span>
-                )}
-                <h3 
-                  className="vogue-headline text-xl mb-3 leading-tight"
+              <div className="p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  {post.categories?.nodes?.[0] && (
+                    <span className="category-chip-sm">
+                      {post.categories.nodes[0].name}
+                    </span>
+                  )}
+                </div>
+                <h3
+                  className="font-heading text-base font-semibold text-gray-900 text-limit-2-row leading-snug group-hover:text-accent transition-colors"
                   dangerouslySetInnerHTML={{ __html: post.title }}
                 />
-                <p className="vogue-byline">{formatDate(post.date)}</p>
+                <div className="flex items-center gap-2 mt-3 text-[11px] text-gray-400">
+                  <span className="font-medium text-gray-500">{formatDate(post.date)}</span>
+                  <span className="read-time">{getReadTime(post)} min</span>
+                </div>
               </div>
             </Link>
           ))}
         </div>
 
         {(pageInfo?.hasPreviousPage || pageInfo?.hasNextPage) && (
-          <div className="flex justify-center items-center gap-8 pt-12 mt-12 border-t border-gray-200">
+          <div className="flex justify-center items-center gap-4 pt-8 mt-8">
             {pageInfo?.hasPreviousPage && (
               <Link
                 href={{
-                  pathname: '/blog',
+                  pathname: '/headlines',
                   query: {
                     before: pageInfo.startCursor,
                     ...(searchTerm && { search: searchTerm }),
                     ...(category && { categories: category })
                   }
                 }}
-                className="text-xs uppercase tracking-widest text-black hover:text-accent transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 rounded-card-sm text-sm font-medium text-gray-700 hover:border-accent hover:text-accent transition-all"
               >
-                &larr; Previous
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                Previous
               </Link>
             )}
 
             {pageInfo?.hasNextPage && (
               <Link
                 href={{
-                  pathname: '/blog',
+                  pathname: '/headlines',
                   query: {
                     after: pageInfo.endCursor,
                     ...(searchTerm && { search: searchTerm }),
                     ...(category && { categories: category })
                   }
                 }}
-                className="text-xs uppercase tracking-widest text-black hover:text-accent transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 rounded-card-sm text-sm font-medium text-gray-700 hover:border-accent hover:text-accent transition-all"
               >
-                Next &rarr;
+                Next
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </Link>
             )}
           </div>

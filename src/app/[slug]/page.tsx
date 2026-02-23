@@ -36,7 +36,6 @@ export async function generateMetadata(
   if (!post) return {};
 
   const previousImages = (await parent).openGraph?.images || []
-
   const seo = post.seo;
 
   return {
@@ -58,15 +57,19 @@ export async function generateMetadata(
 export default async function Page({ params }: {
   params: Promise<{ slug: string }>
 }) {
-
   const post = await getPostsBySlug((await params).slug);
   if (!post) {
     return (
-      <div className="bg-white min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="font-heading text-4xl font-bold text-gray-900 mb-4">Post not found</h1>
-          <Link href="/" className="text-accent hover:underline">
-            Return to home
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center px-4">
+          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <h1 className="text-xl font-semibold text-gray-900 mb-2">Article not found</h1>
+          <Link href="/" className="text-sm text-accent font-medium hover:text-accent-hover">
+            Back to home
           </Link>
         </div>
       </div>
@@ -124,45 +127,48 @@ export default async function Page({ params }: {
   };
 
   return (
-    <article className="bg-white min-h-screen">
+    <article className="min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="max-w-4xl mx-auto px-4 pt-4">
+      <div className="max-w-3xl mx-auto px-4 pt-4">
         <BackButton label="Back" />
       </div>
 
-      <header className="max-w-4xl mx-auto px-4 pt-4 pb-6">
-        {post.categories?.nodes?.[0] && (
-          <span className="nb-category mb-3 inline-block">
-            {post.categories.nodes[0].name}
-          </span>
-        )}
+      <header className="max-w-3xl mx-auto px-4 pt-3 pb-5">
+        <div className="flex items-center gap-2 mb-4">
+          {post.categories?.nodes?.[0] && (
+            <span className="category-chip">
+              {post.categories.nodes[0].name}
+            </span>
+          )}
+          <span className="text-[11px] text-gray-400 font-medium">{readTime} min read</span>
+        </div>
         <h1
-          className="font-heading text-3xl md:text-4xl lg:text-[42px] font-bold text-black leading-tight mb-4"
+          className="font-heading text-[28px] md:text-4xl lg:text-[42px] font-bold text-gray-900 leading-[1.2] mb-4"
           dangerouslySetInnerHTML={{ __html: post.title }}
         />
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500">
-          <span>
-            By{' '}
-            <Link href={`/author/${post?.author?.node?.slug}`} className="font-semibold text-black hover:text-accent transition-colors">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center text-accent font-semibold text-sm">
+            {(post?.author?.node?.name || 'S').charAt(0).toUpperCase()}
+          </div>
+          <div>
+            <Link href={`/author/${post?.author?.node?.slug}`} className="text-sm font-semibold text-gray-900 hover:text-accent transition-colors">
               {post?.author?.node?.name}
             </Link>
-          </span>
-          <span className="entry-meta">
-            <span className="has-dot">{date}</span>
-          </span>
-          <span className="entry-meta">
-            <span className="has-dot">{readTime} min read</span>
-          </span>
+            <div className="flex items-center gap-2 text-xs text-gray-400">
+              <span>{date}</span>
+              <span className="read-time">{readTime} min read</span>
+            </div>
+          </div>
         </div>
       </header>
 
       {post.featuredImage?.node?.sourceUrl && (
-        <figure className="max-w-5xl mx-auto mb-8">
-          <div className="relative w-full aspect-[16/9]">
+        <figure className="max-w-4xl mx-auto mb-8 px-4">
+          <div className="relative w-full aspect-[16/9] rounded-card overflow-hidden">
             <Image
               src={post.featuredImage.node.sourceUrl}
               alt={post.featuredImage.node.altText || post.title}
@@ -183,7 +189,7 @@ export default async function Page({ params }: {
         {post.tags?.nodes?.some(tag => tag.name.toLowerCase() === 'photo library') ? (
           <>
             {post.excerpt && (
-              <div className="mb-8 text-lg text-gray-600 font-heading" dangerouslySetInnerHTML={{ __html: post.excerpt }} />
+              <div className="mb-8 text-lg text-gray-500 font-heading leading-relaxed" dangerouslySetInnerHTML={{ __html: post.excerpt }} />
             )}
             <PhotoGallery
               images={(() => {
@@ -218,13 +224,13 @@ export default async function Page({ params }: {
         </div>
 
         {post.tags?.nodes && post.tags.nodes.length > 0 && (
-          <div className="mt-10 pt-6 border-t border-gray-200">
-            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Tags</h3>
+          <div className="mt-10 pt-6 border-t border-gray-100">
+            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Tags</h3>
             <div className="flex flex-wrap gap-2">
               {post.tags.nodes.map((tag, index) => (
                 <span
                   key={index}
-                  className="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-sm hover:bg-gray-200 transition-colors"
+                  className="px-3 py-1.5 bg-gray-50 text-gray-600 text-sm rounded-pill hover:bg-gray-100 transition-colors"
                 >
                   {tag.name}
                 </span>
@@ -233,12 +239,12 @@ export default async function Page({ params }: {
           </div>
         )}
 
-        <div className="mt-10 pt-6 border-t border-gray-200">
+        <div className="mt-8 pt-6 border-t border-gray-100">
           <ShareButtons url={articleUrl} title={post.title} />
         </div>
 
-        <div className="mt-8 pt-6 border-t border-gray-200">
-          <BackButton label="Back to all posts" fallbackHref="/" />
+        <div className="mt-8 pt-6 border-t border-gray-100">
+          <BackButton label="Back to all articles" fallbackHref="/" />
         </div>
       </div>
     </article>

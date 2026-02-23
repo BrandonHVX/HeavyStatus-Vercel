@@ -22,13 +22,15 @@ export default function BackButton({ label = 'Back', fallbackHref = '/', classNa
   return (
     <button
       onClick={handleBack}
-      className={`back-button ${className}`}
+      className={`back-button group ${className}`}
       aria-label={label}
     >
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-      </svg>
-      <span>{label}</span>
+      <span className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-gray-200 flex items-center justify-center transition-colors">
+        <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+      </span>
+      <span className="text-sm font-medium">{label}</span>
     </button>
   );
 }
