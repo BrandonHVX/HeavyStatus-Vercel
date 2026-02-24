@@ -106,15 +106,13 @@ Design preference: Modern News & Article Mobile App UI Kit style - card-based la
 
 ## Recent Changes
 
-### February 24, 2026 (v3 - iOS-style Homepage)
-- Homepage-only redesign with iOS-inspired neutral aesthetic (white/black/gray palette)
-- "What's new today" greeting with rounded search bar (HomeSearchBar component)
-- Featured hero card with gradient overlay, category chip, author initial avatar
-- "The most relevant" 2-column card grid with rounded images
-- "Discover new stories" horizontal scroll with portrait cards
-- Neutral gray topic pills (no accent colors on homepage)
-- "Latest" article list with thumbnails and author initials
-- All homepage styling scoped with neutral-* classes and inline font overrides (no global changes)
+### February 24, 2026 (v4 - ByteBay-style Homepage)
+- Homepage redesign matching ByteBay News reference: search bar with dark filter button, bordered category chips, Popular/Trending/Recent tabs with underline
+- HomeTabs client component with tab switching: featured hero card + secondary article list per tab
+- Featured card has bookmark icon, date overlay, author avatar, read time
+- "Learn More" section with thumbnail list items, dates, bookmark icons
+- Light mint/sage background (#eef2f0) scoped via inline styles
+- All styling scoped to homepage only (no global CSS changes)
 - Other pages retain original pink accent styling unchanged
 
 ### February 23, 2026 (v2 - Modern App UI Kit)
