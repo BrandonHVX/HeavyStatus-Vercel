@@ -1,0 +1,45 @@
+A full-height screenshot of a website or application interface, laid out in a grid of cards, featuring articles, reviews, and news items. The overall aesthetic is clean and modern, with a white background and content organized into various sections like "FASHION & STYLE," "TECH," "MOVIES," "DESIGN," "HOME," "FOOD," and "TRAVEL."
+
+**Top Row:**
+
+*   **Left Card (Design & Art / Looking at Your Home Planet from Mars):** A vertical card with a large image at the top showing a dark, cosmic scene with a planet (presumably Earth) viewed from a celestial body (presumably Mars), set against a backdrop of stars and nebulae. The title is "Looking at Your Home Planet from Mars."
+*   **Center Card (FASHION & STYLE / After Fashion, Hedi Slimane Turns to Photography Full Time):** A horizontal card with a muted, high-key photograph on the right showing the silhouette of bare tree branches or light foliage against a white background. The title is "After Fashion, Hedi Slimane Turns to Photography Full Time."
+*   **Right Card (MUSIC / Review: The First Concert at the New Elbphilharmonie in Germany):** A vertical card with a dark, moody image at the bottom, likely an interior shot of a concert hall with blurred lights and architecture. The title is "Review: The First Concert at the New Elbphilharmonie in Germany."
+
+**Second Row:**
+
+*   **Left Card (DESIGN & ART / 10 masters of moody photography on Instagram):** A vertical card with a dark, atmospheric image of a street scene or architectural detail, dominated by deep shadows and diffused light. The title is "10 masters of moody photography on Instagram." Below the title, a small thumbnail portrait of a man, possibly the author "Jeffrey Crane," is visible.
+*   **Center Column (Multiple smaller cards):**
+    *   **Top Card (TECH / Drones and the Future of Medicine | TEDx):** A horizontal card with a blue background and a play icon, suggesting video content. The title is "Drones and the Future of Medicine | TEDx."
+    *   **Middle Card (LIFE / Good friends, good books, and a sleepy conscience: this is the ideal life. MARK TWAIN):** A horizontal card with a light brown/tan background featuring an illustration or photograph of an older Caucasian man, presumed to be Mark Twain, with white hair and a mustache, wearing a suit. The text is a quote attributed to him.
+*   **Right Column (Most Views & Comments):** This column displays lists of other content:
+    *   **MOST VIEWS:** Shows small circular profile pictures next to article titles, such as "Roxy's Gratin With Ancient Roots, Is Rising Again."
+    *   **RECENT COMMENTS:** Shows small circular profile pictures next to comment snippets, such as "10 great tech gadgets to take on your travels."
+
+**Third Row:**
+
+*   **Left Card (MOVIES / Kong: Skull Island):** A horizontal card with a dark image of a large, indistinct shape (implied to be Kong) against a black background. The title is "Kong: Skull Island."
+*   **Right Card (MOVIES / House of Cards):** A horizontal card with a black and white photograph featuring two Caucasian men in suits. The man on the left appears middle-aged, with dark hair, and is looking slightly away from the camera. The man on the right also appears middle-aged, with lighter or graying hair, and is looking directly at the camera. The title is "House of Cards."
+
+**Fourth Row:**
+
+*   **Left Column (DESIGN / Explore the world's most beautiful buildings around the world):** A vertical column containing multiple small news links and one main card.
+    *   **Main Card:** A vertical card with an image of modern glass and steel skyscrapers reflected in water or glass. The title is "Explore the world's most beautiful buildings around the world."
+    *   **Below the main card:** Various small articles like "Enable Severe Weather Alerts" and "Apple Watch Series 4 Rumors Launch of Switch Console."
+*   **Center Card (HOME / New armchair Genny Chair):** A prominent horizontal card displaying a photograph of a minimalist wooden chair (Genny Chair) with a light, woven seat, set against a white background. The title is "New armchair Genny Chair."
+*   **Right Card (FOOD / Pasta rotolo with creamed endive):** A vertical card showing a photograph of a dish of pasta (rotolo) with a creamy sauce and green filling (implied to be endive), presented on a dark plate. The title is "Pasta rotolo with creamed endive."
+
+**Fifth Row (TRAVEL & Style):**
+
+*   **Left Card (TRAVEL / How to Travel Expensive Countries Affordably):** A horizontal card with a black and white photograph of a bustling urban street scene, possibly in Asia, with pedestrians and vehicles. The title is "How to Travel Expensive Countries Affordably."
+*   **Center Card (TRAVEL / How to Help You Travel Memories Safe):** A horizontal card featuring a warm-toned photograph of a person holding a camera or phone, silhouetted against a setting sun or golden hour lighting, with a landscape in the background. The title is "How to Help You Travel Memories Safe."
+*   **Right Card (A French girl discussed at the Style Icon):** A vertical card with the title "A French girl discussed at the Style Icon." The bottom section features another small article card ("Incredible buildings around the world") with an image of futuristic, curved white architecture.
+
+**Bottom Row (Most Popular):**
+
+This section lists four "MOST POPULAR" items:
+
+1.  "Endangered Species and the Stuff We Buy, All Mapped Out"
+2.  "Inside the world's biggest Falcon hospital"
+3.  "These are the world's hottest street foods right now"
+4.  "Kristen Bell keeps it real at the Golden Globes"
