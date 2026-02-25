@@ -106,20 +106,24 @@ Design preference: Modern News & Article Mobile App UI Kit style - card-based la
 
 ## Recent Changes
 
-### February 25, 2026 (v6 - Citizens Lens Dashboard Homepage)
-- Homepage redesigned to match CitizensLens 3-column dashboard layout
-- 3-column grid: Left (hero + lifestyle + global) | Center (opinion + lifestyle advocacy + tech) | Right sidebar (most viewed + trending lists)
-- Cards use white bg with subtle borders (#e7e7e7), rounded-[8px], on #f5f5f5 container over #efefef page bg
-- Left column: "Politics & Culture" hero card, "Lifestyle & Fairs" 3-col grid (thumb | text-only featured | thumb), "Global Affairs" 3-col thumbnails
-- Center column: "Opinion & Analysis" 4-col grid (3 articles + Special feature CTA with blue button), "Lifestyle & Advocacy" 4-col (3 images + Podcast CTA), "Technology & Society" 3-col grid
-- Right sidebar: "Most Viewed" and "Trending Now" lists with circular avatar thumbnails
-- Georgia serif for featured text blocks, grayscale filter on select images
-- Eye/heart stat pills, "Read More" blue buttons (#1f4f93)
+### February 25, 2026 (v7 - Magazine Editorial Grid Homepage)
+- Homepage redesigned to match MagazineEditorialGrid mosaic layout
+- Top Mosaic row: 3-col grid [1fr_1.9fr_1fr] — left Science card (image + badge + meta), center Fashion hero (text overlay on faded bg image, dot indicators), right dark Music review (gradient overlay, "Read More")
+- Second Row: 3-col [1.25fr_.95fr_.95fr] — Design & Art dark overlay card, Tech blue card + Life warm-tone quote card stacked, Most Views sidebar with tabs
+- Third Row: Movies strip — dark image card, blue text card, grayscale split card with right-aligned serif title
+- Lower Main Grid: 3-col [225px_1fr_240px] — Morning vertical list rail (image + author bylines), center Home card (image+text split) + Travel dark slider (2-col inner cards), right stack (Food image+title, Fashion dark overlay, Architecture blue footer)
+- Bottom Popular Strip: "Most Popular" with Day/Week/Month tabs, 4-col text cards with dates
+- Cards use rounded-[14px], border-[#ececec], bg-white, shadow-[0_1px_2px], on #ececec page bg
+- Georgia serif for all headlines, Inter sans-serif for body
+- Dark cards (#0d0d0f, #0e0e10, #121215) with gradient overlays and white text
+- Blue accent cards (#1d5fbc, #11489a, #1b4fa2) for Tech/Movies/Architecture
+- Warm tone card (#efbea8) for Life/Quote section
+- Badge component: rounded-full pill with light/dark variants
+- Meta component: date • views • likes format
 - All data from WordPress GraphQL, no hardcoded content
-- Headlines page redesigned to match homepage dashboard layout with category filter chips and search bar
-- Shared dashboard helpers extracted to `src/lib/dashboard-helpers.tsx` (title, postHref, postImg, SCard, SidebarList, etc.)
+- Headlines page uses CitizensLens dashboard layout with category filter chips and search bar
+- Shared dashboard helpers in `src/lib/dashboard-helpers.tsx` (used by headlines page)
 - Removed unused HomeMostPopular, HomeTabs, HomeSearchBar components
-- Headlines pagination styled with rounded pill buttons matching dashboard theme
 
 ### February 23, 2026 (v2 - Modern App UI Kit)
 - Complete UX/UI overhaul to match Modern News & Article Mobile App UI Kit
