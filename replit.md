@@ -106,13 +106,16 @@ Design preference: Modern News & Article Mobile App UI Kit style - card-based la
 
 ## Recent Changes
 
-### February 24, 2026 (v4 - ByteBay-style Homepage)
-- Homepage redesign matching ByteBay News reference: search bar with dark filter button, bordered category chips, Popular/Trending/Recent tabs with underline
-- HomeTabs client component with tab switching: featured hero card + secondary article list per tab
-- Featured card has bookmark icon, date overlay, author avatar, read time
-- "Learn More" section with thumbnail list items, dates, bookmark icons
-- Light mint/sage background (#eef2f0) scoped via inline styles
-- All styling scoped to homepage only (no global CSS changes)
+### February 25, 2026 (v5 - The Republic Editorial Homepage)
+- Homepage redesign matching "The Republic" editorial newspaper reference
+- Hero bento grid: large featured card (left, full-height) + 2 stacked cards (right) + 2 dark overlay cards (bottom)
+- "Opinion & Essays" section: 2-column card grid with category tags
+- "Trending Topics" sidebar: list with small thumbnails
+- "Lifestyle & Impact" section: 3-column layout with article list, large featured card, and stacked cards
+- "Featured" carousel-style section: 3-column card row with dot indicators
+- "Most Popular" section with Day/Week/Month tab switcher (HomeMostPopular client component)
+- White background, serif headings (EB Garamond via font-heading), editorial typography
+- Removed unused HomeTabs and HomeSearchBar components
 - Other pages retain original pink accent styling unchanged
 
 ### February 23, 2026 (v2 - Modern App UI Kit)
