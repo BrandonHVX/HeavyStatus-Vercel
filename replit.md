@@ -106,16 +106,17 @@ Design preference: Modern News & Article Mobile App UI Kit style - card-based la
 
 ## Recent Changes
 
-### February 25, 2026 (v5 - The Republic Editorial Homepage)
-- Homepage redesign matching "The Republic" editorial newspaper reference
-- Hero bento grid: large featured card (left, full-height) + 2 stacked cards (right) + 2 dark overlay cards (bottom)
-- "Opinion & Essays" section: 2-column card grid with category tags
-- "Trending Topics" sidebar: list with small thumbnails
-- "Lifestyle & Impact" section: 3-column layout with article list, large featured card, and stacked cards
-- "Featured" carousel-style section: 3-column card row with dot indicators
-- "Most Popular" section with Day/Week/Month tab switcher (HomeMostPopular client component)
-- White background, serif headings (EB Garamond via font-heading), editorial typography
-- Removed unused HomeTabs and HomeSearchBar components
+### February 25, 2026 (v6 - Citizens Lens Dashboard Homepage)
+- Homepage redesigned to match CitizensLens 3-column dashboard layout
+- 3-column grid: Left (hero + lifestyle + global) | Center (opinion + lifestyle advocacy + tech) | Right sidebar (most viewed + trending lists)
+- Cards use white bg with subtle borders (#e7e7e7), rounded-[8px], on #f5f5f5 container over #efefef page bg
+- Left column: "Politics & Culture" hero card, "Lifestyle & Fairs" 3-col grid (thumb | text-only featured | thumb), "Global Affairs" 3-col thumbnails
+- Center column: "Opinion & Analysis" 4-col grid (3 articles + Special feature CTA with blue button), "Lifestyle & Advocacy" 4-col (3 images + Podcast CTA), "Technology & Society" 3-col grid
+- Right sidebar: "Most Viewed" and "Trending Now" lists with circular avatar thumbnails
+- Georgia serif for featured text blocks, grayscale filter on select images
+- Eye/heart stat pills, "Read More" blue buttons (#1f4f93)
+- All data from WordPress GraphQL, no hardcoded content
+- Removed unused HomeMostPopular, HomeTabs, HomeSearchBar components
 - Other pages retain original pink accent styling unchanged
 
 ### February 23, 2026 (v2 - Modern App UI Kit)
