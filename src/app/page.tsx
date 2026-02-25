@@ -2,86 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { getAllPosts } from "@/lib/queries";
 import { Post } from "@/lib/types";
+import { title, postHref, postImg, postCat, readMin, excerpt, fmtDate, SmallMeta, StatPill, SCard, SidebarList } from "@/lib/dashboard-helpers";
 
 export const revalidate = 60;
-
-function title(p?: Post) { return p?.title ?? "Untitled"; }
-function postHref(p?: Post) { return p?.slug ? `/${p.slug}` : "#"; }
-function postImg(p?: Post) { return p?.featuredImage?.node?.sourceUrl || "https://placehold.co/800x600.png"; }
-function postCat(p?: Post) { return p?.categories?.nodes?.[0]?.name || "News"; }
-function postAuthor(p?: Post) { return p?.author?.node?.name || "Staff"; }
-function readMin(p?: Post) { return Math.max(1, Math.ceil((p?.content?.split(/\s+/).length || 0) / 200)); }
-function excerpt(p?: Post, len = 100) { return (p?.excerpt || p?.content || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, len); }
-function fmtDate(d?: string) {
-  if (!d) return "";
-  const dt = new Date(d);
-  return dt.toLocaleDateString("en-US", { month: "short", day: "numeric" }) + ", " +
-    dt.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true }).toLowerCase();
-}
-
-function SmallMeta({ text }: { text: string }) {
-  return <div className="mt-2 text-[10px] tracking-wide text-[#9c9c9c]">{text}</div>;
-}
-
-function StatPill({ views, likes }: { views: number; likes: number }) {
-  return (
-    <div className="flex items-center gap-3 text-[10px] text-[#a8a8a8]">
-      <span className="inline-flex items-center gap-1">
-        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth="1.7">
-          <path d="M12 5c-5.5 0-9.5 5.2-10 6 .5.8 4.5 6 10 6s9.5-5.2 10-6c-.5-.8-4.5-6-10-6Z" />
-          <circle cx="12" cy="11" r="2.3" />
-        </svg>
-        {views}
-      </span>
-      <span className="inline-flex items-center gap-1">
-        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current text-[#c7c7c7]">
-          <path d="M12 21s-6.7-4.35-9.43-8.07C.77 10.45 1.18 6.8 4.2 4.74c2.18-1.48 5.02-1.05 6.8 1.03 1.78-2.08 4.62-2.5 6.8-1.03 3.02 2.06 3.43 5.71 1.63 8.19C18.7 16.65 12 21 12 21Z" />
-        </svg>
-        {likes}
-      </span>
-    </div>
-  );
-}
-
-function SCard({ sectionTitle, children, className = "" }: { sectionTitle?: string; children: React.ReactNode; className?: string }) {
-  return (
-    <section className={`rounded-[8px] border border-[#e7e7e7] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.02)] ${className}`}>
-      {sectionTitle && (
-        <div className="border-b border-[#efefef] px-5 py-4">
-          <h3 className="text-[13px] font-semibold tracking-[0.01em] text-[#343434]">{sectionTitle}</h3>
-        </div>
-      )}
-      {children}
-    </section>
-  );
-}
-
-function SidebarList({ listTitle, items }: { listTitle: string; items: Post[] }) {
-  return (
-    <SCard className="overflow-hidden">
-      <div className="flex items-center justify-between border-b border-[#efefef] px-4 py-3">
-        <h4 className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#b3b3b3]">{listTitle}</h4>
-        <Link href="/headlines" className="text-[10px] font-medium text-[#9a9a9a] hover:text-[#666] transition-colors">View All</Link>
-      </div>
-      <div className="px-4 py-2">
-        {items.map((p, idx) => (
-          <div key={p.id || idx}>
-            <Link href={postHref(p)} className="flex items-start gap-3 py-3 group">
-              <div className="relative h-10 w-10 rounded-full overflow-hidden ring-1 ring-[#ececec] flex-shrink-0">
-                <Image src={postImg(p)} alt="" fill className="object-cover" sizes="40px" />
-              </div>
-              <div className="min-w-0">
-                <div className="mb-1 text-[10px] text-[#a1a1a1]">{fmtDate(p.date)}, {readMin(p)} min</div>
-                <p className="text-[11px] font-medium leading-[1.25] text-[#434343] group-hover:text-[#222] transition-colors line-clamp-2">{title(p)}</p>
-              </div>
-            </Link>
-            {idx !== items.length - 1 && <div className="border-t border-[#f1f1f1]" />}
-          </div>
-        ))}
-      </div>
-    </SCard>
-  );
-}
 
 export default async function Home() {
   const { posts } = await getAllPosts();
@@ -115,7 +38,6 @@ export default async function Home() {
             {/* ========== LEFT COLUMN ========== */}
             <div className="min-w-0 space-y-4">
 
-              {/* Politics & Culture Hero */}
               <SCard>
                 <div className="px-5 pt-4">
                   <h2 className="text-[17px] font-semibold text-[#353535]">Politics &amp; Culture</h2>
@@ -136,13 +58,11 @@ export default async function Home() {
                 </div>
               </SCard>
 
-              {/* Lifestyle & Fairs */}
               <SCard>
                 <div className="px-5 pt-4">
                   <h2 className="text-[17px] font-semibold text-[#353535]">Lifestyle &amp; Fairs</h2>
                 </div>
                 <div className="grid grid-cols-[1fr_1.2fr_1fr] gap-4 px-5 py-4">
-                  {/* Left thumb */}
                   {lifestyleFairPosts[0] && (
                     <Link href={postHref(lifestyleFairPosts[0])} className="min-w-0 group block">
                       <div className="overflow-hidden rounded-[4px] border border-[#ececec] relative h-[98px]">
@@ -153,7 +73,6 @@ export default async function Home() {
                     </Link>
                   )}
 
-                  {/* Center text-only featured */}
                   {lifestyleFairPosts[1] && (
                     <Link href={postHref(lifestyleFairPosts[1])} className="min-w-0 group block">
                       <div className="mb-1 text-[10px] uppercase tracking-[0.16em] text-[#b2b2b2]">Featured</div>
@@ -163,7 +82,6 @@ export default async function Home() {
                     </Link>
                   )}
 
-                  {/* Right thumb */}
                   {lifestyleFairPosts[2] && (
                     <Link href={postHref(lifestyleFairPosts[2])} className="min-w-0 group block">
                       <div className="overflow-hidden rounded-[4px] border border-[#ececec] relative h-[98px]">
@@ -176,7 +94,6 @@ export default async function Home() {
                 </div>
               </SCard>
 
-              {/* Global Affairs */}
               <SCard>
                 <div className="px-5 pt-4">
                   <h2 className="text-[17px] font-semibold text-[#353535]">Global Affairs</h2>
@@ -197,7 +114,6 @@ export default async function Home() {
             {/* ========== CENTER COLUMN ========== */}
             <div className="min-w-0 space-y-4">
 
-              {/* Opinion section */}
               <SCard>
                 <div className="border-b border-[#efefef] px-5 py-4">
                   <h2 className="text-[17px] font-semibold text-[#353535]">Opinion &amp; Analysis</h2>
@@ -230,7 +146,6 @@ export default async function Home() {
                     </Link>
                   ))}
 
-                  {/* Special feature text block */}
                   {specialPost && (
                     <div className="min-w-0 self-stretch rounded-[4px] border border-[#f0f0f0] bg-white p-3">
                       <div className="text-[9px] uppercase tracking-[0.16em] text-[#b7b7b7]">Special</div>
@@ -244,7 +159,6 @@ export default async function Home() {
                 </div>
               </SCard>
 
-              {/* Lifestyle & Advocacy */}
               <SCard>
                 <div className="border-b border-[#efefef] px-5 py-4">
                   <h2 className="text-[17px] font-semibold text-[#353535]">Lifestyle &amp; Advocacy</h2>
@@ -261,7 +175,6 @@ export default async function Home() {
                     </Link>
                   ))}
 
-                  {/* Podcast CTA */}
                   {podcastPost && (
                     <div className="flex min-h-[160px] flex-col items-start justify-center rounded-[4px] border border-[#f0f0f0] bg-white p-3">
                       <div className="text-[12px] uppercase tracking-[0.18em] text-[#b7b7b7]">Podcast</div>
@@ -274,7 +187,6 @@ export default async function Home() {
                 </div>
               </SCard>
 
-              {/* Technology & Society */}
               <SCard>
                 <div className="border-b border-[#efefef] px-5 py-4">
                   <h2 className="text-[17px] font-semibold text-[#353535]">Technology &amp; Society</h2>

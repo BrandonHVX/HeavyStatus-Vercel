@@ -116,8 +116,10 @@ Design preference: Modern News & Article Mobile App UI Kit style - card-based la
 - Georgia serif for featured text blocks, grayscale filter on select images
 - Eye/heart stat pills, "Read More" blue buttons (#1f4f93)
 - All data from WordPress GraphQL, no hardcoded content
+- Headlines page redesigned to match homepage dashboard layout with category filter chips and search bar
+- Shared dashboard helpers extracted to `src/lib/dashboard-helpers.tsx` (title, postHref, postImg, SCard, SidebarList, etc.)
 - Removed unused HomeMostPopular, HomeTabs, HomeSearchBar components
-- Other pages retain original pink accent styling unchanged
+- Headlines pagination styled with rounded pill buttons matching dashboard theme
 
 ### February 23, 2026 (v2 - Modern App UI Kit)
 - Complete UX/UI overhaul to match Modern News & Article Mobile App UI Kit
