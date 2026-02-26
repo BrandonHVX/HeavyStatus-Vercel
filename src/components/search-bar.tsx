@@ -99,7 +99,7 @@ export function SearchBar() {
 
   const navigateToSearch = () => {
     if (searchTerm.trim()) {
-      router.push(`/blog?search=${encodeURIComponent(searchTerm)}`);
+      router.push(`/headlines?search=${encodeURIComponent(searchTerm)}`);
       setIsOpen(false);
       setSearchTerm('');
     }
@@ -144,11 +144,11 @@ export function SearchBar() {
       const selected = allItems[selectedIndex];
       if (selected) {
         if (selected.type === 'post') {
-          router.push(`/blog/${selected.slug}`);
+          router.push(`/${selected.slug}`);
         } else if (selected.type === 'category') {
-          router.push(`/blog?categories=${selected.slug}`);
+          router.push(`/headlines?categories=${selected.slug}`);
         } else {
-          router.push(`/blog?search=${selected.slug}`);
+          router.push(`/headlines?search=${selected.slug}`);
         }
         setIsOpen(false);
         setSearchTerm('');
@@ -166,8 +166,8 @@ export function SearchBar() {
   let itemIndex = -1;
 
   return (
-    <div ref={searchRef} className="relative">
-      <form onSubmit={handleSubmit} className="flex items-center">
+    <div ref={searchRef}>
+      <form onSubmit={handleSubmit}>
         <input
           ref={inputRef}
           type="text"
@@ -176,7 +176,6 @@ export function SearchBar() {
           onFocus={() => searchTerm.length >= 2 && setIsOpen(true)}
           onKeyDown={handleKeyDown}
           placeholder="Search..."
-          className="px-4 py-2 border-b border-gray-300 focus:outline-none focus:border-black transition-colors bg-transparent w-full md:w-64 text-sm"
           aria-label="Search posts, categories, and tags"
           aria-expanded={isOpen && totalResults > 0}
           aria-autocomplete="list"
@@ -184,36 +183,16 @@ export function SearchBar() {
           aria-activedescendant={getActiveDescendant()}
           role="combobox"
         />
-        <button
-          type="submit"
-          className="p-2 text-gray-600 hover:text-black transition-colors"
-          aria-label="Search"
-        >
-          {isLoading ? (
-            <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-            </svg>
-          ) : (
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          )}
+        <button type="submit" aria-label="Search">
+          {isLoading ? 'Loading...' : 'Search'}
         </button>
       </form>
 
       {isOpen && totalResults > 0 && (
-        <div
-          id={listboxId}
-          className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 shadow-lg z-50 max-h-96 overflow-y-auto"
-          role="listbox"
-          aria-label="Search results"
-        >
+        <div id={listboxId} role="listbox" aria-label="Search results">
           {results.posts.length > 0 && (
             <div>
-              <div className="px-4 py-2 bg-gray-50 text-xs uppercase tracking-widest text-gray-500 font-semibold">
-                Articles
-              </div>
+              <div>Articles</div>
               {results.posts.map((post) => {
                 itemIndex++;
                 const currentIndex = itemIndex;
@@ -222,29 +201,21 @@ export function SearchBar() {
                   <Link
                     key={post.id}
                     id={optionId}
-                    href={`/blog/${post.slug}`}
+                    href={`/${post.slug}`}
                     onClick={handleResultClick}
-                    className={`flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors ${
-                      selectedIndex === currentIndex ? 'bg-gray-100' : ''
-                    }`}
                     role="option"
                     aria-selected={selectedIndex === currentIndex}
                   >
                     {post.featuredImage?.node?.sourceUrl && (
-                      <div className="relative w-12 h-12 flex-shrink-0">
-                        <Image
-                          src={post.featuredImage.node.sourceUrl}
-                          alt=""
-                          fill
-                          className="object-cover"
-                          sizes="48px"
-                        />
-                      </div>
+                      <Image
+                        src={post.featuredImage.node.sourceUrl}
+                        alt=""
+                        width={48}
+                        height={48}
+                        sizes="48px"
+                      />
                     )}
-                    <span
-                      className="text-sm font-serif line-clamp-2"
-                      dangerouslySetInnerHTML={{ __html: post.title }}
-                    />
+                    <span dangerouslySetInnerHTML={{ __html: post.title }} />
                   </Link>
                 );
               })}
@@ -253,9 +224,7 @@ export function SearchBar() {
 
           {results.categories.length > 0 && (
             <div>
-              <div className="px-4 py-2 bg-gray-50 text-xs uppercase tracking-widest text-gray-500 font-semibold border-t border-gray-100">
-                Categories
-              </div>
+              <div>Categories</div>
               {results.categories.map((category) => {
                 itemIndex++;
                 const currentIndex = itemIndex;
@@ -264,17 +233,14 @@ export function SearchBar() {
                   <Link
                     key={category.id}
                     id={optionId}
-                    href={`/blog?categories=${category.slug}`}
+                    href={`/headlines?categories=${category.slug}`}
                     onClick={handleResultClick}
-                    className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors ${
-                      selectedIndex === currentIndex ? 'bg-gray-100' : ''
-                    }`}
                     role="option"
                     aria-selected={selectedIndex === currentIndex}
                   >
-                    <span className="text-sm">{category.name}</span>
+                    <span>{category.name}</span>
                     {category.count !== undefined && (
-                      <span className="text-xs text-gray-400">{category.count} posts</span>
+                      <span>{category.count} posts</span>
                     )}
                   </Link>
                 );
@@ -284,9 +250,7 @@ export function SearchBar() {
 
           {results.tags.length > 0 && (
             <div>
-              <div className="px-4 py-2 bg-gray-50 text-xs uppercase tracking-widest text-gray-500 font-semibold border-t border-gray-100">
-                Tags
-              </div>
+              <div>Tags</div>
               {results.tags.map((tag) => {
                 itemIndex++;
                 const currentIndex = itemIndex;
@@ -295,17 +259,14 @@ export function SearchBar() {
                   <Link
                     key={tag.id}
                     id={optionId}
-                    href={`/blog?search=${tag.slug}`}
+                    href={`/headlines?search=${tag.slug}`}
                     onClick={handleResultClick}
-                    className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors ${
-                      selectedIndex === currentIndex ? 'bg-gray-100' : ''
-                    }`}
                     role="option"
                     aria-selected={selectedIndex === currentIndex}
                   >
-                    <span className="text-sm">#{tag.name}</span>
+                    <span>#{tag.name}</span>
                     {tag.count !== undefined && (
-                      <span className="text-xs text-gray-400">{tag.count} posts</span>
+                      <span>{tag.count} posts</span>
                     )}
                   </Link>
                 );
@@ -313,12 +274,8 @@ export function SearchBar() {
             </div>
           )}
 
-          <div className="px-4 py-2 border-t border-gray-100 bg-gray-50">
-            <button
-              type="button"
-              onClick={navigateToSearch}
-              className="text-xs text-gray-500 hover:text-black transition-colors"
-            >
+          <div>
+            <button type="button" onClick={navigateToSearch}>
               Press Enter to search all results for &quot;{searchTerm}&quot;
             </button>
           </div>
@@ -326,9 +283,7 @@ export function SearchBar() {
       )}
 
       {isOpen && searchTerm.length >= 2 && totalResults === 0 && !isLoading && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 shadow-lg z-50 px-4 py-6 text-center">
-          <p className="text-sm text-gray-500">No results found for &quot;{searchTerm}&quot;</p>
-        </div>
+        <p>No results found for &quot;{searchTerm}&quot;</p>
       )}
     </div>
   );

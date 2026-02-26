@@ -50,24 +50,16 @@ export default async function GalleryPage() {
   });
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="mb-8">
-          <Link href="/" className="text-gray-500 hover:text-black text-sm">
-            &larr; Back to Home
-          </Link>
-        </div>
+    <div>
+      <Link href="/">&larr; Back to Home</Link>
 
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-serif mb-4">Photo Gallery</h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            A curated collection of images from our Photo Library
-          </p>
-          <p className="text-sm text-gray-400 mt-2">{allImages.length} photos</p>
-        </div>
-
-        <PhotoGallery images={allImages} />
+      <div>
+        <h1>Photo Gallery</h1>
+        <p>A curated collection of images from our Photo Library</p>
+        <p>{allImages.length} photos</p>
       </div>
+
+      <PhotoGallery images={allImages} />
     </div>
   );
 }

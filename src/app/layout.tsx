@@ -2,12 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import BottomNav from "@/components/BottomNav";
-import AddToHomeScreen from "@/components/AddToHomeScreen";
 import { Providers } from "@/components/Providers";
-import SubscriptionPrompt from "@/components/SubscriptionPrompt";
-import PullToRefresh from "@/components/PullToRefresh";
-import PageTransition from "@/components/PageTransition";
 
 export const metadata: Metadata = {
   title: "Political Aficionado - Latest News",
@@ -65,20 +60,11 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="antialiased">
+      <body>
         <Providers>
           <Header />
-          <main className="min-h-screen">
-            <PullToRefresh>
-              <PageTransition>
-                {children}
-              </PageTransition>
-            </PullToRefresh>
-          </main>
+          <main>{children}</main>
           <Footer />
-          <BottomNav />
-          <AddToHomeScreen />
-          <SubscriptionPrompt />
         </Providers>
       </body>
     </html>

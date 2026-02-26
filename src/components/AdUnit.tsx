@@ -20,10 +20,9 @@ interface AdUnitProps {
   slot: 'aboveFold' | 'inContent' | 'sidebar' | string;
   format?: 'auto' | 'rectangle' | 'horizontal' | 'vertical';
   responsive?: boolean;
-  className?: string;
 }
 
-export default function AdUnit({ slot, format = 'auto', responsive = true, className = '' }: AdUnitProps) {
+export default function AdUnit({ slot, format = 'auto', responsive = true }: AdUnitProps) {
   const adRef = useRef<HTMLDivElement>(null);
   const isLoaded = useRef(false);
 
@@ -47,7 +46,7 @@ export default function AdUnit({ slot, format = 'auto', responsive = true, class
   }
 
   return (
-    <div ref={adRef} className={`ad-unit ${className}`}>
+    <div ref={adRef}>
       <ins
         className="adsbygoogle"
         style={{ display: 'block' }}
