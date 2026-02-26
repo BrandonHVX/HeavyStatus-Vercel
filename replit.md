@@ -106,19 +106,16 @@ Design preference: Modern News & Article Mobile App UI Kit style - card-based la
 
 ## Recent Changes
 
-### February 26, 2026 (v8 - CitizensLens Dashboard Homepage)
-- Homepage redesigned to match CitizensLens 3-column dashboard layout
-- 3-column grid [1.02fr_1.38fr_230px]: Left (hero + lifestyle + global) | Center (opinion + lifestyle advocacy + tech) | Right sidebar (most viewed + trending)
-- Cards use rounded-[8px], border-[#e7e7e7], bg-white, shadow-[0_1px_2px], on #f5f5f5 container over #efefef page bg
-- Left column: "Politics & Culture" hero (image + stat pills), "Lifestyle & Fairs" 3-col (thumb | featured text | thumb), "Global Affairs" 3-col thumbnails
-- Center column: "Opinion & Analysis" 4-col (3 articles + Special CTA w/ blue button), "Lifestyle & Advocacy" 4-col (3 images + Podcast CTA), "Technology & Society" 3-col
-- Right sidebar: "Most Viewed" and "Trending Now" lists with circular avatar thumbnails
-- Georgia serif for featured text blocks, grayscale filter on select images
-- Eye/heart stat pills, "Read More" blue buttons (#1f4f93)
-- All data from WordPress GraphQL, no hardcoded content
-- Headlines page uses same CitizensLens dashboard layout with category filter chips and search bar
-- Shared dashboard helpers in `src/lib/dashboard-helpers.tsx` (used by headlines page)
-- Removed unused HomeMostPopular, HomeTabs, HomeSearchBar components
+### February 26, 2026 (v9 - Nuws Mobile App UI)
+- Complete redesign of all 4 main pages to match "Nuws" mobile-app news reader style
+- Shared helpers in `src/lib/nuws-helpers.tsx`: timeAgo, commentCount, stripHtml, AuthorAvatar, BookmarkIcon, CommentIcon, MoreIcon, PlayIcon, SearchIconSvg, SectionHeader, NewsListItem, MagazineCard
+- **HomePage** (Browse): "Nuws" hero subscription banner ($9.99/month Get Started CTA), category pills (Categories/Featured/Hot with icons), Latest Magazines horizontal scroll, Top News featured card + list items, Popular Authors horizontal scroll, Recent Video with play overlay
+- **HeadlinesPage** (Latest News): Featured article with large image + bookmark overlay, list items with category/title/thumbnail/author/timeAgo/comments/bookmark/more, quote cards with blue left border every 3rd item, category filter chips (active=bg-gray-900), pagination
+- **ExplorePage**: "Nuws" brand header, search bar with debounce + dropdown, WordPress category tabs, featured card, Topics 2x2 colored pills grid, Top News list, Latest Magazines horizontal, Top Channels with Follow buttons
+- **PostPage**: Full-width hero image (aspect-[3/4] mobile / 16:9 desktop), action bar (font-size/share/bookmark/more), category + large title + excerpt + author row, Related Posts horizontal scroll, Comments section with input
+- All pages use white background, Inter sans-serif, mobile-first max-w-lg layout (max-w-2xl for post)
+- Removed old `src/lib/dashboard-helpers.tsx`
+- Updated `/api/search` to return recent posts when query is empty (used by Explore page)
 
 ### February 23, 2026 (v2 - Modern App UI Kit)
 - Complete UX/UI overhaul to match Modern News & Article Mobile App UI Kit

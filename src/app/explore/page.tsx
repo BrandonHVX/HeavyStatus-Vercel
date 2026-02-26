@@ -4,15 +4,46 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import {
+  timeAgo,
+  commentCount,
+  postImg,
+  postHref,
+  postCat,
+  postAuthor,
+  fmtMonthYear,
+  AuthorAvatar,
+  BookmarkIcon,
+  CommentIcon,
+  MoreIcon,
+  SectionHeader,
+  NewsListItem,
+  MagazineCard,
+  SearchIconSvg,
+} from '@/lib/nuws-helpers';
 
 interface SearchPost {
   id: string;
   title: string;
   slug: string;
+  date?: string;
+  excerpt?: string;
   featuredImage?: {
     node?: {
       sourceUrl?: string;
     };
+  };
+  author?: {
+    node: {
+      name: string;
+      slug: string;
+    };
+  };
+  categories?: {
+    nodes: {
+      name: string;
+      slug: string;
+    }[];
   };
 }
 
@@ -41,6 +72,23 @@ interface TopicsData {
   tags: SearchTag[];
 }
 
+interface ChannelAuthor {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  avatar?: { url: string } | null;
+}
+
+const TOPIC_COLORS = [
+  'bg-green-100 text-green-700',
+  'bg-red-100 text-red-700',
+  'bg-gray-100 text-gray-700',
+  'bg-blue-100 text-blue-700',
+];
+
+const CATEGORY_TABS = ['Today', 'International', 'Business', 'Sports', 'Fashion', 'Tech'];
+
 export default function ExplorePage() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
@@ -50,6 +98,10 @@ export default function ExplorePage() {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [topics, setTopics] = useState<TopicsData>({ categories: [], tags: [] });
   const [topicsLoading, setTopicsLoading] = useState(true);
+  const [recentPosts, setRecentPosts] = useState<any[]>([]);
+  const [postsLoading, setPostsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('Today');
+  const [channels, setChannels] = useState<ChannelAuthor[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
   const listboxId = 'explore-search-listbox';
@@ -72,6 +124,21 @@ export default function ExplorePage() {
       }
     }
     fetchTopics();
+  }, []);
+
+  useEffect(() => {
+    async function fetchRecentPosts() {
+      try {
+        const response = await fetch('/api/search?q=');
+        const data = await response.json();
+        setRecentPosts(data.posts || []);
+      } catch (error) {
+        console.error('Failed to fetch recent posts:', error);
+      } finally {
+        setPostsLoading(false);
+      }
+    }
+    fetchRecentPosts();
   }, []);
 
   const fetchResults = useCallback(async (query: string) => {
@@ -162,196 +229,255 @@ export default function ExplorePage() {
     }
   };
 
+  const featuredPost = recentPosts[0] as any;
+  const topNewsPosts = recentPosts.slice(1, 5);
+  const magazinePosts = recentPosts.slice(5, 9);
+
   let itemIndex = -1;
 
   return (
-    <div className="min-h-screen bg-[#e6f4f1]">
-      <div className="max-w-3xl mx-auto px-4 py-12">
-        <h1 className="text-4xl md:text-5xl font-serif font-extrabold text-center mb-8 text-[#0b0b0b]">
-          Explore
-        </h1>
+    <div className="min-h-screen bg-white">
+      <div className="max-w-lg mx-auto px-4 pb-24">
 
-        <div className="relative mb-12">
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div className="flex items-center border-b border-gray-200 px-4">
-              <svg className="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              <form onSubmit={handleSubmit} className="flex-1">
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  onFocus={() => searchTerm.length >= 2 && setIsOpen(true)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Search articles, categories, tags..."
-                  className="w-full px-4 py-4 text-base text-gray-900 placeholder-gray-400 focus:outline-none"
-                  aria-label="Search"
-                  aria-expanded={isOpen && totalResults > 0}
-                  aria-autocomplete="list"
-                  aria-controls={listboxId}
-                  aria-activedescendant={getActiveDescendant()}
-                  role="combobox"
-                />
-              </form>
+        <div className="flex items-center justify-between py-4">
+          <h1 className="text-xl font-bold text-gray-900">Nuws</h1>
+          <div className="w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
+            U
+          </div>
+        </div>
+
+        <div className="relative mb-5">
+          <form onSubmit={handleSubmit}>
+            <div className="flex items-center bg-gray-100 rounded-lg px-4 py-3 gap-3">
+              <SearchIconSvg className="w-5 h-5 text-gray-400 flex-shrink-0" />
+              <input
+                ref={inputRef}
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onFocus={() => searchTerm.length >= 2 && setIsOpen(true)}
+                onKeyDown={handleKeyDown}
+                placeholder="Search for everything..."
+                className="w-full bg-transparent text-sm text-gray-900 placeholder-gray-400 focus:outline-none"
+                aria-label="Search"
+                aria-expanded={isOpen && totalResults > 0}
+                aria-autocomplete="list"
+                aria-controls={listboxId}
+                aria-activedescendant={getActiveDescendant()}
+                role="combobox"
+              />
               {isLoading && (
-                <svg className="w-5 h-5 text-gray-400 animate-spin" fill="none" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-gray-400 animate-spin flex-shrink-0" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
               )}
             </div>
+          </form>
 
-            {isOpen && totalResults > 0 && (
-              <div
-                id={listboxId}
-                className="max-h-80 overflow-y-auto"
-                role="listbox"
-                aria-label="Search results"
-              >
-                {results.posts.length > 0 && (
-                  <div>
-                    <div className="px-4 py-2 bg-gray-50 text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                      Articles
-                    </div>
-                    {results.posts.map((post) => {
-                      itemIndex++;
-                      const currentIndex = itemIndex;
-                      const optionId = `explore-search-option-post-${post.id}`;
-                      return (
-                        <Link
-                          key={post.id}
-                          id={optionId}
-                          href={`/${post.slug}`}
-                          className={`flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors ${
-                            selectedIndex === currentIndex ? 'bg-gray-100' : ''
-                          }`}
-                          role="option"
-                          aria-selected={selectedIndex === currentIndex}
-                        >
-                          {post.featuredImage?.node?.sourceUrl && (
-                            <div className="relative w-10 h-10 flex-shrink-0 rounded overflow-hidden">
-                              <Image
-                                src={post.featuredImage.node.sourceUrl}
-                                alt=""
-                                fill
-                                className="object-cover"
-                                sizes="40px"
-                              />
-                            </div>
-                          )}
-                          <span
-                            className="text-sm font-serif line-clamp-2 text-gray-900"
-                            dangerouslySetInnerHTML={{ __html: post.title }}
-                          />
-                        </Link>
-                      );
-                    })}
+          {isOpen && totalResults > 0 && (
+            <div
+              id={listboxId}
+              className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-100 max-h-80 overflow-y-auto z-50"
+              role="listbox"
+              aria-label="Search results"
+            >
+              {results.posts.length > 0 && (
+                <div>
+                  <div className="px-4 py-2 bg-gray-50 text-[10px] uppercase tracking-widest text-gray-500 font-bold">
+                    Articles
                   </div>
-                )}
-
-                {results.categories.length > 0 && (
-                  <div>
-                    <div className="px-4 py-2 bg-gray-50 text-[10px] uppercase tracking-widest text-gray-500 font-bold border-t border-gray-100">
-                      Categories
-                    </div>
-                    {results.categories.map((category) => {
-                      itemIndex++;
-                      const currentIndex = itemIndex;
-                      const optionId = `explore-search-option-category-${category.id}`;
-                      return (
-                        <Link
-                          key={category.id}
-                          id={optionId}
-                          href={`/headlines?categories=${category.slug}`}
-                          className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors ${
-                            selectedIndex === currentIndex ? 'bg-gray-100' : ''
-                          }`}
-                          role="option"
-                          aria-selected={selectedIndex === currentIndex}
-                        >
-                          <span className="text-sm text-gray-900">{category.name}</span>
-                          {category.count !== undefined && (
-                            <span className="text-xs text-gray-400">{category.count} posts</span>
-                          )}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {results.tags.length > 0 && (
-                  <div>
-                    <div className="px-4 py-2 bg-gray-50 text-[10px] uppercase tracking-widest text-gray-500 font-bold border-t border-gray-100">
-                      Tags
-                    </div>
-                    {results.tags.map((tag) => {
-                      itemIndex++;
-                      const currentIndex = itemIndex;
-                      const optionId = `explore-search-option-tag-${tag.id}`;
-                      return (
-                        <Link
-                          key={tag.id}
-                          id={optionId}
-                          href={`/headlines?search=${tag.slug}`}
-                          className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors ${
-                            selectedIndex === currentIndex ? 'bg-gray-100' : ''
-                          }`}
-                          role="option"
-                          aria-selected={selectedIndex === currentIndex}
-                        >
-                          <span className="text-sm text-gray-900">#{tag.name}</span>
-                          {tag.count !== undefined && (
-                            <span className="text-xs text-gray-400">{tag.count} posts</span>
-                          )}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                )}
-
-                <div className="px-4 py-3 border-t border-gray-100 bg-gray-50">
-                  <button
-                    type="button"
-                    onClick={navigateToSearch}
-                    className="text-xs text-gray-500 hover:text-black transition-colors"
-                  >
-                    Press Enter to search all results for &quot;{searchTerm}&quot;
-                  </button>
+                  {results.posts.map((post) => {
+                    itemIndex++;
+                    const currentIndex = itemIndex;
+                    const optionId = `explore-search-option-post-${post.id}`;
+                    return (
+                      <Link
+                        key={post.id}
+                        id={optionId}
+                        href={`/${post.slug}`}
+                        className={`flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors ${
+                          selectedIndex === currentIndex ? 'bg-gray-100' : ''
+                        }`}
+                        role="option"
+                        aria-selected={selectedIndex === currentIndex}
+                      >
+                        {post.featuredImage?.node?.sourceUrl && (
+                          <div className="relative w-10 h-10 flex-shrink-0 rounded overflow-hidden">
+                            <Image
+                              src={post.featuredImage.node.sourceUrl}
+                              alt=""
+                              fill
+                              className="object-cover"
+                              sizes="40px"
+                            />
+                          </div>
+                        )}
+                        <span
+                          className="text-sm font-medium line-clamp-2 text-gray-900"
+                          dangerouslySetInnerHTML={{ __html: post.title }}
+                        />
+                      </Link>
+                    );
+                  })}
                 </div>
-              </div>
-            )}
+              )}
 
-            {isOpen && searchTerm.length >= 2 && totalResults === 0 && !isLoading && (
-              <div className="px-4 py-8 text-center">
-                <p className="text-sm text-gray-500">No results found for &quot;{searchTerm}&quot;</p>
+              {results.categories.length > 0 && (
+                <div>
+                  <div className="px-4 py-2 bg-gray-50 text-[10px] uppercase tracking-widest text-gray-500 font-bold border-t border-gray-100">
+                    Categories
+                  </div>
+                  {results.categories.map((category) => {
+                    itemIndex++;
+                    const currentIndex = itemIndex;
+                    const optionId = `explore-search-option-category-${category.id}`;
+                    return (
+                      <Link
+                        key={category.id}
+                        id={optionId}
+                        href={`/headlines?categories=${category.slug}`}
+                        className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors ${
+                          selectedIndex === currentIndex ? 'bg-gray-100' : ''
+                        }`}
+                        role="option"
+                        aria-selected={selectedIndex === currentIndex}
+                      >
+                        <span className="text-sm text-gray-900">{category.name}</span>
+                        {category.count !== undefined && (
+                          <span className="text-xs text-gray-400">{category.count} posts</span>
+                        )}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+
+              {results.tags.length > 0 && (
+                <div>
+                  <div className="px-4 py-2 bg-gray-50 text-[10px] uppercase tracking-widest text-gray-500 font-bold border-t border-gray-100">
+                    Tags
+                  </div>
+                  {results.tags.map((tag) => {
+                    itemIndex++;
+                    const currentIndex = itemIndex;
+                    const optionId = `explore-search-option-tag-${tag.id}`;
+                    return (
+                      <Link
+                        key={tag.id}
+                        id={optionId}
+                        href={`/headlines?search=${tag.slug}`}
+                        className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors ${
+                          selectedIndex === currentIndex ? 'bg-gray-100' : ''
+                        }`}
+                        role="option"
+                        aria-selected={selectedIndex === currentIndex}
+                      >
+                        <span className="text-sm text-gray-900">#{tag.name}</span>
+                        {tag.count !== undefined && (
+                          <span className="text-xs text-gray-400">{tag.count} posts</span>
+                        )}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+
+              <div className="px-4 py-3 border-t border-gray-100 bg-gray-50">
+                <button
+                  type="button"
+                  onClick={navigateToSearch}
+                  className="text-xs text-gray-500 hover:text-black transition-colors"
+                >
+                  Press Enter to search all results for &quot;{searchTerm}&quot;
+                </button>
               </div>
-            )}
-          </div>
+            </div>
+          )}
+
+          {isOpen && searchTerm.length >= 2 && totalResults === 0 && !isLoading && (
+            <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-100 px-4 py-8 text-center z-50">
+              <p className="text-sm text-gray-500">No results found for &quot;{searchTerm}&quot;</p>
+            </div>
+          )}
         </div>
 
-        <section className="mb-12">
-          <h2 className="text-sm font-sans font-extrabold uppercase tracking-[0.2em] text-[#0b0b0b] mb-6">
-            Popular Categories
-          </h2>
+        <div className="flex gap-1 overflow-x-auto mb-6 -mx-4 px-4 scrollbar-hide">
+          {(topics.categories.length > 0
+            ? topics.categories.slice(0, 8).map(c => c.name)
+            : CATEGORY_TABS
+          ).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`flex-shrink-0 text-sm font-medium px-3 py-1.5 whitespace-nowrap transition-colors ${
+                activeTab === tab
+                  ? 'font-semibold text-gray-900 border-b-2 border-gray-900'
+                  : 'text-gray-400'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        {!postsLoading && featuredPost && (
+          <section className="mb-6">
+            <Link href={`/${featuredPost.slug}`} className="block group">
+              <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden bg-gray-100">
+                {featuredPost.featuredImage?.node?.sourceUrl && (
+                  <Image
+                    src={featuredPost.featuredImage.node.sourceUrl}
+                    alt={featuredPost.title || ''}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 512px) 100vw, 512px"
+                  />
+                )}
+                <div className="absolute top-3 right-3">
+                  <BookmarkIcon className="w-5 h-5 text-white drop-shadow" />
+                </div>
+              </div>
+              <div className="mt-3">
+                <p className="text-[11px] font-medium text-gray-500 uppercase mb-1">
+                  {featuredPost.categories?.nodes?.[0]?.name || 'News'}
+                </p>
+                <h3 className="text-base font-bold text-gray-900 leading-snug mb-2 group-hover:text-gray-700 transition-colors">
+                  {featuredPost.title}
+                </h3>
+                <div className="flex items-center gap-2">
+                  <AuthorAvatar name={featuredPost.author?.node?.name} size={28} />
+                  <span className="text-xs font-medium text-gray-700">{featuredPost.author?.node?.name || 'Staff'}</span>
+                  <span className="text-xs text-gray-400">·</span>
+                  <span className="text-xs text-gray-400">{timeAgo(featuredPost.date)}</span>
+                  <span className="text-xs text-gray-400">·</span>
+                  <CommentIcon className="w-3.5 h-3.5 text-gray-400" />
+                  <span className="text-xs text-gray-400">{commentCount(featuredPost)}</span>
+                </div>
+              </div>
+            </Link>
+          </section>
+        )}
+
+        <section className="mb-6">
+          <SectionHeader title="Topics" href="/headlines" />
           {topicsLoading ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="h-14 bg-white/50 rounded-lg animate-pulse" />
+            <div className="grid grid-cols-2 gap-3">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="h-14 bg-gray-100 rounded-xl animate-pulse" />
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {topics.categories.map((category) => (
+            <div className="grid grid-cols-2 gap-3">
+              {topics.categories.slice(0, 4).map((category, i) => (
                 <Link
                   key={category.id}
                   href={`/headlines?categories=${category.slug}`}
-                  className="flex items-center justify-between px-4 py-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                  className={`rounded-xl px-4 py-3 ${TOPIC_COLORS[i % TOPIC_COLORS.length]} transition-opacity hover:opacity-80`}
                 >
-                  <span className="font-serif font-bold text-[#0b0b0b]">{category.name}</span>
+                  <span className="text-sm font-semibold">{category.name}</span>
                   {category.count !== undefined && (
-                    <span className="text-xs text-gray-400">{category.count}</span>
+                    <p className="text-xs opacity-70 mt-0.5">{category.count} posts</p>
                   )}
                 </Link>
               ))}
@@ -359,23 +485,57 @@ export default function ExplorePage() {
           )}
         </section>
 
-        {topics.tags.length > 0 && (
-          <section>
-            <h2 className="text-sm font-sans font-extrabold uppercase tracking-[0.2em] text-[#0b0b0b] mb-6">
-              Popular Tags
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {topics.tags.map((tag) => (
-                <Link
-                  key={tag.id}
-                  href={`/headlines?search=${tag.slug}`}
-                  className="px-4 py-2 bg-white rounded-full text-sm text-gray-700 hover:bg-gray-100 transition-colors shadow-sm"
-                >
-                  #{tag.name}
-                  {tag.count !== undefined && (
-                    <span className="ml-1 text-xs text-gray-400">({tag.count})</span>
+        {topNewsPosts.length > 0 && (
+          <section className="mb-6">
+            <SectionHeader title="Top News" href="/headlines" />
+            <div className="divide-y divide-gray-100">
+              {topNewsPosts.map((post: any) => (
+                <NewsListItem key={post.id || post.slug} post={post} />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {magazinePosts.length > 0 && (
+          <section className="mb-6">
+            <SectionHeader title="Latest Magazines" href="/headlines" />
+            <div className="flex overflow-x-auto gap-4 -mx-4 px-4 scrollbar-hide">
+              {magazinePosts.map((post: any) => (
+                <MagazineCard key={post.id || post.slug} post={post} />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {topics.categories.length > 0 && (
+          <section className="mb-6">
+            <SectionHeader title="Top Channels" href="/headlines" />
+            <div className="space-y-4">
+              {topics.categories.slice(0, 5).map((cat, i) => (
+                <div key={cat.id} className="flex items-center gap-3">
+                  <div className="w-[52px] h-[52px] rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-bold text-lg flex-shrink-0">
+                    {cat.name.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-gray-900 truncate">{cat.name}</p>
+                    <p className="text-xs text-gray-400">Contributor</p>
+                  </div>
+                  {i === 0 ? (
+                    <Link
+                      href={`/headlines?categories=${cat.slug}`}
+                      className="px-5 py-1.5 rounded-full bg-blue-500 text-white text-xs font-semibold flex-shrink-0"
+                    >
+                      Follow
+                    </Link>
+                  ) : (
+                    <Link
+                      href={`/headlines?categories=${cat.slug}`}
+                      className="px-5 py-1.5 rounded-full bg-gray-100 text-gray-500 text-xs font-semibold flex-shrink-0"
+                    >
+                      Following
+                    </Link>
                   )}
-                </Link>
+                </div>
               ))}
             </div>
           </section>

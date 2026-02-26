@@ -34,7 +34,44 @@ export async function GET(request: NextRequest) {
   const query = searchParams.get('q');
 
   if (!query || query.trim().length < 2) {
-    return NextResponse.json({ posts: [], categories: [], tags: [] });
+    try {
+      const recentQuery = gql`
+        query RecentPosts {
+          posts(first: 10) {
+            nodes {
+              id
+              title
+              slug
+              date
+              excerpt
+              featuredImage {
+                node {
+                  sourceUrl
+                }
+              }
+              author {
+                node {
+                  name
+                  slug
+                }
+              }
+              categories {
+                nodes {
+                  name
+                  slug
+                }
+              }
+            }
+          }
+        }
+      `;
+      const data = await client.request<{
+        posts: { nodes: any[] };
+      }>(recentQuery);
+      return NextResponse.json({ posts: data.posts.nodes, categories: [], tags: [] });
+    } catch {
+      return NextResponse.json({ posts: [], categories: [], tags: [] });
+    }
   }
 
   try {

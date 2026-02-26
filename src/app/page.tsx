@@ -1,297 +1,184 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getAllPosts } from "@/lib/queries";
-import { Post } from "@/lib/types";
+import { getAllPosts, getAllAuthors } from "@/lib/queries";
+import { Post, Author } from "@/lib/types";
+import {
+  timeAgo,
+  fmtMonthYear,
+  commentCount,
+  postImg,
+  postHref,
+  postCat,
+  postAuthor,
+  AuthorAvatar,
+  BookmarkIcon,
+  CommentIcon,
+  MoreIcon,
+  PlayIcon,
+  SectionHeader,
+  MagazineCard,
+} from "@/lib/nuws-helpers";
 
 export const revalidate = 60;
 
-function t(p?: Post) { return p?.title ?? "Untitled"; }
-function href(p?: Post) { return p?.slug ? `/${p.slug}` : "#"; }
-function img(p?: Post) { return p?.featuredImage?.node?.sourceUrl || "https://placehold.co/800x600.png"; }
-function cat(p?: Post) { return p?.categories?.nodes?.[0]?.name || "News"; }
-function readMin(p?: Post) { return Math.max(1, Math.ceil((p?.content?.split(/\s+/).length || 0) / 200)); }
-function ex(p?: Post, len = 100) { return (p?.excerpt || p?.content || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, len); }
-function fmtDate(d?: string) {
-  if (!d) return "";
-  const dt = new Date(d);
-  return dt.toLocaleDateString("en-US", { month: "short", day: "numeric" }) + ", " +
-    dt.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true }).toLowerCase();
-}
-
-function Card({ title, children, className = "" }: { title?: string; children: React.ReactNode; className?: string }) {
-  return (
-    <section className={`rounded-[8px] border border-[#e7e7e7] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.02)] ${className}`}>
-      {title && (
-        <div className="border-b border-[#efefef] px-5 py-4">
-          <h3 className="text-[13px] font-semibold tracking-[0.01em] text-[#343434]">{title}</h3>
-        </div>
-      )}
-      {children}
-    </section>
-  );
-}
-
-function SmallMeta({ text }: { text: string }) {
-  return <div className="mt-2 text-[10px] tracking-wide text-[#9c9c9c]">{text}</div>;
-}
-
-function StatPill() {
-  return (
-    <div className="flex items-center gap-3 text-[10px] text-[#a8a8a8]">
-      <span className="inline-flex items-center gap-1">
-        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth="1.7">
-          <path d="M12 5c-5.5 0-9.5 5.2-10 6 .5.8 4.5 6 10 6s9.5-5.2 10-6c-.5-.8-4.5-6-10-6Z" />
-          <circle cx="12" cy="11" r="2.3" />
-        </svg>
-        345
-      </span>
-      <span className="inline-flex items-center gap-1">
-        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current text-[#c7c7c7]">
-          <path d="M12 21s-6.7-4.35-9.43-8.07C.77 10.45 1.18 6.8 4.2 4.74c2.18-1.48 5.02-1.05 6.8 1.03 1.78-2.08 4.62-2.5 6.8-1.03 3.02 2.06 3.43 5.71 1.63 8.19C18.7 16.65 12 21 12 21Z" />
-        </svg>
-        35
-      </span>
-    </div>
-  );
-}
-
-function SidebarList({ listTitle, items }: { listTitle: string; items: Post[] }) {
-  return (
-    <Card className="overflow-hidden">
-      <div className="flex items-center justify-between border-b border-[#efefef] px-4 py-3">
-        <h4 className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#b3b3b3]">{listTitle}</h4>
-        <Link href="/headlines" className="text-[10px] font-medium text-[#9a9a9a] hover:text-[#666] transition-colors">View All</Link>
-      </div>
-      <div className="px-4 py-2">
-        {items.map((p, idx) => (
-          <div key={p.id || idx}>
-            <Link href={href(p)} className="flex items-start gap-3 py-3 group">
-              <div className="relative h-10 w-10 rounded-full overflow-hidden ring-1 ring-[#ececec] flex-shrink-0">
-                <Image src={img(p)} alt="" fill className="object-cover" sizes="40px" />
-              </div>
-              <div className="min-w-0">
-                <div className="mb-1 text-[10px] text-[#a1a1a1]">{fmtDate(p.date)}, {readMin(p)} min</div>
-                <p className="text-[11px] font-medium leading-[1.25] text-[#434343] group-hover:text-[#222] transition-colors line-clamp-2">{t(p)}</p>
-              </div>
-            </Link>
-            {idx !== items.length - 1 && <div className="border-t border-[#f1f1f1]" />}
-          </div>
-        ))}
-      </div>
-    </Card>
-  );
-}
-
 export default async function Home() {
-  const { posts } = await getAllPosts();
+  const [{ posts }, authors] = await Promise.all([getAllPosts(), getAllAuthors()]);
   const all: Post[] = Array.isArray(posts) ? posts : [];
 
   if (all.length === 0) {
     return (
-      <div className="min-h-screen bg-[#efefef] flex items-center justify-center">
-        <p className="text-[#999] text-sm">No articles yet. Content will appear once published.</p>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <p className="text-gray-400 text-sm">No articles yet. Content will appear once published.</p>
       </div>
     );
   }
 
-  const heroPost = all[0];
-  const lifestyleFairPosts = all.slice(1, 4);
-  const globalPosts = all.slice(4, 7);
-  const opinionPosts = all.slice(0, 3);
-  const specialPost = all[3];
-  const lifestyleAdvPosts = all.slice(4, 7);
-  const podcastPost = all[7];
-  const techPosts = all.slice(8, 11);
-  const sidebarPosts1 = all.slice(0, 3);
-  const sidebarPosts2 = all.slice(3, 6);
+  const magazinePosts = all.slice(0, 4);
+  const topNewsFeatured = all[4] || all[0];
+  const topNewsListPosts = all.slice(5, 8).length ? all.slice(5, 8) : all.slice(1, 4);
+  const videoPosts = all.slice(8, 11).length ? all.slice(8, 11) : all.slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-[#efefef] p-4 sm:p-6 lg:p-7" style={{ fontFamily: "'Inter', -apple-system, system-ui, sans-serif" }}>
-      <div className="mx-auto max-w-[1540px] rounded-[8px] border border-[#e6e6e6] bg-[#f5f5f5] shadow-[0_10px_35px_rgba(0,0,0,0.03)]">
-        <div className="p-5">
-          <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1.02fr_1.38fr_230px]">
+    <div className="min-h-screen bg-white" style={{ fontFamily: "'Inter', -apple-system, system-ui, sans-serif" }}>
+      <div className="mx-auto max-w-lg px-4 pb-24 pt-6">
 
-            {/* ========== LEFT COLUMN ========== */}
-            <div className="min-w-0 space-y-4">
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">Browse</h1>
 
-              {/* Politics & Culture Hero */}
-              <Card>
-                <div className="px-5 pt-4">
-                  <h2 className="text-[17px] font-semibold text-[#353535]">Politics &amp; Culture</h2>
-                </div>
-                <div className="px-5 py-4">
-                  <Link href={href(heroPost)} className="block group">
-                    <div className="overflow-hidden rounded-[5px] border border-[#ececec] bg-[#f7f7f7] relative h-[345px]">
-                      <Image src={img(heroPost)} alt={t(heroPost)} fill className="object-cover group-hover:scale-[1.02] transition-transform duration-500" sizes="(max-width: 1280px) 100vw, 450px" priority />
-                    </div>
-                  </Link>
-                  <div className="mt-4 flex items-center justify-between">
-                    <div className="text-[10px] tracking-wide text-[#9d9d9d]">{fmtDate(heroPost.date)}</div>
-                    <StatPill />
+        <div className="rounded-2xl bg-gray-100 px-6 py-8 text-center mb-8">
+          <div className="text-2xl font-bold text-gray-900 mb-2">Nuws</div>
+          <p className="text-sm text-gray-600 mb-1">Millions of the latest magazines and news. One subscription</p>
+          <p className="text-xs text-gray-400 mb-5">Plan auto-renews for $9.99/month until cancelled</p>
+          <Link
+            href="/subscribe"
+            className="inline-block bg-green-600 text-white rounded-full px-6 py-2.5 text-sm font-semibold hover:bg-green-700 transition-colors"
+          >
+            Get Started
+          </Link>
+        </div>
+
+        <div className="flex gap-3 mb-8 overflow-x-auto scrollbar-hide">
+          <Link href="/headlines" className="flex items-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 flex-shrink-0">
+            <svg className="w-4 h-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+              <path d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+            </svg>
+            <span className="text-sm font-medium text-gray-700">Categories</span>
+          </Link>
+          <Link href="/headlines?filter=featured" className="flex items-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 flex-shrink-0">
+            <svg className="w-4 h-4 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" />
+            </svg>
+            <span className="text-sm font-medium text-gray-700">Featured</span>
+          </Link>
+          <Link href="/headlines?filter=hot" className="flex items-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 flex-shrink-0">
+            <svg className="w-4 h-4 text-orange-500" viewBox="0 0 24 24" fill="currentColor">
+              <path fillRule="evenodd" d="M12.963 2.286a.75.75 0 00-1.071-.136 9.742 9.742 0 00-3.539 6.177A7.547 7.547 0 016.648 6.61a.75.75 0 00-1.152.082A9 9 0 1015.68 4.534a7.46 7.46 0 01-2.717-2.248zM15.75 14.25a3.75 3.75 0 11-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 011.925-3.545 3.75 3.75 0 013.255 3.717z" clipRule="evenodd" />
+            </svg>
+            <span className="text-sm font-medium text-gray-700">Hot</span>
+          </Link>
+        </div>
+
+        <section className="mb-8">
+          <SectionHeader title="Latest Magazines" href="/headlines" />
+          <div className="flex overflow-x-auto gap-4 scrollbar-hide pb-2">
+            {magazinePosts.map((p) => (
+              <MagazineCard key={p.id} post={p} />
+            ))}
+          </div>
+        </section>
+
+        <section className="mb-8">
+          <SectionHeader title="Top News" href="/headlines" />
+
+          <Link href={postHref(topNewsFeatured)} className="block group mb-4">
+            <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-gray-100">
+              <Image src={postImg(topNewsFeatured)} alt={topNewsFeatured.title || ""} fill className="object-cover" sizes="(max-width: 512px) 100vw, 512px" priority />
+              <div className="absolute top-3 left-3 bg-white/80 text-xs px-2 py-0.5 rounded-md font-medium">
+                {postCat(topNewsFeatured)}
+              </div>
+            </div>
+            <h3 className="mt-3 text-lg font-bold text-gray-900 leading-snug group-hover:text-gray-700 transition-colors">
+              {topNewsFeatured.title}
+            </h3>
+            <div className="mt-2 flex items-center gap-2">
+              <AuthorAvatar name={postAuthor(topNewsFeatured)} size={28} />
+              <span className="text-xs font-medium text-gray-700">{postAuthor(topNewsFeatured)}</span>
+              <span className="text-xs text-gray-400">{timeAgo(topNewsFeatured.date)}</span>
+              <CommentIcon className="w-3.5 h-3.5 text-gray-400 ml-1" />
+              <span className="text-xs text-gray-400">{commentCount(topNewsFeatured)}</span>
+            </div>
+          </Link>
+
+          {topNewsListPosts.map((p, i) => (
+            <div key={p.id || i}>
+              <Link href={postHref(p)} className="flex items-start gap-3 py-3 group">
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-sm font-semibold text-gray-900 leading-snug line-clamp-2 group-hover:text-gray-700 transition-colors">
+                    {p.title}
+                  </h4>
+                  <div className="mt-1.5 flex items-center gap-1.5 text-[11px] text-gray-400">
+                    <span>{postAuthor(p)}</span>
+                    <span>·</span>
+                    <span>{timeAgo(p.date)}</span>
                   </div>
                 </div>
-              </Card>
-
-              {/* Lifestyle & Fairs */}
-              <Card>
-                <div className="px-5 pt-4">
-                  <h2 className="text-[17px] font-semibold text-[#353535]">Lifestyle &amp; Fairs</h2>
+                <div className="relative w-[100px] h-[75px] rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                  <Image src={postImg(p)} alt="" fill className="object-cover" sizes="100px" />
                 </div>
-                <div className="grid grid-cols-[1fr_1.2fr_1fr] gap-4 px-5 py-4">
-                  {lifestyleFairPosts[0] && (
-                    <Link href={href(lifestyleFairPosts[0])} className="min-w-0 group block">
-                      <div className="overflow-hidden rounded-[4px] border border-[#ececec] relative h-[98px]">
-                        <Image src={img(lifestyleFairPosts[0])} alt="" fill className="object-cover" sizes="200px" />
-                      </div>
-                      <p className="mt-2 text-[10px] font-semibold leading-[1.25] text-[#454545] line-clamp-2 group-hover:text-[#222] transition-colors">{t(lifestyleFairPosts[0])}</p>
-                      <SmallMeta text={fmtDate(lifestyleFairPosts[0].date)} />
-                    </Link>
-                  )}
-
-                  {lifestyleFairPosts[1] && (
-                    <Link href={href(lifestyleFairPosts[1])} className="min-w-0 group block">
-                      <div className="mb-1 text-[10px] uppercase tracking-[0.16em] text-[#b2b2b2]">Featured</div>
-                      <h3 className="text-[13px] font-semibold leading-[1.18] text-[#3a3a3a] [font-family:Georgia,serif] group-hover:text-[#111] transition-colors line-clamp-3">{t(lifestyleFairPosts[1])}</h3>
-                      <p className="mt-2 text-[10px] leading-[1.35] text-[#9b9b9b] line-clamp-3">{ex(lifestyleFairPosts[1])}</p>
-                      <SmallMeta text={fmtDate(lifestyleFairPosts[1].date)} />
-                    </Link>
-                  )}
-
-                  {lifestyleFairPosts[2] && (
-                    <Link href={href(lifestyleFairPosts[2])} className="min-w-0 group block">
-                      <div className="overflow-hidden rounded-[4px] border border-[#ececec] relative h-[98px]">
-                        <Image src={img(lifestyleFairPosts[2])} alt="" fill className="object-cover" sizes="200px" />
-                      </div>
-                      <p className="mt-2 text-[10px] font-semibold leading-[1.25] text-[#454545] line-clamp-2 group-hover:text-[#222] transition-colors">{t(lifestyleFairPosts[2])}</p>
-                      <SmallMeta text={fmtDate(lifestyleFairPosts[2].date)} />
-                    </Link>
-                  )}
-                </div>
-              </Card>
-
-              {/* Global Affairs */}
-              <Card>
-                <div className="px-5 pt-4">
-                  <h2 className="text-[17px] font-semibold text-[#353535]">Global Affairs</h2>
-                </div>
-                <div className="grid grid-cols-3 gap-4 px-5 py-4">
-                  {globalPosts.map((p, i) => (
-                    <Link href={href(p)} key={p.id || i} className="min-w-0 group block">
-                      <div className="overflow-hidden rounded-[4px] border border-[#ececec] relative h-[88px]">
-                        <Image src={img(p)} alt="" fill className={`object-cover ${i === 1 ? "grayscale" : ""}`} sizes="200px" />
-                      </div>
-                      <div className="mt-2 text-[10px] font-semibold leading-[1.25] text-[#454545] line-clamp-2 group-hover:text-[#222] transition-colors">{t(p)}</div>
-                    </Link>
-                  ))}
-                </div>
-              </Card>
+              </Link>
+              <div className="border-t border-gray-100" />
             </div>
+          ))}
+        </section>
 
-            {/* ========== CENTER COLUMN ========== */}
-            <div className="min-w-0 space-y-4">
-
-              {/* Opinion & Analysis */}
-              <Card>
-                <div className="border-b border-[#efefef] px-5 py-4">
-                  <h2 className="text-[17px] font-semibold text-[#353535]">Opinion &amp; Analysis</h2>
-                </div>
-                <div className="grid gap-4 px-5 py-4 lg:grid-cols-[1fr_1fr_1fr_1.05fr]">
-                  {opinionPosts.map((p, idx) => (
-                    <Link href={href(p)} key={p.id || idx} className="min-w-0 group block">
-                      <div className="overflow-hidden rounded-[4px] border border-[#ececec] bg-[#f7f7f7] relative h-[110px]">
-                        <Image src={img(p)} alt="" fill className={`object-cover ${idx === 0 ? "grayscale" : ""}`} sizes="250px" />
-                      </div>
-                      {idx === 0 ? (
-                        <>
-                          <div className="mt-2 inline-flex rounded-full bg-[#f2f2f2] px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#666]">{cat(p)}</div>
-                          <h3 className="mt-2 text-[13px] font-semibold leading-[1.18] text-[#333] [font-family:Georgia,serif] group-hover:text-[#111] transition-colors line-clamp-2">{t(p)}</h3>
-                          <p className="mt-2 text-[10px] leading-[1.35] text-[#9c9c9c] line-clamp-2">{ex(p)}</p>
-                          <div className="mt-3 flex items-center justify-between">
-                            <SmallMeta text={fmtDate(p.date)} />
-                            <span className="text-[10px] text-[#a8a8a8]">{readMin(p)} min</span>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <h4 className="mt-2 text-[11px] font-semibold leading-[1.2] text-[#434343] group-hover:text-[#222] transition-colors line-clamp-2">{t(p)}</h4>
-                          <div className="mt-3 flex items-center justify-between">
-                            <SmallMeta text={fmtDate(p.date)} />
-                            <span className="text-[10px] text-[#a8a8a8]">{readMin(p)} min</span>
-                          </div>
-                        </>
-                      )}
-                    </Link>
-                  ))}
-
-                  {specialPost && (
-                    <div className="min-w-0 self-stretch rounded-[4px] border border-[#f0f0f0] bg-white p-3">
-                      <div className="text-[9px] uppercase tracking-[0.16em] text-[#b7b7b7]">Special</div>
-                      <h3 className="mt-2 text-[15px] leading-[1.15] text-[#3a3a3a] [font-family:Georgia,serif] line-clamp-4">{t(specialPost)}</h3>
-                      <p className="mt-3 text-[10px] leading-[1.35] text-[#9f9f9f] line-clamp-3">{ex(specialPost, 120)}</p>
-                      <Link href={href(specialPost)} className="mt-4 inline-flex items-center rounded-full bg-[#1f4f93] px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-white shadow-sm hover:bg-[#173d73] transition-colors">
-                        Read More
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              </Card>
-
-              {/* Lifestyle & Advocacy */}
-              <Card>
-                <div className="border-b border-[#efefef] px-5 py-4">
-                  <h2 className="text-[17px] font-semibold text-[#353535]">Lifestyle &amp; Advocacy</h2>
-                </div>
-                <div className="grid gap-4 px-5 py-4 lg:grid-cols-[1fr_1fr_1fr_160px]">
-                  {lifestyleAdvPosts.map((p, i) => (
-                    <Link href={href(p)} key={p.id || i} className="min-w-0 group block">
-                      <div className="overflow-hidden rounded-[4px] border border-[#ececec] bg-[#f7f7f7] relative h-[160px]">
-                        <Image src={img(p)} alt="" fill className={`object-cover ${i > 0 ? "grayscale" : ""}`} sizes="300px" />
-                      </div>
-                      <h3 className="mt-3 text-[13px] leading-[1.16] text-[#3a3a3a] [font-family:Georgia,serif] group-hover:text-[#111] transition-colors line-clamp-2">{t(p)}</h3>
-                      {i === 0 && <p className="mt-2 text-[10px] leading-[1.35] text-[#9c9c9c] line-clamp-2">{ex(p)}</p>}
-                      <SmallMeta text={fmtDate(p.date)} />
-                    </Link>
-                  ))}
-
-                  {podcastPost && (
-                    <div className="flex min-h-[160px] flex-col items-start justify-center rounded-[4px] border border-[#f0f0f0] bg-white p-3">
-                      <div className="text-[12px] uppercase tracking-[0.18em] text-[#b7b7b7]">Podcast</div>
-                      <div className="mt-2 text-[16px] leading-[1.1] text-[#4b4b4b] [font-family:Georgia,serif] line-clamp-2">{t(podcastPost)}</div>
-                      <Link href={href(podcastPost)} className="mt-4 inline-flex items-center rounded-full bg-[#1f4f93] px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#173d73] transition-colors">
-                        Read More
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              </Card>
-
-              {/* Technology & Society */}
-              <Card>
-                <div className="border-b border-[#efefef] px-5 py-4">
-                  <h2 className="text-[17px] font-semibold text-[#353535]">Technology &amp; Society</h2>
-                </div>
-                <div className="grid grid-cols-1 gap-4 px-5 py-4 md:grid-cols-3">
-                  {techPosts.map((p, i) => (
-                    <Link href={href(p)} key={p.id || i} className="min-w-0 group block">
-                      <div className="overflow-hidden rounded-[4px] border border-[#ececec] relative h-[92px]">
-                        <Image src={img(p)} alt="" fill className={`object-cover ${i === 2 ? "grayscale" : ""}`} sizes="280px" />
-                      </div>
-                      <div className="mt-2 text-[10px] uppercase tracking-[0.16em] text-[#b5b5b5]">{cat(p)}</div>
-                      <h4 className="mt-1 text-[12px] font-semibold leading-[1.2] text-[#424242] group-hover:text-[#111] transition-colors line-clamp-2">{t(p)}</h4>
-                    </Link>
-                  ))}
-                </div>
-              </Card>
-            </div>
-
-            {/* ========== RIGHT SIDEBAR ========== */}
-            <aside className="min-w-0 space-y-4">
-              <SidebarList listTitle="Most Viewed" items={sidebarPosts1} />
-              <SidebarList listTitle="Trending Now" items={sidebarPosts2} />
-            </aside>
-
+        <section className="mb-8">
+          <SectionHeader title="Popular Authors" href="/headlines" />
+          <div className="flex overflow-x-auto gap-5 scrollbar-hide pb-2">
+            {(authors as Author[]).slice(0, 8).map((a) => (
+              <Link href={`/author/${a.slug}`} key={a.id} className="flex-shrink-0 flex flex-col items-center w-16">
+                {a.avatar?.url ? (
+                  <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gray-200">
+                    <Image src={a.avatar.url} alt={a.name} fill className="object-cover" sizes="48px" />
+                  </div>
+                ) : (
+                  <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-semibold text-base">
+                    {a.name.charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <span className="mt-2 text-xs font-medium text-gray-900 text-center line-clamp-1">{a.name}</span>
+                <span className="text-[11px] text-gray-400">Contributor</span>
+              </Link>
+            ))}
           </div>
-        </div>
+        </section>
+
+        <section className="mb-8">
+          <SectionHeader title="Recent Video" href="/headlines" />
+          <div className="flex overflow-x-auto gap-4 scrollbar-hide pb-2">
+            {videoPosts.map((p) => (
+              <Link href={postHref(p)} key={p.id} className="flex-shrink-0 w-[256px] group">
+                <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden bg-gray-100">
+                  <Image src={postImg(p)} alt="" fill className="object-cover" sizes="256px" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <PlayIcon />
+                  </div>
+                </div>
+                <div className="mt-2 text-[11px] font-medium text-gray-500 uppercase">{postCat(p)}</div>
+                <h4 className="text-sm font-semibold text-gray-900 leading-snug line-clamp-2 group-hover:text-gray-700 transition-colors">
+                  {p.title}
+                </h4>
+                <div className="mt-1 flex items-center gap-1.5 text-[11px] text-gray-400">
+                  <span>{postAuthor(p)}</span>
+                  <span>·</span>
+                  <span>{timeAgo(p.date)}</span>
+                  <span>·</span>
+                  <CommentIcon className="w-3.5 h-3.5" />
+                  <span>{commentCount(p)}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
       </div>
     </div>
   );
