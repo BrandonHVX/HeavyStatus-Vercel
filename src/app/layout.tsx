@@ -59,7 +59,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="bg-white">
+      <body>
         <Providers>
           <LayoutWrapper>{children}</LayoutWrapper>
         </Providers>

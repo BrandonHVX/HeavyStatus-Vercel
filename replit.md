@@ -10,12 +10,12 @@ Preferred communication style: Simple, everyday language.
 
 ## Current State
 
-- **globals.css**: Contains `@tailwind base/components/utilities` directives + Inter font import, tap highlight reset, font smoothing, hide-scrollbar utility
-- **tailwind.config.ts**: Extends with teal (#2BBBC0), green (#34C759) colors and card box-shadow
-- **Homepage**: Fully styled static "Nuws" mobile app UI — no WordPress data. Hardcoded sections: hero subscription banner, category pills, Latest Magazines, Top News, Popular Authors, Recent Video, fixed bottom nav
-- **Headlines Page**: Fully styled static "Nuws" headlines feed — no WordPress data. Custom header bar (back arrow, "Latest News", search + filter icons), featured article with large image placeholder, list items with 80x80 thumbnails + bookmark/more icons, quote card with teal left border
-- **Layout**: Uses LayoutWrapper to conditionally hide global Header/Footer on homepage and headlines page (both have their own custom headers)
-- **Other pages/components**: Still unstyled bare HTML with zero className attributes
+- **globals.css**: Contains only `@tailwind base/components/utilities` directives — no custom CSS
+- **tailwind.config.ts**: Default config with only background/foreground CSS variable colors — no custom extensions
+- **Homepage**: Unstyled, fetches real WordPress data via `getAllPosts()` and `getCategories()`. Renders Hero, Categories, and remaining posts as plain HTML
+- **Headlines Page**: Unstyled, fetches real WordPress data with search/category/pagination support. Uses LatestPosts and Categories components
+- **Layout**: LayoutWrapper always shows Header and Footer on all pages. No BottomNav in layout
+- **All pages/components**: Unstyled bare HTML with zero className attributes
 - **Data layer**: Fully intact — GraphQL queries, API endpoints, search, pagination, auth, Stripe all work
 - **nuws-helpers.tsx**: Contains only pure utility functions (timeAgo, fmtMonthYear, commentCount, stripHtml, postImg, postHref, postCat, postCatSlug, postAuthor, postAuthorSlug) — no React components
 - **Article content**: WordPress HTML rendered via `dangerouslySetInnerHTML` with a `.article` class on the content div (may need prose styling when redesigning)
@@ -104,24 +104,16 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-### February 27, 2026 (Homepage + Headlines Nuws Redesign)
-- Rebuilt homepage (page.tsx) as fully styled static "Nuws" mobile app UI with hardcoded data — no WordPress data fetching
-- Rebuilt headlines page as fully styled static feed matching Nuws design — featured article with large image, list items with 80x80 thumbnails, quote card with teal border, bookmark/comment/more icons, custom header bar with back arrow + search + filter
-- Updated LayoutWrapper to hide global Header/Footer on both homepage and headlines page
-- Sections: red logo top bar, "Browse" title, hero subscription banner with green "Get Started" button, teal category pills, Latest Magazines horizontal scroll, Top News (featured card + list items), Popular Authors, Recent Video with play overlay, fixed bottom navigation bar
-- Updated globals.css with Inter font import, tap highlight reset, font smoothing, hide-scrollbar utility
-- Updated tailwind.config.ts with teal (#2BBBC0), green (#34C759) colors and card box-shadow
-- Created LayoutWrapper component to conditionally hide global Header/Footer on homepage
-- Design: Mobile-first max-w-lg centered, Inter font, teal accents, white bg, fixed bottom nav with 5 tabs (Browse active in blue #007AFF)
-
-### February 26, 2026 (Blank Slate Strip)
-- Removed ALL Tailwind CSS classes and custom CSS from every page and component
-- Stripped globals.css to only `@tailwind base/components/utilities`
-- Stripped layout.tsx: removed BottomNav, PageTransition, PullToRefresh, AddToHomeScreen, SubscriptionPrompt
+### February 27, 2026 (Complete Strip — Blank Slate)
+- Stripped ALL Tailwind CSS classes, custom CSS, and layout styling from every page and component
+- globals.css: only `@tailwind base/components/utilities` — removed Inter font import, tap highlight, font smoothing, hide-scrollbar
+- tailwind.config.ts: reset to default — removed teal, green custom colors and card box-shadow
+- Homepage: rewrote to fetch real WordPress data via getAllPosts/getCategories — removed all hardcoded Nuws UI
+- Headlines: rewrote to fetch real WordPress data with search/category/pagination — removed hardcoded static feed
+- LayoutWrapper: simplified to always show Header/Footer — removed conditional hiding and BottomNav
+- BottomNav: reset to unstyled shell (not used in layout)
+- layout.tsx: removed `className="bg-white"` from body
 - All pages render as plain unstyled HTML while preserving data fetching, routing, pagination, search, JSON-LD/SEO, AdUnits, ShareButtons
-- Stripped all components to bare HTML: header, footer, BackButton, ShareButtons, PhotoGallery, Paywall, AdUnit, BottomNav, latest-posts, hero, categories, search-bar
-- Stripped all secondary pages: about, contact, subscribe, account, author/[slug], auth/signin, auth/register, privacy, editorial-policy, corrections, gallery
-- Reduced nuws-helpers.tsx to only pure utility functions — removed all styled React components
 
 ## External Dependencies
 
