@@ -11,11 +11,14 @@ Preferred communication style: Simple, everyday language.
 ## Current State (Blank Slate)
 
 - **globals.css**: Contains only the three `@tailwind base/components/utilities` directives — no custom CSS
+- **tailwind.config.ts**: Minimal config with only content paths and default background/foreground color vars — no custom theme extensions
 - **All pages and components**: Render as plain unstyled HTML with zero className attributes
 - **Data layer**: Fully intact — GraphQL queries, API endpoints, search, pagination, auth, Stripe all work
+- **Homepage**: Fetches WordPress posts via `getAllPosts()` and renders as a simple unstyled list with images, categories, authors, dates, and excerpts
 - **nuws-helpers.tsx**: Contains only pure utility functions (timeAgo, fmtMonthYear, commentCount, stripHtml, postImg, postHref, postCat, postCatSlug, postAuthor, postAuthorSlug) — no React components
-- **Layout**: Bare `<html>/<body>` with Header, Footer, Providers — no BottomNav, PageTransition, PullToRefresh, AddToHomeScreen, or SubscriptionPrompt
+- **Layout**: Bare `<html>/<body>` with Header, Footer, Providers — no BottomNav, PageTransition, PullToRefresh, AddToHomeScreen, SubscriptionPrompt, or LayoutWrapper
 - **Article content**: WordPress HTML rendered via `dangerouslySetInnerHTML` with a `.article` class on the content div (may need prose styling when redesigning)
+- **Exceptions**: `className="adsbygoogle"` kept in AdUnit.tsx (required by Google AdSense), `className="user-menu-container"` kept in header.tsx (used for click-outside detection), `className="article"` kept in [slug]/page.tsx (for WordPress content styling)
 
 ## System Architecture
 
@@ -42,7 +45,7 @@ Preferred communication style: Simple, everyday language.
 - Manifest file at `public/manifest.json`
 
 ### Routing Structure
-- `/` - Homepage with post listing and authors
+- `/` - Homepage with post listing from WordPress
 - `/[slug]` - Individual article pages with SEO metadata (root-level routing)
 - `/headlines` - Article listing with pagination, search, and category filtering
 - `/headlines/[slug]` - Redirects to `/[slug]`
@@ -82,9 +85,11 @@ Preferred communication style: Simple, everyday language.
 - `Paywall` / `PaywallCheck` - Subscription gating for exclusive content
 - `AdUnit` - Google AdSense ad placements
 - `SearchBar` - Standalone search with debounce and dropdown results
-- `LatestPosts` - Post grid with pagination
-- `Hero` - Featured post with sidebar
-- `Categories` - Category navigation links
+- `LatestPosts` - Post grid with pagination (unstyled shell)
+- `Hero` - Featured post with sidebar (unstyled shell)
+- `Categories` - Category navigation links (unstyled shell)
+- `BottomNav` - Bottom navigation (unstyled shell, not used in layout)
+- `PullToRefresh`, `SubscriptionPrompt`, `AddToHomeScreen`, `PageTransition` - UI feature shells (not used in layout)
 
 ### Utility Functions (src/lib/nuws-helpers.tsx)
 - `timeAgo(dateStr)` - Relative time formatting
@@ -97,6 +102,14 @@ Preferred communication style: Simple, everyday language.
 - `postAuthor(post)` / `postAuthorSlug(post)` - Get author name/slug
 
 ## Recent Changes
+
+### February 27, 2026 (Full Blank Slate Reset)
+- Stripped globals.css back to only `@tailwind base/components/utilities` — removed Inter font import, scrollbar hiding, tap highlight, font smoothing
+- Reset tailwind.config.ts to minimal — removed all custom colors (teal, green, accent, etc.), custom fontFamily, borderRadius, boxShadow extensions
+- Reverted homepage (page.tsx) from static Nuws design to WordPress data fetching via `getAllPosts()` — renders posts as plain unstyled list
+- Removed LayoutWrapper component and its conditional header/footer logic — Header and Footer now render directly in layout.tsx on all pages
+- Removed `className="bg-white"` from body in layout.tsx
+- Deleted `src/components/LayoutWrapper.tsx`
 
 ### February 26, 2026 (Blank Slate Strip)
 - Removed ALL Tailwind CSS classes and custom CSS from every page and component
