@@ -6,13 +6,13 @@ import { Footer } from '@/components/footer';
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isHomepage = pathname === '/';
+  const hideGlobalNav = pathname === '/' || pathname === '/headlines';
 
   return (
     <>
-      {!isHomepage && <Header />}
+      {!hideGlobalNav && <Header />}
       <main>{children}</main>
-      {!isHomepage && <Footer />}
+      {!hideGlobalNav && <Footer />}
     </>
   );
 }
