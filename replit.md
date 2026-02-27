@@ -8,15 +8,15 @@ Political Aficionado is a headless WordPress blog built with Next.js 15 App Rout
 
 Preferred communication style: Simple, everyday language.
 
-## Current State (Blank Slate)
+## Current State
 
-- **globals.css**: Contains only the three `@tailwind base/components/utilities` directives — no custom CSS
-- **tailwind.config.ts**: Minimal config with only content paths and default background/foreground color vars — no custom theme extensions
-- **All pages and components**: Render as plain unstyled HTML with zero className attributes
+- **globals.css**: Contains `@tailwind base/components/utilities` directives + Inter font import, tap highlight reset, font smoothing, hide-scrollbar utility
+- **tailwind.config.ts**: Extends with teal (#2BBBC0), green (#34C759) colors and card box-shadow
+- **Homepage**: Fully styled static "Nuws" mobile app UI — no WordPress data. Hardcoded sections: hero subscription banner, category pills, Latest Magazines, Top News, Popular Authors, Recent Video, fixed bottom nav
+- **Layout**: Uses LayoutWrapper to conditionally hide global Header/Footer on homepage (homepage has its own top bar + bottom nav)
+- **Other pages/components**: Still unstyled bare HTML with zero className attributes
 - **Data layer**: Fully intact — GraphQL queries, API endpoints, search, pagination, auth, Stripe all work
-- **Homepage**: Fetches WordPress posts via `getAllPosts()` and renders as a simple unstyled list with images, categories, authors, dates, and excerpts
 - **nuws-helpers.tsx**: Contains only pure utility functions (timeAgo, fmtMonthYear, commentCount, stripHtml, postImg, postHref, postCat, postCatSlug, postAuthor, postAuthorSlug) — no React components
-- **Layout**: Bare `<html>/<body>` with Header, Footer, Providers — no BottomNav, PageTransition, PullToRefresh, AddToHomeScreen, SubscriptionPrompt, or LayoutWrapper
 - **Article content**: WordPress HTML rendered via `dangerouslySetInnerHTML` with a `.article` class on the content div (may need prose styling when redesigning)
 - **Exceptions**: `className="adsbygoogle"` kept in AdUnit.tsx (required by Google AdSense), `className="user-menu-container"` kept in header.tsx (used for click-outside detection), `className="article"` kept in [slug]/page.tsx (for WordPress content styling)
 
@@ -103,13 +103,13 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-### February 27, 2026 (Full Blank Slate Reset)
-- Stripped globals.css back to only `@tailwind base/components/utilities` — removed Inter font import, scrollbar hiding, tap highlight, font smoothing
-- Reset tailwind.config.ts to minimal — removed all custom colors (teal, green, accent, etc.), custom fontFamily, borderRadius, boxShadow extensions
-- Reverted homepage (page.tsx) from static Nuws design to WordPress data fetching via `getAllPosts()` — renders posts as plain unstyled list
-- Removed LayoutWrapper component and its conditional header/footer logic — Header and Footer now render directly in layout.tsx on all pages
-- Removed `className="bg-white"` from body in layout.tsx
-- Deleted `src/components/LayoutWrapper.tsx`
+### February 27, 2026 (Homepage Nuws Redesign)
+- Rebuilt homepage (page.tsx) as fully styled static "Nuws" mobile app UI with hardcoded data — no WordPress data fetching
+- Sections: red logo top bar, "Browse" title, hero subscription banner with green "Get Started" button, teal category pills, Latest Magazines horizontal scroll, Top News (featured card + list items), Popular Authors, Recent Video with play overlay, fixed bottom navigation bar
+- Updated globals.css with Inter font import, tap highlight reset, font smoothing, hide-scrollbar utility
+- Updated tailwind.config.ts with teal (#2BBBC0), green (#34C759) colors and card box-shadow
+- Created LayoutWrapper component to conditionally hide global Header/Footer on homepage
+- Design: Mobile-first max-w-lg centered, Inter font, teal accents, white bg, fixed bottom nav with 5 tabs (Browse active in blue #007AFF)
 
 ### February 26, 2026 (Blank Slate Strip)
 - Removed ALL Tailwind CSS classes and custom CSS from every page and component

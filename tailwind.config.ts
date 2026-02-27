@@ -11,6 +11,11 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        teal: "#2BBBC0",
+        green: "#34C759",
+      },
+      boxShadow: {
+        card: "0 2px 12px rgba(0, 0, 0, 0.06)",
       },
     },
   },
