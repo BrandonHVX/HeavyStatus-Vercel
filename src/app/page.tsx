@@ -218,7 +218,7 @@ export default function Home() {
       </div>
 
       {/* Bottom Navigation Bar */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 z-50">
+      <nav className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 z-50 lg:hidden">
         <div className="max-w-lg mx-auto flex items-center justify-around pt-2 pb-7">
           <Link href="/" className="flex flex-col items-center gap-0.5 min-w-[48px]">
             <svg className="w-6 h-6 text-[#007AFF]" fill="currentColor" viewBox="0 0 24 24">
