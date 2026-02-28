@@ -1,0 +1,173 @@
+mobile-first news / magazine browsing homepage with a very clean, app-store/editorial feel. The design language is minimal, modern, highly readable, and content-led, with soft grays, strong black typography, blue accent actions, and rounded cards that feel native to iOS.
+
+At the top, the interface uses a very light, airy header area with plenty of white space. The system status bar is visible, which reinforces the mobile-app look. Just below that, there’s a compact top utility row with a notification bell on the left carrying a red unread badge and a search icon on the right. This creates an immediate “browse + discover” behavior pattern. The page title, “Browse,” is large, bold, and left-aligned, giving the screen a confident editorial hierarchy right away.
+
+Below the header is a large hero subscription banner. This section uses a wide gray placeholder image area with centered branding and messaging layered over it. The brand name “Nuws” is placed prominently in bold black type, followed by a strong value proposition line: a one-subscription access message for magazines and news. Under that is a smaller pricing/supporting sentence, then a bright blue pill-shaped “Get Started” button. Visually, this section feels like a promotional conversion block designed to drive subscriptions early in the scroll. It combines product marketing with editorial branding.
+
+Under the hero is a row of rounded category filter chips/cards. These feel like quick-access navigation shortcuts. Each tile has:
+
+a soft light-gray background
+
+rounded corners
+
+a small icon on the left
+
+muted text labels
+
+The spacing suggests tap comfort for mobile users, and the muted palette keeps them secondary to the main content. These act as compact entry points into different content verticals like categories, featured, and trending topics.
+
+The next section, “Latest Magazines,” is presented as a horizontally scrollable card rail. The section title is bold and left-aligned, with a subtle “See all” action on the right. The cards are vertical, compact, and visually consistent:
+
+rounded rectangular cover placeholders
+
+bookmark/save icon in the upper-right of each cover
+
+title underneath
+
+date metadata below title in smaller muted text
+
+This pattern suggests collectible, premium editorial content—more like covers or issues than standard articles.
+
+Then the design shifts into a more content-heavy section called “Top News.” This area starts with a large featured article card. The card uses a dramatic image-to-dark-gradient overlay, letting white text sit clearly over the lower portion of the image. The hierarchy here is strong:
+
+small category label above
+
+large bold headline
+
+author and timestamp row below
+
+comment count aligned inline
+
+This featured news card feels intentionally more urgent and editorial than the magazine cards above. It’s a strong “lead story” treatment.
+
+Below the lead story are a series of compact news list items. Each row uses a classic mobile editorial pattern:
+
+thumbnail image on the left
+
+headline and metadata stacked on the right
+
+bookmark/save icon on the far right
+
+This layout is highly efficient for scanning. It supports fast thumb scrolling while still giving enough content density for discovery. The headlines are bold, but smaller than the featured card, which preserves hierarchy. Divider lines between rows keep the feed organized without making it feel heavy.
+
+Next comes a “Popular Authors” section with rounded horizontal mini-profile cards. Each card includes:
+
+circular avatar placeholder
+
+author name
+
+location or descriptor beneath
+
+These author chips feel social and discovery-oriented, helping the platform appear more personality-driven rather than purely article-driven.
+
+After that is a “Recent Video” section, again with a “See all” link. This uses horizontally scrollable video cards with:
+
+large rounded video thumbnails
+
+play icon centered over the thumbnail
+
+bookmark icon in the corner
+
+category label below
+
+bold truncated title
+
+author/time row underneath
+
+This is a strong multimedia extension of the overall design. It keeps consistency with the magazine and article modules while adapting the treatment for video content.
+
+At the bottom is a persistent tab bar navigation, which makes the whole experience feel like a native app rather than a website. The tabs are:
+
+Browse
+
+Watch
+
+Create
+
+Listen
+
+Account
+
+The active tab is highlighted in blue, while inactive tabs are gray. Each tab has a simple line icon and label, with enough vertical padding to feel comfortable and modern. The bottom bar sits above the device home indicator and reinforces the iOS-inspired visual language.
+
+Visual style summary
+
+The overall style is:
+
+Mobile-native
+
+Editorial app
+
+Clean and modern
+
+High content density without feeling crowded
+
+Soft gray neutral palette with strong black typography
+
+Blue used sparingly for primary actions and active states
+
+Rounded cards and chips everywhere
+
+Minimal borders, light dividers, and lots of white space
+
+Strong hierarchy through type size and weight
+
+Designed for scanning, saving, and subscription conversion
+
+Typography feel
+
+The typography is bold and functional:
+
+section titles are large and black
+
+headlines use strong weight with tight line spacing
+
+metadata is small, muted gray, and unobtrusive
+
+labels and utility text are understated
+
+This makes the interface feel premium but accessible, somewhere between a magazine app, Apple News, and a subscription-first editorial product.
+
+UX patterns used
+
+The screen uses several smart UX patterns:
+
+top-of-screen conversion hero
+
+horizontal carousels for premium content types
+
+featured story + compact list feed hybrid
+
+save/bookmark affordances repeated throughout
+
+section headers with “See all” for deeper exploration
+
+persistent bottom navigation
+
+quick category chips for easy filtering
+
+clear content-type separation: magazines, news, authors, video
+
+Product impression
+
+This UI feels like a subscription-based digital publishing platform that blends:
+
+news discovery
+
+magazine browsing
+
+creator/author following
+
+video content
+
+save/read-later behavior
+
+It’s polished, commercially oriented, and clearly designed to maximize:
+
+session depth
+
+content exploration
+
+subscription conversions
+
+repeated app usage

@@ -10,12 +10,12 @@ Preferred communication style: Simple, everyday language.
 
 ## Current State
 
-- **globals.css**: Contains only `@tailwind base/components/utilities` directives — no custom CSS
-- **tailwind.config.ts**: Default config with only background/foreground CSS variable colors — no custom extensions
-- **Homepage**: Unstyled, fetches real WordPress data via `getAllPosts()` and `getCategories()`. Renders Hero, Categories, and remaining posts as plain HTML
+- **globals.css**: Contains `@tailwind base/components/utilities` directives + Inter font import, tap highlight reset, font smoothing, hide-scrollbar utility
+- **tailwind.config.ts**: Extends with teal (#2BBBC0), green (#34C759) colors and card box-shadow
+- **Homepage**: Fully styled static "Nuws" mobile app UI — no WordPress data. Hardcoded sections: hero subscription banner, category pills (light gray bg), Latest Magazines, Top News (featured card with gradient overlay + list items), Popular Authors, Recent Video, fixed bottom nav with 5 tabs (Browse/Watch/Create/Listen/Account)
 - **Headlines Page**: Unstyled, fetches real WordPress data with search/category/pagination support. Uses LatestPosts and Categories components
-- **Layout**: LayoutWrapper always shows Header and Footer on all pages. No BottomNav in layout
-- **All pages/components**: Unstyled bare HTML with zero className attributes
+- **Layout**: LayoutWrapper hides global Header/Footer on homepage (homepage has its own custom header). Shows Header/Footer on all other pages
+- **Other pages/components**: Unstyled bare HTML with zero className attributes
 - **Data layer**: Fully intact — GraphQL queries, API endpoints, search, pagination, auth, Stripe all work
 - **nuws-helpers.tsx**: Contains only pure utility functions (timeAgo, fmtMonthYear, commentCount, stripHtml, postImg, postHref, postCat, postCatSlug, postAuthor, postAuthorSlug) — no React components
 - **Article content**: WordPress HTML rendered via `dangerouslySetInnerHTML` with a `.article` class on the content div (may need prose styling when redesigning)
@@ -104,16 +104,14 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-### February 27, 2026 (Complete Strip — Blank Slate)
-- Stripped ALL Tailwind CSS classes, custom CSS, and layout styling from every page and component
-- globals.css: only `@tailwind base/components/utilities` — removed Inter font import, tap highlight, font smoothing, hide-scrollbar
-- tailwind.config.ts: reset to default — removed teal, green custom colors and card box-shadow
-- Homepage: rewrote to fetch real WordPress data via getAllPosts/getCategories — removed all hardcoded Nuws UI
-- Headlines: rewrote to fetch real WordPress data with search/category/pagination — removed hardcoded static feed
-- LayoutWrapper: simplified to always show Header/Footer — removed conditional hiding and BottomNav
-- BottomNav: reset to unstyled shell (not used in layout)
-- layout.tsx: removed `className="bg-white"` from body
-- All pages render as plain unstyled HTML while preserving data fetching, routing, pagination, search, JSON-LD/SEO, AdUnits, ShareButtons
+### February 28, 2026 (Homepage Nuws Redesign)
+- Rebuilt homepage as fully styled static "Nuws" mobile app UI matching HomePage.jpg reference
+- Sections: red location pin icon + search icon top bar, "Browse" title, hero subscription banner with green "Get Started" button, light gray category pills (Categories/Featured/Hot with teal icons), Latest Magazines horizontal scroll, Top News (featured card with dark gradient overlay for white text + compact list items with dividers), Popular Authors horizontal scroll, Recent Video horizontal scroll with play overlay
+- Bottom nav: 5 tabs (Browse active in blue #007AFF, Watch, Create, Listen, Account) with `lg:hidden`
+- Updated LayoutWrapper to hide global Header/Footer on homepage only
+- Updated globals.css with Inter font, tap highlight, font smoothing, hide-scrollbar
+- Updated tailwind.config.ts with teal/green colors and card shadow
+- Design: Mobile-first max-w-lg centered, Inter font, soft gray neutral palette, strong black typography, blue accent for active states
 
 ## External Dependencies
 
