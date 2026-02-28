@@ -10,9 +10,11 @@ Preferred communication style: Simple, everyday language.
 
 ## Current State
 
-- **globals.css**: Contains only `@tailwind base/components/utilities` directives — no custom CSS
-- **tailwind.config.ts**: Default config with no custom extensions
-- **All pages/components**: Unstyled bare HTML with zero className attributes (except 3 required exceptions)
+- **globals.css**: Contains `@tailwind base/components/utilities` directives + Inter font import, tap highlight reset, font smoothing, hide-scrollbar utility
+- **tailwind.config.ts**: Extends with teal (#2BBBC0), green (#34C759) colors and card box-shadow
+- **Homepage**: Fully styled "Nuws" mobile app UI with live WordPress data. Sections: hero subscription banner, category pills (real categories from WP), Latest Magazines (first 3 posts with featured images), Top News (featured card with gradient overlay + 3 list items), Popular Authors (from getAllAuthors), Recent Video (posts 8-9 with play overlay), fixed bottom nav with 4 tabs (Headlines/Featured/Explore/Live)
+- **Layout**: LayoutWrapper hides global Header/Footer/BottomNav on homepage (homepage has its own custom header and bottom nav). Shows Header/Footer/BottomNav on all other pages
+- **Other pages/components**: Unstyled bare HTML with zero className attributes
 - **Data layer**: Fully intact — GraphQL queries, API endpoints, search, pagination, auth, Stripe all work
 - **nuws-helpers.tsx**: Contains only pure utility functions (timeAgo, fmtMonthYear, commentCount, stripHtml, postImg, postHref, postCat, postCatSlug, postAuthor, postAuthorSlug)
 - **Article content**: WordPress HTML rendered via `dangerouslySetInnerHTML` with a `.article` class on the content div
