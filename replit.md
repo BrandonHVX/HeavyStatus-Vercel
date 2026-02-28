@@ -12,7 +12,7 @@ Preferred communication style: Simple, everyday language.
 
 - **globals.css**: Contains `@tailwind base/components/utilities` directives + Inter font import, tap highlight reset, font smoothing, hide-scrollbar utility
 - **tailwind.config.ts**: Extends with teal (#2BBBC0), green (#34C759) colors and card box-shadow
-- **Homepage**: Fully styled static "Nuws" mobile app UI — no WordPress data. Hardcoded sections: hero subscription banner, category pills (light gray bg), Latest Magazines, Top News (featured card with gradient overlay + list items), Popular Authors, Recent Video, fixed bottom nav with 5 tabs (Browse/Watch/Create/Listen/Account)
+- **Homepage**: Fully styled "Nuws" mobile app UI with live WordPress data. Sections: hero subscription banner, category pills (real categories from WP), Latest Magazines (first 3 posts with featured images), Top News (featured card with gradient overlay + 3 list items), Popular Authors (from getAllAuthors), Recent Video (posts 8-9 with play overlay), fixed bottom nav with 5 tabs (Browse/Watch/Create/Listen/Account)
 - **Headlines Page**: Unstyled, fetches real WordPress data with search/category/pagination support. Uses LatestPosts and Categories components
 - **Layout**: LayoutWrapper hides global Header/Footer on homepage (homepage has its own custom header). Shows Header/Footer on all other pages
 - **Other pages/components**: Unstyled bare HTML with zero className attributes
@@ -104,14 +104,20 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-### February 28, 2026 (Homepage Nuws Redesign)
-- Rebuilt homepage as fully styled static "Nuws" mobile app UI matching HomePage.jpg reference
-- Sections: red location pin icon + search icon top bar, "Browse" title, hero subscription banner with green "Get Started" button, light gray category pills (Categories/Featured/Hot with teal icons), Latest Magazines horizontal scroll, Top News (featured card with dark gradient overlay for white text + compact list items with dividers), Popular Authors horizontal scroll, Recent Video horizontal scroll with play overlay
+### February 28, 2026 (Homepage Nuws Redesign + WordPress Data Integration)
+- Rebuilt homepage as fully styled "Nuws" mobile app UI matching HomePage.jpg reference
+- Integrated live WordPress GraphQL data into all sections while preserving exact same layout
+- Category pills now show real WordPress categories (first 6)
+- Latest Magazines shows first 3 posts with real featured images and titles
+- Top News: post #4 as featured card with gradient overlay, posts #5-7 as compact list items
+- Popular Authors from getAllAuthors() with real avatars, names, descriptions
+- Recent Video shows posts #8-9 with play overlay and real images
+- Helper functions: getInitials() for author avatar fallback, getAvatarColor() for deterministic colors, commentCount() for display
 - Bottom nav: 5 tabs (Browse active in blue #007AFF, Watch, Create, Listen, Account) with `lg:hidden`
 - Updated LayoutWrapper to hide global Header/Footer on homepage only
 - Updated globals.css with Inter font, tap highlight, font smoothing, hide-scrollbar
 - Updated tailwind.config.ts with teal/green colors and card shadow
-- Design: Mobile-first max-w-lg centered, Inter font, soft gray neutral palette, strong black typography, blue accent for active states
+- Data revalidates every 60 seconds via `export const revalidate = 60`
 
 ## External Dependencies
 
