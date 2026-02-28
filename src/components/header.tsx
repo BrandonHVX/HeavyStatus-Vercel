@@ -139,7 +139,7 @@ export function Header() {
 
   const navigateToSearch = () => {
     if (searchTerm.trim()) {
-      router.push(`/headlines?search=${encodeURIComponent(searchTerm)}`);
+      router.push(`/?search=${encodeURIComponent(searchTerm)}`);
       closeSearch();
     }
   };
@@ -185,9 +185,9 @@ export function Header() {
         if (selected.type === 'post') {
           router.push(`/${selected.slug}`);
         } else if (selected.type === 'category') {
-          router.push(`/headlines?categories=${selected.slug}`);
+          router.push(`/?categories=${selected.slug}`);
         } else {
-          router.push(`/headlines?search=${selected.slug}`);
+          router.push(`/?search=${selected.slug}`);
         }
         closeSearch();
       }
@@ -201,9 +201,10 @@ export function Header() {
   let itemIndex = -1;
 
   const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/headlines', label: 'Headlines' },
+    { href: '/', label: 'Headlines' },
+    { href: '/featured', label: 'Featured' },
     { href: '/explore', label: 'Explore' },
+    { href: '/live', label: 'Live' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
   ];
@@ -392,7 +393,7 @@ export function Header() {
                         <Link
                           key={category.id}
                           id={optionId}
-                          href={`/headlines?categories=${category.slug}`}
+                          href={`/?categories=${category.slug}`}
                           onClick={handleResultClick}
                           role="option"
                           aria-selected={selectedIndex === currentIndex}
@@ -418,7 +419,7 @@ export function Header() {
                         <Link
                           key={tag.id}
                           id={optionId}
-                          href={`/headlines?search=${tag.slug}`}
+                          href={`/?search=${tag.slug}`}
                           onClick={handleResultClick}
                           role="option"
                           aria-selected={selectedIndex === currentIndex}

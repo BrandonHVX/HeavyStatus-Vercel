@@ -117,7 +117,7 @@ export default async function AuthorPage({ params }: Props) {
         )}
 
         <div>
-          <Link href="/headlines">&larr; View all articles</Link>
+          <Link href="/">&larr; View all articles</Link>
         </div>
       </div>
     </section>

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { timeAgo, postImg } from '@/lib/nuws-helpers';
+import { timeAgo } from '@/lib/nuws-helpers';
 
 interface SearchPost {
   id: string;
@@ -144,7 +144,7 @@ export default function ExplorePage() {
 
   const navigateToSearch = () => {
     if (searchTerm.trim()) {
-      router.push(`/headlines?search=${encodeURIComponent(searchTerm)}`);
+      router.push(`/?search=${encodeURIComponent(searchTerm)}`);
     }
   };
 
@@ -186,9 +186,9 @@ export default function ExplorePage() {
         if (selected.type === 'post') {
           router.push(`/${selected.slug}`);
         } else if (selected.type === 'category') {
-          router.push(`/headlines?categories=${selected.slug}`);
+          router.push(`/?categories=${selected.slug}`);
         } else {
-          router.push(`/headlines?search=${selected.slug}`);
+          router.push(`/?search=${selected.slug}`);
         }
       }
     }
@@ -264,7 +264,7 @@ export default function ExplorePage() {
                     <Link
                       key={category.id}
                       id={optionId}
-                      href={`/headlines?categories=${category.slug}`}
+                      href={`/?categories=${category.slug}`}
                       role="option"
                       aria-selected={selectedIndex === currentIndex}
                     >
@@ -289,7 +289,7 @@ export default function ExplorePage() {
                     <Link
                       key={tag.id}
                       id={optionId}
-                      href={`/headlines?search=${tag.slug}`}
+                      href={`/?search=${tag.slug}`}
                       role="option"
                       aria-selected={selectedIndex === currentIndex}
                     >
@@ -324,7 +324,7 @@ export default function ExplorePage() {
           <ul>
             {topics.categories.map((category) => (
               <li key={category.id}>
-                <Link href={`/headlines?categories=${category.slug}`}>
+                <Link href={`/?categories=${category.slug}`}>
                   {category.name}
                   {category.count !== undefined && ` (${category.count})`}
                 </Link>
@@ -342,7 +342,7 @@ export default function ExplorePage() {
           <ul>
             {topics.tags.map((tag) => (
               <li key={tag.id}>
-                <Link href={`/headlines?search=${tag.slug}`}>
+                <Link href={`/?search=${tag.slug}`}>
                   #{tag.name}
                   {tag.count !== undefined && ` (${tag.count})`}
                 </Link>

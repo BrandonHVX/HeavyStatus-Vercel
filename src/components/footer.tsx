@@ -14,9 +14,10 @@ export function Footer() {
         <div>
           <h4>Navigate</h4>
           <ul>
-            <li><Link href="/">Home</Link></li>
-            <li><Link href="/headlines">Headlines</Link></li>
+            <li><Link href="/">Headlines</Link></li>
+            <li><Link href="/featured">Featured</Link></li>
             <li><Link href="/explore">Explore</Link></li>
+            <li><Link href="/live">Live</Link></li>
             <li><Link href="/about">About</Link></li>
             <li><Link href="/contact">Contact</Link></li>
           </ul>

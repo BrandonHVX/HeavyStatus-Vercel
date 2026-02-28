@@ -10,16 +10,13 @@ Preferred communication style: Simple, everyday language.
 
 ## Current State
 
-- **globals.css**: Contains `@tailwind base/components/utilities` directives + Inter font import, tap highlight reset, font smoothing, hide-scrollbar utility
-- **tailwind.config.ts**: Extends with teal (#2BBBC0), green (#34C759) colors and card box-shadow
-- **Homepage**: Fully styled "Nuws" mobile app UI with live WordPress data. Sections: hero subscription banner, category pills (real categories from WP), Latest Magazines (first 3 posts with featured images), Top News (featured card with gradient overlay + 3 list items), Popular Authors (from getAllAuthors), Recent Video (posts 8-9 with play overlay), fixed bottom nav with 5 tabs (Browse/Watch/Create/Listen/Account)
-- **Headlines Page**: Unstyled, fetches real WordPress data with search/category/pagination support. Uses LatestPosts and Categories components
-- **Layout**: LayoutWrapper hides global Header/Footer on homepage (homepage has its own custom header). Shows Header/Footer on all other pages
-- **Other pages/components**: Unstyled bare HTML with zero className attributes
+- **globals.css**: Contains only `@tailwind base/components/utilities` directives — no custom CSS
+- **tailwind.config.ts**: Default config with no custom extensions
+- **All pages/components**: Unstyled bare HTML with zero className attributes (except 3 required exceptions)
 - **Data layer**: Fully intact — GraphQL queries, API endpoints, search, pagination, auth, Stripe all work
-- **nuws-helpers.tsx**: Contains only pure utility functions (timeAgo, fmtMonthYear, commentCount, stripHtml, postImg, postHref, postCat, postCatSlug, postAuthor, postAuthorSlug) — no React components
-- **Article content**: WordPress HTML rendered via `dangerouslySetInnerHTML` with a `.article` class on the content div (may need prose styling when redesigning)
-- **Exceptions**: `className="adsbygoogle"` kept in AdUnit.tsx (required by Google AdSense), `className="user-menu-container"` kept in header.tsx (used for click-outside detection), `className="article"` kept in [slug]/page.tsx (for WordPress content styling)
+- **nuws-helpers.tsx**: Contains only pure utility functions (timeAgo, fmtMonthYear, commentCount, stripHtml, postImg, postHref, postCat, postCatSlug, postAuthor, postAuthorSlug)
+- **Article content**: WordPress HTML rendered via `dangerouslySetInnerHTML` with a `.article` class on the content div
+- **Exceptions**: `className="adsbygoogle"` kept in AdUnit.tsx (required by Google AdSense), `className="user-menu-container"` kept in header.tsx (used for click-outside detection), `className='article'` kept in [slug]/page.tsx (for WordPress content styling)
 
 ## System Architecture
 
@@ -27,7 +24,7 @@ Preferred communication style: Simple, everyday language.
 - **Next.js 15** with App Router for server-side rendering and routing
 - **React 19** for UI components
 - **TypeScript** for type safety
-- **Tailwind CSS** available (base directives loaded, no custom config used yet)
+- **Tailwind CSS** available (base directives loaded, no custom config)
 
 ### Content Management
 - **Headless WordPress** as the CMS backend
@@ -36,7 +33,7 @@ Preferred communication style: Simple, everyday language.
 
 ### Data Fetching Pattern
 - GraphQL queries are centralized in `src/lib/queries.ts`
-- Types are defined in `src/lib/types.ts` (Post, Category)
+- Types are defined in `src/lib/types.ts` (Post, Category, Author)
 - Server components fetch data directly without client-side state management
 - Search API endpoint at `/api/search` for real-time search functionality
 
@@ -46,13 +43,15 @@ Preferred communication style: Simple, everyday language.
 - Manifest file at `public/manifest.json`
 
 ### Routing Structure
-- `/` - Homepage with post listing from WordPress
-- `/[slug]` - Individual article pages with SEO metadata (root-level routing)
-- `/headlines` - Article listing with pagination, search, and category filtering
-- `/headlines/[slug]` - Redirects to `/[slug]`
-- `/posts` - Redirects to `/headlines`
-- `/posts/[slug]` - Redirects to `/[slug]`
+- `/` - Headlines page (post listing with search, category filter, pagination)
+- `/featured` - Featured posts page (top stories / editor picks)
 - `/explore` - Explore page with search bar and popular categories/tags
+- `/live` - Live page (latest updates, revalidates every 30 seconds)
+- `/[slug]` - Individual article pages with SEO metadata (root-level routing)
+- `/headlines` - Redirects to `/` (preserves query params)
+- `/headlines/[slug]` - Redirects to `/[slug]`
+- `/posts` - Redirects to `/`
+- `/posts/[slug]` - Redirects to `/[slug]`
 - `/gallery` - Photo gallery page
 - `/about`, `/contact` - Static pages
 - `/privacy`, `/editorial-policy`, `/corrections` - Policy pages
@@ -60,6 +59,11 @@ Preferred communication style: Simple, everyday language.
 - `/news-sitemap.xml` - Google News sitemap
 - `/sitemap.ts` - Dynamic sitemap generation
 - `/author/[slug]` - Author profile pages with article listings
+
+### Bottom Navigation
+- 4 tabs with SVG icons: Headlines (`/`), Featured (`/featured`), Explore (`/explore`), Live (`/live`)
+- Active state indicator for current page
+- Rendered in LayoutWrapper on all pages
 
 ### Authentication & Subscriptions
 - **NextAuth.js** for authentication (email/password)
@@ -78,18 +82,18 @@ Preferred communication style: Simple, everyday language.
 - `/tag/notify` - Webhook endpoint for OneSignal push notifications
 
 ### Key Components (all unstyled)
-- `Header` - Site title, nav links, search modal, mobile menu, auth/session
+- `Header` - Site title, nav links (Headlines/Featured/Explore/Live/About/Contact), search modal, mobile menu, auth/session
 - `Footer` - Navigation links, policies, copyright
+- `BottomNav` - Bottom navigation with 4 tabs and SVG icons (Headlines/Featured/Explore/Live)
 - `BackButton` - Client-side back navigation (router.back with fallback)
 - `ShareButtons` - Social sharing links (X, Facebook, LinkedIn, WhatsApp, Email, copy)
 - `PhotoGallery` - Image grid with lightbox (keyboard navigation)
 - `Paywall` / `PaywallCheck` - Subscription gating for exclusive content
 - `AdUnit` - Google AdSense ad placements
 - `SearchBar` - Standalone search with debounce and dropdown results
-- `LatestPosts` - Post grid with pagination (unstyled shell)
-- `Hero` - Featured post with sidebar (unstyled shell)
-- `Categories` - Category navigation links (unstyled shell)
-- `BottomNav` - Bottom navigation (unstyled shell, not used in layout)
+- `LatestPosts` - Post list with pagination
+- `Hero` - Featured post with sidebar
+- `Categories` - Category navigation links
 - `PullToRefresh`, `SubscriptionPrompt`, `AddToHomeScreen`, `PageTransition` - UI feature shells (not used in layout)
 
 ### Utility Functions (src/lib/nuws-helpers.tsx)
@@ -104,20 +108,18 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-### February 28, 2026 (Homepage Nuws Redesign + WordPress Data Integration)
-- Rebuilt homepage as fully styled "Nuws" mobile app UI matching HomePage.jpg reference
-- Integrated live WordPress GraphQL data into all sections while preserving exact same layout
-- Category pills now show real WordPress categories (first 6)
-- Latest Magazines shows first 3 posts with real featured images and titles
-- Top News: post #4 as featured card with gradient overlay, posts #5-7 as compact list items
-- Popular Authors from getAllAuthors() with real avatars, names, descriptions
-- Recent Video shows posts #8-9 with play overlay and real images
-- Helper functions: getInitials() for author avatar fallback, getAvatarColor() for deterministic colors, commentCount() for display
-- Bottom nav: 5 tabs (Browse active in blue #007AFF, Watch, Create, Listen, Account) with `lg:hidden`
-- Updated LayoutWrapper to hide global Header/Footer on homepage only
-- Updated globals.css with Inter font, tap highlight, font smoothing, hide-scrollbar
-- Updated tailwind.config.ts with teal/green colors and card shadow
-- Data revalidates every 60 seconds via `export const revalidate = 60`
+### February 28, 2026 (Complete Styling Strip + Page Restructure)
+- Stripped ALL Tailwind CSS classes, custom CSS, and layout styling from every page and component
+- globals.css reduced to only @tailwind directives
+- tailwind.config.ts reset to default (no custom colors/shadows)
+- Restructured pages: Headlines at `/`, new Featured at `/featured`, new Live at `/live`
+- `/headlines` now redirects to `/` preserving query params
+- BottomNav updated with 4 tabs (Headlines/Featured/Explore/Live) with SVG icons
+- LayoutWrapper simplified: always shows Header, Footer, and BottomNav on all pages
+- Header nav updated: Headlines, Featured, Explore, Live, About, Contact
+- Footer nav updated to match new page structure
+- All search/category links updated from `/headlines?...` to `/?...`
+- All pages render as plain unstyled HTML with WordPress data intact
 
 ## External Dependencies
 

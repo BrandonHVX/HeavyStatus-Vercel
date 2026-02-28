@@ -60,7 +60,7 @@ export function LatestPosts({ posts, searchTerm, pageInfo, category, showSearch 
           {pageInfo?.hasPreviousPage && (
             <Link
               href={{
-                pathname: '/headlines',
+                pathname: '/',
                 query: {
                   before: pageInfo.startCursor,
                   ...(searchTerm && { search: searchTerm }),
@@ -74,7 +74,7 @@ export function LatestPosts({ posts, searchTerm, pageInfo, category, showSearch 
           {pageInfo?.hasNextPage && (
             <Link
               href={{
-                pathname: '/headlines',
+                pathname: '/',
                 query: {
                   after: pageInfo.endCursor,
                   ...(searchTerm && { search: searchTerm }),

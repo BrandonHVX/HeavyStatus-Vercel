@@ -1,8 +1,4 @@
-import { getAllPosts, getCategories } from "@/lib/queries";
-import { LatestPosts } from "@/components/latest-posts";
-import { Categories } from "@/components/categories";
-
-export const revalidate = 60;
+import { redirect } from "next/navigation";
 
 type Props = {
   searchParams: Promise<{
@@ -13,31 +9,13 @@ type Props = {
   }>;
 };
 
-export default async function HeadlinesPage({ searchParams }: Props) {
+export default async function HeadlinesRedirect({ searchParams }: Props) {
   const params = await searchParams;
-  const searchTerm = params.search || '';
-  const category = params.categories || '';
-
-  const [{ posts, pageInfo }, categories] = await Promise.all([
-    getAllPosts(searchTerm, category, {
-      after: params.after || null,
-      before: params.before || null,
-    }),
-    getCategories(),
-  ]);
-
-  return (
-    <div>
-      <h1>Headlines</h1>
-
-      <Categories categories={categories} />
-
-      <LatestPosts
-        posts={posts}
-        searchTerm={searchTerm}
-        pageInfo={pageInfo}
-        category={category}
-      />
-    </div>
-  );
+  const queryParts: string[] = [];
+  if (params.search) queryParts.push(`search=${params.search}`);
+  if (params.categories) queryParts.push(`categories=${params.categories}`);
+  if (params.after) queryParts.push(`after=${params.after}`);
+  if (params.before) queryParts.push(`before=${params.before}`);
+  const query = queryParts.length > 0 ? `?${queryParts.join('&')}` : '';
+  redirect(`/${query}`);
 }
