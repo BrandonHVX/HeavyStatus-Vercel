@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-const config: Config = {
+export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,6 +8,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        teal: "#2BBBC0",
+        green: "#34C759",
+      },
+      boxShadow: {
+        card: "0 2px 12px rgba(0, 0, 0, 0.06)",
+      },
       screens: {
         'bottom-nav': '821px',
       },
@@ -15,5 +24,3 @@ const config: Config = {
   },
   plugins: [],
 } satisfies Config;
-
-export default config;

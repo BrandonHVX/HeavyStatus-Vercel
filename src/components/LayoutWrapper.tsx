@@ -7,13 +7,13 @@ import BottomNav from '@/components/BottomNav';
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isLivePage = pathname === '/live';
+  const hideGlobalNav = pathname === '/' || pathname === '/live';
 
   return (
     <>
-      {!isLivePage && <Header />}
+      {!hideGlobalNav && <Header />}
       <main>{children}</main>
-      {!isLivePage && <Footer />}
+      {!hideGlobalNav && <Footer />}
       <BottomNav />
     </>
   );

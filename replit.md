@@ -10,9 +10,9 @@ Preferred communication style: Simple, everyday language.
 
 ## Current State
 
-- **globals.css**: Contains `@tailwind base/components/utilities` directives + Inter font import only
-- **tailwind.config.ts**: Default config with only a custom `bottom-nav: 821px` breakpoint for BottomNav visibility
-- **Homepage (`/`)**: Unstyled bare HTML — post list with categories, pagination, WordPress data
+- **globals.css**: Contains `@tailwind base/components/utilities` directives + Inter font import, tap highlight reset, font smoothing, hide-scrollbar utility
+- **tailwind.config.ts**: Extends with teal (#2BBBC0), green (#34C759) colors, card box-shadow, and `bottom-nav: 821px` breakpoint
+- **Homepage (`/`)**: Fully styled "Nuws" mobile app UI with live WordPress data. Sections: hero subscription banner, category pills (real categories from WP), Latest Magazines (first 3 posts), Top News (featured card + list items), Popular Authors, Recent Video, inline bottom nav. LayoutWrapper hides Header/Footer on `/`.
 - **Live page (`/live`)**: Fully styled dark cinematic video-detail page with hero video player (overlay controls, play/rewind/forward 30s, scrub bar), black background content area (category, headline, author avatar, description with "read more"), Up Next playlist (thumbnails with duration badges, bookmark icons, autoplay toggle). Uses `LiveClientWrapper` client component. LayoutWrapper hides Header/Footer on `/live`.
 - **Other pages/components**: Unstyled bare HTML with zero className attributes
 - **BottomNav**: Styled fixed bottom nav with 4 tabs (Headlines/Featured/Explore/Live), visible at 820px and below, hidden above 821px
