@@ -14,7 +14,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
       {!hideGlobalNav && <Header />}
       <main>{children}</main>
       {!hideGlobalNav && <Footer />}
-      {!hideGlobalNav && <BottomNav />}
+      <BottomNav />
     </>
   );
 }

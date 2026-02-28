@@ -254,39 +254,6 @@ export default async function Home() {
         </div>
       )}
 
-      <nav className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 z-50 lg:hidden">
-        <div className="max-w-lg mx-auto flex items-center justify-around pt-2 pb-7">
-          <Link href="/" className="flex flex-col items-center gap-0.5 min-w-[48px]">
-            <svg className="w-6 h-6 text-[#007AFF]" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
-            </svg>
-            <span className="text-[10px] font-semibold text-[#007AFF]">Headlines</span>
-          </Link>
-          <Link href="/featured" className="flex flex-col items-center gap-0.5 min-w-[48px]">
-            <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-            <span className="text-[10px] font-medium text-gray-400">Featured</span>
-          </Link>
-          <Link href="/explore" className="flex flex-col items-center gap-0.5 min-w-[48px]">
-            <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-              <circle cx="11" cy="11" r="8" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-4.3-4.3" />
-            </svg>
-            <span className="text-[10px] font-medium text-gray-400">Explore</span>
-          </Link>
-          <Link href="/live" className="flex flex-col items-center gap-0.5 min-w-[48px]">
-            <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.4" />
-              <circle cx="12" cy="12" r="2" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.4" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19.1 4.9C23 8.8 23 15.1 19.1 19" />
-            </svg>
-            <span className="text-[10px] font-medium text-gray-400">Live</span>
-          </Link>
-        </div>
-      </nav>
     </div>
   );
 }

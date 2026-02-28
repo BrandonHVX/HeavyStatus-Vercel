@@ -54,17 +54,22 @@ export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav>
-      {navItems.map((item) => {
-        const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
-        return (
-          <Link key={item.href} href={item.href}>
-            {item.icon}
-            <span>{item.label}</span>
-            {isActive ? ' (active)' : ''}
-          </Link>
-        );
-      })}
+    <nav className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 z-50 bottom-nav:hidden">
+      <div className="flex items-center justify-around pt-2 pb-7">
+        {navItems.map((item) => {
+          const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex flex-col items-center gap-0.5 min-w-[48px] ${isActive ? 'text-[#007AFF]' : 'text-gray-400'}`}
+            >
+              {item.icon}
+              <span className={`text-[10px] ${isActive ? 'font-semibold' : 'font-medium'}`}>{item.label}</span>
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 }
