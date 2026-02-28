@@ -1,0 +1,132 @@
+mobile video detail / live playback page for a news or media app. The design is built around immersive video-first viewing, with a dark, cinematic interface that keeps attention on the content while still making the playlist and metadata easy to access. It feels like a blend of YouTube mobile, Apple TV editorial polish, and a premium news-video experience.
+
+At the very top, the video fills the width of the screen and acts as the hero element. The image frame shows a paused or active video state with native-style overlay controls sitting directly on top of the video. The controls include a back arrow on the left, and bookmark/share/more actions on the right, all rendered as thin white line icons. This makes the video feel immersive and full-screen without losing navigational clarity. The icons are lightweight and modern, designed to be visible without overpowering the footage.
+
+Centered on the video is a large play button overlay, with circular skip indicators to the left and right showing “30” for rewind and forward controls. Along the lower portion of the video is a scrub/progress bar, with a current timestamp on the left and total duration on the right. This is a familiar streaming-video interaction pattern, which instantly tells the user they are in playback mode rather than browsing mode.
+
+The content area below the video sits on a solid black background, creating a dramatic, high-contrast transition from media to metadata. This black foundation gives the whole interface a premium, focused tone. The first text element is a small muted category label, “Technology,” placed above the headline. The headline itself is large, bold, white, and highly legible, with strong line breaks to fit a narrow mobile width. This is the main information anchor after the video, and its visual weight signals that this is the primary story being watched.
+
+Below the headline is a compact author and timestamp row. This uses a small circular avatar placeholder on the left, followed by the author name and the publish time separated by a dot. The styling is restrained:
+
+avatar is small and neutral
+
+author text is white
+
+timestamp is softer gray-white
+
+This keeps the metadata secondary to the headline while still clearly available.
+
+The next block is a Description section. The title “Description” is bold and white, while the body copy beneath is a softer white/gray tone. The paragraph is truncated with a blue “read more” link at the end. That blue accent is important because it creates the only strong color interruption on the dark interface, signaling interactivity and progressive disclosure. This is a good UX choice because it preserves a compact layout while still allowing extended detail if needed.
+
+A thin divider line separates the description from the next section. Below it is the “Up Next” module, which is the secondary conversion/discovery zone of the page. At the top of this module, “Up Next” sits on the left while Autoplay sits on the right with an iOS-style toggle switch. This is a familiar streaming pattern and makes the experience feel app-native and modern.
+
+The playlist items beneath are compact horizontal rows designed for rapid scanning. Each item includes:
+
+a small left thumbnail with rounded corners
+
+a video duration badge overlaid on the thumbnail
+
+headline text truncated to fit
+
+source/publication name and time metadata beneath
+
+bookmark/save icon on the far right
+
+The structure is highly efficient. The thumbnail gives instant visual context, the title gives the story hook, and the small metadata line adds source credibility without clutter. Dividers between items keep the playlist readable and segmented. The bookmark icon aligned on the far right reinforces save/watch-later behavior.
+
+At the very bottom, the visible home indicator bar reinforces the iPhone-native design language. The whole screen is clearly styled to feel like a mobile app rather than a responsive website.
+
+Visual style summary
+
+This screen’s visual design is:
+
+dark mode
+
+immersive
+
+video-first
+
+minimal but premium
+
+high-contrast and cinematic
+
+content-focused with restrained utility controls
+
+native-mobile inspired
+
+UI design characteristics
+
+The design relies on a few strong principles:
+
+1. Strong hierarchy
+The order is extremely clear:
+
+video
+
+category
+
+headline
+
+author/meta
+
+description
+
+related video queue
+
+2. Controlled color palette
+The palette is mostly:
+
+black background
+
+white text
+
+muted gray secondary text
+
+blue accent for links/progress
+This limited palette makes the interface feel intentional and premium.
+
+3. Familiar media patterns
+The page borrows interaction patterns users already understand:
+
+overlay transport controls
+
+scrub bar
+
+autoplay toggle
+
+up-next playlist
+
+save/bookmark actions
+
+4. Tight spacing with good readability
+The layout is dense, but not cramped. The use of padding and dividers keeps sections distinct while maximizing mobile screen real estate.
+
+UX intent
+
+This page is clearly optimized for:
+
+watching one featured video
+
+quickly understanding the story
+
+moving directly into the next recommended video
+
+saving content for later
+
+staying inside the app ecosystem
+
+It’s a very strong design for session continuity. Once the user finishes one video, the Up Next section and autoplay setting are ready to keep them engaged.
+
+Product impression
+
+This UI feels like it belongs to a:
+
+news streaming app
+
+editorial video platform
+
+subscription-based journalism product
+
+mobile-first media experience
+
+It gives off a polished, premium, serious tone—appropriate for technology, business, politics, documentary, or public affairs content.

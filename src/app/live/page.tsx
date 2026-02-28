@@ -1,42 +1,56 @@
 import { getAllPosts } from "@/lib/queries";
 import Link from "next/link";
 import Image from "next/image";
-import { timeAgo, postImg, postHref, postCat, postAuthor } from "@/lib/nuws-helpers";
+import { timeAgo, stripHtml, postImg, postHref, postCat, postAuthor } from "@/lib/nuws-helpers";
+import LiveClientWrapper from "./LiveClientWrapper";
 
 export const revalidate = 30;
+
+function generateDuration(postId: string): string {
+  const n = typeof postId === "string" ? parseInt(postId.replace(/\D/g, ""), 10) || 0 : Number(postId);
+  const mins = 1 + (((n * 7 + 3) * 13) % 12);
+  const secs = ((n * 11 + 7) * 17) % 60;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
+}
 
 export default async function LivePage() {
   const { posts } = await getAllPosts();
 
-  return (
-    <div>
-      <h1>Live</h1>
-      <p>Latest updates as they happen</p>
-
-      {posts.length === 0 ? (
+  if (posts.length === 0) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <p>No live updates available.</p>
-      ) : (
-        <ul>
-          {posts.map((post) => (
-            <li key={post.id}>
-              <Link href={postHref(post)}>
-                {post.featuredImage?.node?.sourceUrl && (
-                  <Image
-                    src={postImg(post)}
-                    alt={post.featuredImage.node.altText || post.title}
-                    width={400}
-                    height={300}
-                    sizes="(max-width: 768px) 100vw, 400px"
-                  />
-                )}
-                <span>{postCat(post)}</span>
-                <h2 dangerouslySetInnerHTML={{ __html: post.title }} />
-                <p>{postAuthor(post)} - {timeAgo(post.date)}</p>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+      </div>
+    );
+  }
+
+  const featuredPost = posts[0];
+  const upNextPosts = posts.slice(1, 10);
+
+  return (
+    <LiveClientWrapper
+      featuredPost={{
+        title: featuredPost.title,
+        slug: featuredPost.slug,
+        excerpt: stripHtml(featuredPost.excerpt, 200),
+        category: postCat(featuredPost),
+        author: postAuthor(featuredPost),
+        timeAgo: timeAgo(featuredPost.date),
+        imageUrl: postImg(featuredPost),
+        duration: generateDuration(featuredPost.id),
+        href: postHref(featuredPost),
+      }}
+      upNextPosts={upNextPosts.map((post) => ({
+        id: post.id,
+        title: post.title,
+        slug: post.slug,
+        category: postCat(post),
+        author: postAuthor(post),
+        timeAgo: timeAgo(post.date),
+        imageUrl: postImg(post),
+        duration: generateDuration(post.id),
+        href: postHref(post),
+      }))}
+    />
   );
 }

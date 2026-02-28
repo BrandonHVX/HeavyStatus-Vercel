@@ -2,7 +2,7 @@
 
 ## Overview
 
-Political Aficionado is a headless WordPress blog built with Next.js 15 App Router and TypeScript. The application fetches content from a WordPress backend via GraphQL. It functions as a news/blog platform with features including article browsing, category filtering, search functionality, RSS feeds, and SEO optimization for Google News. The frontend is currently **unstyled** — all Tailwind CSS classes, custom CSS, and layout styling have been stripped to allow a fresh redesign from scratch.
+Political Aficionado is a headless WordPress blog built with Next.js 15 App Router and TypeScript. The application fetches content from a WordPress backend via GraphQL. It functions as a news/blog platform with features including article browsing, category filtering, search functionality, RSS feeds, and SEO optimization for Google News. Most pages are **unstyled** bare HTML ready for redesign. The **Live page** (`/live`) has a fully styled dark cinematic video-detail UI.
 
 ## User Preferences
 
@@ -10,11 +10,12 @@ Preferred communication style: Simple, everyday language.
 
 ## Current State
 
-- **globals.css**: Contains `@tailwind base/components/utilities` directives + Inter font import, tap highlight reset, font smoothing, hide-scrollbar utility
-- **tailwind.config.ts**: Extends with teal (#2BBBC0), green (#34C759) colors and card box-shadow
-- **Homepage**: Fully styled "Nuws" mobile app UI with live WordPress data. Sections: hero subscription banner, category pills (real categories from WP), Latest Magazines (first 3 posts with featured images), Top News (featured card with gradient overlay + 3 list items), Popular Authors (from getAllAuthors), Recent Video (posts 8-9 with play overlay), fixed bottom nav with 4 tabs (Headlines/Featured/Explore/Live)
-- **Layout**: LayoutWrapper hides global Header/Footer/BottomNav on homepage (homepage has its own custom header and bottom nav). Shows Header/Footer/BottomNav on all other pages
+- **globals.css**: Contains `@tailwind base/components/utilities` directives + Inter font import only
+- **tailwind.config.ts**: Default config with only a custom `bottom-nav: 821px` breakpoint for BottomNav visibility
+- **Homepage (`/`)**: Unstyled bare HTML — post list with categories, pagination, WordPress data
+- **Live page (`/live`)**: Fully styled dark cinematic video-detail page with hero video player (overlay controls, play/rewind/forward 30s, scrub bar), black background content area (category, headline, author avatar, description with "read more"), Up Next playlist (thumbnails with duration badges, bookmark icons, autoplay toggle). Uses `LiveClientWrapper` client component. LayoutWrapper hides Header/Footer on `/live`.
 - **Other pages/components**: Unstyled bare HTML with zero className attributes
+- **BottomNav**: Styled fixed bottom nav with 4 tabs (Headlines/Featured/Explore/Live), visible at 820px and below, hidden above 821px
 - **Data layer**: Fully intact — GraphQL queries, API endpoints, search, pagination, auth, Stripe all work
 - **nuws-helpers.tsx**: Contains only pure utility functions (timeAgo, fmtMonthYear, commentCount, stripHtml, postImg, postHref, postCat, postCatSlug, postAuthor, postAuthorSlug)
 - **Article content**: WordPress HTML rendered via `dangerouslySetInnerHTML` with a `.article` class on the content div
@@ -26,7 +27,7 @@ Preferred communication style: Simple, everyday language.
 - **Next.js 15** with App Router for server-side rendering and routing
 - **React 19** for UI components
 - **TypeScript** for type safety
-- **Tailwind CSS** available (base directives loaded, no custom config)
+- **Tailwind CSS** available (base directives loaded)
 
 ### Content Management
 - **Headless WordPress** as the CMS backend
@@ -45,10 +46,10 @@ Preferred communication style: Simple, everyday language.
 - Manifest file at `public/manifest.json`
 
 ### Routing Structure
-- `/` - Headlines page (post listing with search, category filter, pagination)
-- `/featured` - Featured posts page (top stories / editor picks)
-- `/explore` - Explore page with search bar and popular categories/tags
-- `/live` - Live page (latest updates, revalidates every 30 seconds)
+- `/` - Headlines page (unstyled post listing with category filter, pagination)
+- `/featured` - Featured posts page (unstyled, top stories / editor picks)
+- `/explore` - Explore page (unstyled, search bar and popular categories/tags)
+- `/live` - Live page (styled dark cinematic video-detail UI, revalidates every 30s)
 - `/[slug]` - Individual article pages with SEO metadata (root-level routing)
 - `/headlines` - Redirects to `/` (preserves query params)
 - `/headlines/[slug]` - Redirects to `/[slug]`
@@ -64,7 +65,8 @@ Preferred communication style: Simple, everyday language.
 
 ### Bottom Navigation
 - 4 tabs with SVG icons: Headlines (`/`), Featured (`/featured`), Explore (`/explore`), Live (`/live`)
-- Active state indicator for current page
+- Active state indicator (#007AFF blue) for current page
+- Fixed at bottom, visible at 820px width and below, hidden above 821px via `bottom-nav:hidden` Tailwind class
 - Rendered in LayoutWrapper on all pages
 
 ### Authentication & Subscriptions
@@ -83,20 +85,17 @@ Preferred communication style: Simple, everyday language.
 - `/api/stripe/webhook` - Handle Stripe webhook events
 - `/tag/notify` - Webhook endpoint for OneSignal push notifications
 
-### Key Components (all unstyled)
-- `Header` - Site title, nav links (Headlines/Featured/Explore/Live/About/Contact), search modal, mobile menu, auth/session
-- `Footer` - Navigation links, policies, copyright
-- `BottomNav` - Bottom navigation with 4 tabs and SVG icons (Headlines/Featured/Explore/Live)
-- `BackButton` - Client-side back navigation (router.back with fallback)
-- `ShareButtons` - Social sharing links (X, Facebook, LinkedIn, WhatsApp, Email, copy)
-- `PhotoGallery` - Image grid with lightbox (keyboard navigation)
+### Key Components
+- `Header` - Unstyled: site title link, nav links, search modal, mobile menu, auth/session
+- `Footer` - Unstyled: navigation links, policies, copyright
+- `BottomNav` - Styled: fixed bottom nav with 4 tabs, SVG icons, active state, hidden above 821px
+- `LiveClientWrapper` - Styled: dark cinematic video player page with Up Next playlist
+- `BackButton` - Unstyled: client-side back navigation (router.back with fallback)
+- `ShareButtons` - Unstyled: social sharing links (X, Facebook, LinkedIn, WhatsApp, Email, copy)
+- `PhotoGallery` - Unstyled: image grid with lightbox (keyboard navigation, inline styles for lightbox)
 - `Paywall` / `PaywallCheck` - Subscription gating for exclusive content
-- `AdUnit` - Google AdSense ad placements
-- `SearchBar` - Standalone search with debounce and dropdown results
-- `LatestPosts` - Post list with pagination
-- `Hero` - Featured post with sidebar
-- `Categories` - Category navigation links
-- `PullToRefresh`, `SubscriptionPrompt`, `AddToHomeScreen`, `PageTransition` - UI feature shells (not used in layout)
+- `AdUnit` - Google AdSense ad placements (keeps `adsbygoogle` className)
+- `SearchBar` - Unstyled: standalone search with debounce and dropdown results
 
 ### Utility Functions (src/lib/nuws-helpers.tsx)
 - `timeAgo(dateStr)` - Relative time formatting
@@ -110,18 +109,21 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-### February 28, 2026 (Complete Styling Strip + Page Restructure)
-- Stripped ALL Tailwind CSS classes, custom CSS, and layout styling from every page and component
-- globals.css reduced to only @tailwind directives
-- tailwind.config.ts reset to default (no custom colors/shadows)
-- Restructured pages: Headlines at `/`, new Featured at `/featured`, new Live at `/live`
-- `/headlines` now redirects to `/` preserving query params
-- BottomNav updated with 4 tabs (Headlines/Featured/Explore/Live) with SVG icons
-- LayoutWrapper simplified: always shows Header, Footer, and BottomNav on all pages
-- Header nav updated: Headlines, Featured, Explore, Live, About, Contact
-- Footer nav updated to match new page structure
-- All search/category links updated from `/headlines?...` to `/?...`
-- All pages render as plain unstyled HTML with WordPress data intact
+### February 28, 2026 (Full Strip + Live Page Redesign)
+- Stripped ALL Tailwind CSS classes and custom CSS from homepage, globals.css, and tailwind.config.ts
+- Homepage now renders as plain unstyled HTML with categories, post list, and pagination
+- globals.css reduced to only @tailwind directives + Inter font import
+- tailwind.config.ts reset to default with only `bottom-nav: 821px` custom breakpoint
+- LayoutWrapper simplified: shows Header/Footer on all pages except `/live`; BottomNav on all pages
+- BottomNav styled with fixed positioning, visible at 820px and below
+- Live page (`/live`) redesigned as dark cinematic video-detail UI matching reference design:
+  - Server component fetches posts, passes serialized data to LiveClientWrapper
+  - Hero video player with featured post image, overlay transport controls (back, PiP, more)
+  - Play button with rewind/forward 30s skip controls
+  - Scrub/progress bar with timestamps and fullscreen toggle
+  - Black background content area: category label, bold headline, author row with avatar initials
+  - Description section with truncation and "read more" blue accent link
+  - Up Next playlist with autoplay toggle, compact rows (thumbnail, duration badge, title, category/time, bookmark icon)
 
 ## External Dependencies
 
