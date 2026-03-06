@@ -86,7 +86,7 @@ Preferred communication style: Simple, everyday language.
 - `/tag/notify` - Webhook endpoint for OneSignal push notifications
 
 ### Key Components
-- `Header` - Unstyled: site title link, nav links, search modal, mobile menu, auth/session
+- `Header` - Styled: fixed two-row header. Top bar (white): hamburger + search icons left, "Political Aficionado" centered in serif font with subtitle, social icons + auth right. Bottom bar (dark #1a1a1a): uppercase nav links with active page highlighted in white. Search modal overlay with categorized results. Slide-out mobile menu drawer.
 - `Footer` - Unstyled: navigation links, policies, copyright
 - `BottomNav` - Styled: fixed bottom nav with 4 tabs, SVG icons, active state, hidden above 821px
 - `LiveClientWrapper` - Styled: dark cinematic video player page with Up Next playlist
