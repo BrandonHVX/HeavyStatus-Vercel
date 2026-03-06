@@ -1,6 +1,4 @@
 import { getAllPosts } from "@/lib/queries";
-import Link from "next/link";
-import Image from "next/image";
 import { timeAgo, stripHtml, postImg, postHref, postCat, postAuthor } from "@/lib/nuws-helpers";
 import LiveClientWrapper from "./LiveClientWrapper";
 
@@ -18,7 +16,7 @@ export default async function LivePage() {
 
   if (posts.length === 0) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+      <div>
         <p>No live updates available.</p>
       </div>
     );
