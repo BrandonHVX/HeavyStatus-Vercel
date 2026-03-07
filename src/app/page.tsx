@@ -257,27 +257,23 @@ export default async function Home() {
 
       </div>
 
-      {/* Bottom nav - inline for homepage */}
+      {/* Bottom nav */}
       <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-white border-t border-gray-100 flex items-center justify-around px-2 pt-2 pb-3 z-50 bottom-nav:hidden">
         <Link href="/" className="flex flex-col items-center gap-0.5 px-3 py-1 text-blue-500">
-          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <span className="text-[10px] font-medium">Browse</span>
-        </Link>
-        <Link href="/live" className="flex flex-col items-center gap-0.5 px-3 py-1 text-gray-400">
-          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><polygon points="10,9 16,12 10,15"/></svg>
-          <span className="text-[10px] font-medium">Watch</span>
-        </Link>
-        <Link href="/explore" className="flex flex-col items-center gap-0.5 px-3 py-1 text-gray-400">
-          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-          <span className="text-[10px] font-medium">Create</span>
+          <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          <span className="text-[10px] font-semibold">Headlines</span>
         </Link>
         <Link href="/featured" className="flex flex-col items-center gap-0.5 px-3 py-1 text-gray-400">
-          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-          <span className="text-[10px] font-medium">Listen</span>
+          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <span className="text-[10px] font-medium">Featured</span>
         </Link>
-        <Link href="/auth/signin" className="flex flex-col items-center gap-0.5 px-3 py-1 text-gray-400">
-          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <span className="text-[10px] font-medium">Account</span>
+        <Link href="/explore" className="flex flex-col items-center gap-0.5 px-3 py-1 text-gray-400">
+          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <span className="text-[10px] font-medium">Explore</span>
+        </Link>
+        <Link href="/live" className="flex flex-col items-center gap-0.5 px-3 py-1 text-gray-400">
+          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.4"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.4"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>
+          <span className="text-[10px] font-medium">Live</span>
         </Link>
       </div>
     </div>
