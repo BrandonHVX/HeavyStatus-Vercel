@@ -45,8 +45,6 @@ export function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
-  const user = session?.user as { subscriptionStatus?: string } | undefined;
-  const isSubscribed = user?.subscriptionStatus === 'active';
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState<SearchResults>({ posts: [], categories: [], tags: [] });
   const [isOpen, setIsOpen] = useState(false);
@@ -168,13 +166,11 @@ export function Header() {
 
   let itemIndex = -1;
 
-  const menuLinks = [
+  const navLinks = [
     { href: '/', label: 'Headlines' },
     { href: '/featured', label: 'Featured' },
     { href: '/explore', label: 'Explore' },
     { href: '/live', label: 'Live' },
-    { href: '/about', label: 'About' },
-    { href: '/contact', label: 'Contact' },
   ];
 
   const isActive = (href: string) => {
@@ -186,87 +182,50 @@ export function Header() {
     <>
       <header>
         <div>
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={mobileMenuOpen}
-          >
-            ☰
-          </button>
-
           <Link href="/">Political Aficionado</Link>
 
-          <div>
-            <button onClick={() => setSearchOpen(true)} aria-label="Search">🔍</button>
+          <nav>
+            {navLinks.map((link) => (
+              <Link key={link.href} href={link.href}>
+                {isActive(link.href) ? `[${link.label}]` : link.label}
+              </Link>
+            ))}
+          </nav>
 
-            <span className="user-menu-container">
-              {status === 'loading' ? null : session ? (
-                <>
-                  <button onClick={() => setUserMenuOpen(!userMenuOpen)} aria-label="Account menu">
-                    {session.user?.email?.[0]?.toUpperCase() || 'U'}
-                  </button>
-                  {userMenuOpen && (
-                    <div>
-                      <p>{session.user?.email}</p>
-                      <p>{isSubscribed ? 'Premium Member' : 'Free Account'}</p>
-                      <Link href="/account" onClick={() => setUserMenuOpen(false)}>My Account</Link>
-                      {!isSubscribed && (
-                        <Link href="/subscribe" onClick={() => setUserMenuOpen(false)}>Subscribe</Link>
-                      )}
-                      <button onClick={() => { setUserMenuOpen(false); signOut({ callbackUrl: '/' }); }}>
-                        Sign Out
-                      </button>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <Link href="/auth/signin" aria-label="Sign in">Sign In</Link>
-              )}
-            </span>
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Menu">☰</button>
+          <button onClick={() => setSearchOpen(!searchOpen)} aria-label="Search">🔍</button>
+
+          <div className="user-menu-container">
+            {status !== 'loading' && session ? (
+              <>
+                <button onClick={() => setUserMenuOpen(!userMenuOpen)}>
+                  {session.user?.email}
+                </button>
+                {userMenuOpen && (
+                  <div>
+                    <Link href="/account">My Account</Link>
+                    <button onClick={() => signOut({ callbackUrl: '/' })}>Sign Out</button>
+                  </div>
+                )}
+              </>
+            ) : status !== 'loading' ? (
+              <Link href="/auth/signin">Sign In</Link>
+            ) : null}
           </div>
         </div>
-
-        <nav>
-          {menuLinks.map((link) => (
-            <Link key={link.href} href={link.href}>
-              {isActive(link.href) ? `[${link.label}]` : link.label}
-            </Link>
-          ))}
-        </nav>
       </header>
 
       {mobileMenuOpen && (
-        <div>
+        <nav>
+          {navLinks.map((link) => (
+            <Link key={link.href} href={link.href} onClick={() => setMobileMenuOpen(false)}>
+              {isActive(link.href) ? `[${link.label}]` : link.label}
+            </Link>
+          ))}
+          <Link href="/about" onClick={() => setMobileMenuOpen(false)}>About</Link>
+          <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
           <button onClick={() => setMobileMenuOpen(false)}>✕ Close</button>
-          <nav>
-            {menuLinks.map((link) => (
-              <div key={link.href}>
-                <Link href={link.href} onClick={() => setMobileMenuOpen(false)}>
-                  {link.label}
-                </Link>
-              </div>
-            ))}
-            <hr />
-            {session ? (
-              <>
-                <div><Link href="/account" onClick={() => setMobileMenuOpen(false)}>My Account</Link></div>
-                <div>
-                  <button onClick={() => { setMobileMenuOpen(false); signOut({ callbackUrl: '/' }); }}>
-                    Sign Out
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <div><Link href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>Sign In</Link></div>
-                <div><Link href="/auth/register" onClick={() => setMobileMenuOpen(false)}>Register</Link></div>
-              </>
-            )}
-            {!isSubscribed && (
-              <div><Link href="/subscribe" onClick={() => setMobileMenuOpen(false)}>Subscribe</Link></div>
-            )}
-          </nav>
-        </div>
+        </nav>
       )}
 
       {searchOpen && (
@@ -287,7 +246,7 @@ export function Header() {
               aria-activedescendant={getActiveDescendant()}
               role="combobox"
             />
-            {isLoading && <span>Loading...</span>}
+            {isLoading && <span>Searching...</span>}
             <button type="button" onClick={closeSearch}>Cancel</button>
           </form>
 
@@ -366,6 +325,7 @@ export function Header() {
               )}
             </div>
           )}
+          <button type="button" onClick={closeSearch}>✕ Close Search</button>
         </div>
       )}
     </>

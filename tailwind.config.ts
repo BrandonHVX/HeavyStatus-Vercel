@@ -7,11 +7,7 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {
-      screens: {
-        'bottom-nav': '821px',
-      },
-    },
+    extend: {},
   },
   plugins: [],
 } satisfies Config;

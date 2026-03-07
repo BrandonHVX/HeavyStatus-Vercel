@@ -66,7 +66,7 @@ export async function GET(request: NextRequest) {
         }
       `;
       const data = await client.request<{
-        posts: { nodes: any[] };
+        posts: { nodes: Record<string, unknown>[] };
       }>(recentQuery);
       return NextResponse.json({ posts: data.posts.nodes, categories: [], tags: [] });
     } catch {

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+
 interface FeaturedPost {
   title: string;
   slug: string;
@@ -36,7 +37,6 @@ export default function LiveClientWrapper({
   featuredPost,
   upNextPosts,
 }: LiveClientWrapperProps) {
-  const router = useRouter();
   const [autoplay, setAutoplay] = useState(false);
   const [descExpanded, setDescExpanded] = useState(false);
   const [savedPosts, setSavedPosts] = useState<Set<string>>(new Set());
