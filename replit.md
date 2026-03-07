@@ -10,16 +10,15 @@ Preferred communication style: Simple, everyday language.
 
 ## Current State
 
-- **All pages unstyled**: Every page renders as bare HTML with no className attributes (except required exceptions below)
-- **globals.css**: Contains only `@tailwind base/components/utilities` directives
-- **tailwind.config.ts**: Default config, no custom extensions
+- **globals.css**: Contains `@tailwind base/components/utilities` directives + system font stack, tap highlight reset, font smoothing, `.scrollbar-hide` utility
+- **tailwind.config.ts**: Default config with `bottom-nav: 821px` custom breakpoint
+- **Homepage (`/`)**: Fully styled "Nuws" mobile app UI (max-w-430px centered) with real WordPress data — bell+search top nav, hero banner with gradient overlay and "Nuws" subscription CTA (blue button), filter pills (Categories/Featured/Hot + WP categories), Latest Magazines horizontal scroll (bookmark icons), Top News hero card (gradient overlay, category badge, author avatar, comment count) + list items, Popular Authors horizontal scroll, fixed bottom nav (Browse/Watch/Create/Listen/Account). LayoutWrapper hides Header/Footer on `/`.
 - **Header**: Unstyled — site title link, nav links with active indicator via brackets `[Page]`, hamburger text `☰`, search `🔍`, auth/session display, slide-out mobile menu, search modal with categorized results
 - **Footer**: Unstyled — navigation links, policies, copyright
-- **LayoutWrapper**: Shows Header and Footer on ALL pages (no exceptions)
-- **Homepage (`/`)**: Unstyled — h1 "Headlines", category nav links, post list with images/titles/excerpts/authors/dates
+- **BottomNav**: Unstyled component (exists but NOT rendered in LayoutWrapper — homepage has its own inline bottom nav)
+- **Live page (`/live`)**: Unstyled — featured post image/title/excerpt, description with read more, Up Next list with autoplay checkbox and save buttons
 - **Featured (`/featured`)**: Unstyled — post list with images/titles/excerpts
 - **Explore (`/explore`)**: Unstyled — search input, categories, tags, recent posts
-- **Live (`/live`)**: Unstyled — featured post image/title/excerpt, description with read more, Up Next list with autoplay checkbox and save buttons
 - **Article (`/[slug]`)**: Unstyled — back button, image, title, author, content, tags, share buttons, related posts
 - **Data layer**: Fully intact — GraphQL queries, API endpoints, search, pagination, auth, Stripe all work
 - **nuws-helpers.tsx**: Contains only pure utility functions (timeAgo, fmtMonthYear, commentCount, stripHtml, postImg, postHref, postCat, postCatSlug, postAuthor, postAuthorSlug)
