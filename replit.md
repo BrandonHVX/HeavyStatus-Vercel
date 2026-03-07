@@ -12,10 +12,10 @@ Preferred communication style: Simple, everyday language.
 
 - **globals.css**: Contains `@tailwind base/components/utilities` directives + system font stack, tap highlight reset, font smoothing, `.scrollbar-hide` utility
 - **tailwind.config.ts**: Default config with `bottom-nav: 821px` custom breakpoint
-- **Homepage (`/`)**: Fully styled "Nuws" mobile app UI (max-w-430px centered) with real WordPress data — bell+search top nav, hero banner with gradient overlay and "Nuws" subscription CTA (blue button), filter pills (Categories/Featured/Hot + WP categories), Latest Magazines horizontal scroll (bookmark icons), Top News hero card (gradient overlay, category badge, author avatar, comment count) + list items, Popular Authors horizontal scroll, fixed bottom nav (Browse/Watch/Create/Listen/Account). LayoutWrapper hides Header/Footer on `/`.
-- **Header**: Unstyled — site title link, nav links with active indicator via brackets `[Page]`, hamburger text `☰`, search `🔍`, auth/session display, slide-out mobile menu, search modal with categorized results
+- **Homepage (`/`)**: Fully styled "Nuws" mobile app UI (max-w-430px centered) with real WordPress data — hero banner with gradient overlay and "Nuws" subscription CTA (blue button), filter pills (Categories/Featured/Hot + WP categories), Latest Magazines horizontal scroll (bookmark icons), Top News hero card (gradient overlay, category badge, author avatar, comment count) + list items, Popular Authors horizontal scroll.
+- **Header**: iOS-style fixed floating header — frosted glass (bg-white/80 backdrop-blur-xl), rounded-2xl with shadow, hamburger menu (left), dynamic page title (center), search + auth (right). Slide-out side menu with page links + auth. Search modal with frosted glass, categorized results. Shows on ALL pages.
 - **Footer**: Unstyled — navigation links, policies, copyright
-- **BottomNav**: Unstyled component (exists but NOT rendered in LayoutWrapper — homepage has its own inline bottom nav)
+- **BottomNav**: iOS-style fixed floating bottom nav — frosted glass (bg-white/80 backdrop-blur-xl), rounded-2xl with shadow, 4 tabs: Headlines(/), Featured(/featured), Explore(/explore), Live(/live). Active tab highlighted in blue-500. Shows on ALL pages.
 - **Live page (`/live`)**: Unstyled — featured post image/title/excerpt, description with read more, Up Next list with autoplay checkbox and save buttons
 - **Featured (`/featured`)**: Unstyled — post list with images/titles/excerpts
 - **Explore (`/explore`)**: Unstyled — search input, categories, tags, recent posts
@@ -83,9 +83,9 @@ Preferred communication style: Simple, everyday language.
 - `/tag/notify` - Webhook endpoint for OneSignal push notifications
 
 ### Key Components
-- `Header` - Unstyled: site title, nav links, search modal, mobile menu, auth display
+- `Header` - iOS-style floating header: frosted glass, hamburger menu, dynamic page title, search modal, auth menu. Rendered on all pages via LayoutWrapper.
 - `Footer` - Unstyled: navigation links, policies, copyright
-- `BottomNav` - Unstyled: simple text nav links (not currently rendered)
+- `BottomNav` - iOS-style floating bottom nav: frosted glass, 4 tabs (Headlines/Featured/Explore/Live) with icons, active state. Rendered on all pages via LayoutWrapper.
 - `LiveClientWrapper` - Unstyled: featured post display, description expand, Up Next list with autoplay/save
 - `BackButton` - Unstyled: client-side back navigation (router.back with fallback)
 - `ShareButtons` - Unstyled: social sharing links (X, Facebook, LinkedIn, WhatsApp, Email, copy)

@@ -1,18 +1,16 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import BottomNav from '@/components/BottomNav';
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const isHome = pathname === '/';
-
   return (
     <>
-      {!isHome && <Header />}
+      <Header />
       <main>{children}</main>
-      {!isHome && <Footer />}
+      <Footer />
+      <BottomNav />
     </>
   );
 }

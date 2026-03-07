@@ -36,19 +36,6 @@ export default async function Home() {
   return (
     <div className="bg-white min-h-screen max-w-[430px] mx-auto relative pb-20">
 
-      {/* Top nav */}
-      <div className="flex items-center justify-between px-5 pt-3 pb-3">
-        <div className="relative">
-          <svg width="22" height="22" fill="none" stroke="#111" strokeWidth="2" viewBox="0 0 24 24">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-          </svg>
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">2</span>
-        </div>
-        <svg width="22" height="22" fill="none" stroke="#111" strokeWidth="2" viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-        </svg>
-      </div>
-
       {/* Scrollable content */}
       <div className="scrollbar-hide">
 
@@ -257,25 +244,6 @@ export default async function Home() {
 
       </div>
 
-      {/* Bottom nav */}
-      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-white border-t border-gray-100 flex items-center justify-around px-2 pt-2 pb-3 z-50 bottom-nav:hidden">
-        <Link href="/" className="flex flex-col items-center gap-0.5 px-3 py-1 text-blue-500">
-          <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-          <span className="text-[10px] font-semibold">Headlines</span>
-        </Link>
-        <Link href="/featured" className="flex flex-col items-center gap-0.5 px-3 py-1 text-gray-400">
-          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-          <span className="text-[10px] font-medium">Featured</span>
-        </Link>
-        <Link href="/explore" className="flex flex-col items-center gap-0.5 px-3 py-1 text-gray-400">
-          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <span className="text-[10px] font-medium">Explore</span>
-        </Link>
-        <Link href="/live" className="flex flex-col items-center gap-0.5 px-3 py-1 text-gray-400">
-          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.4"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.4"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>
-          <span className="text-[10px] font-medium">Live</span>
-        </Link>
-      </div>
     </div>
   );
 }
